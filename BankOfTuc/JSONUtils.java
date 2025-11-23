@@ -5,7 +5,13 @@ import java.util.*;
 
 public class JSONUtils {
 
-   public static void saveUsers(List<User> users, String filePath) {
+    private static String filePath;
+
+    public static void setFilePath(String path) {
+        filePath = path;
+    }
+
+   public static void saveUsers(List<User> users) {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
         bw.write("[\n");
 
@@ -25,7 +31,7 @@ public class JSONUtils {
     }
 }
 
-    public static List<User> loadUsers(String filePath) {
+    public static List<User> loadUsers() {
         List<User> users = new ArrayList<>();
         File file = new File(filePath);
         if (!file.exists()) return users;
@@ -45,23 +51,45 @@ public class JSONUtils {
         return users;
     }
 
-    public static void addUser(User user, String filePath) {
-        List<User> users = loadUsers(filePath);
+    public static void addUser(User user) {
+        List<User> users = loadUsers();
         if (!UserExists(user,filePath)){ //if user doesnt exist already
             users.add(user);
-            saveUsers(users, filePath);
+            saveUsers(users);
         }
         
     }
 
-    public static User getUserByUsername(String username, String filePath) {
-        List<User> users = loadUsers(filePath);
+    public static void updateUser(User updatedUser) {
+    List<User> users = loadUsers(); // load existing users
+    boolean found = false;
+
+    for (int i = 0; i < users.size(); i++) {
+        User u = users.get(i);
+        if (u.username.equals(updatedUser.username)) { // match by username
+            users.set(i, updatedUser); // replace the old user
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        System.out.println("User not found: " + updatedUser.username);
+        return;
+    }
+
+    saveUsers(users); // save all users back to file
+}
+
+
+    public static User getUserByUsername(String username) {
+        List<User> users = loadUsers();
         for (User u : users) if (u.username.equals(username)) return u;
         return null;
     }
 
     public static boolean UserExists(User user, String filePath){
-        List<User> users = loadUsers(filePath);
+        List<User> users = loadUsers();
         for (User u : users) 
         if (u.username.equals(user.username) //check username
         || (u.email.equals(user.email)) || (u.email.equals(user.email)) //check email
@@ -87,8 +115,12 @@ public class JSONUtils {
         switch (role) {
         case ADMIN:
             Admin a = new Admin();
-            a.username = username; a.fullname = fullname; a.email = email; a.isActive = isActive;
+            a.username = username; a.fullname = fullname; a.email = email; a.isActive = isActive; 
             a.hashedPassword = hashedPassword; a.saltBase64 = Base64.getEncoder().encodeToString(salt);
+            if (json.contains("\"qrSecret\":\"")){
+                String qrSecret = json.split("\"qrSecret\":\"")[1].split("\"")[0];
+                a.qrSecret = qrSecret;
+            }
             return a;
         case INDIVIDUAL:
             String vatID = json.contains("\"vatID\":\"") ? json.split("\"vatID\":\"")[1].split("\"")[0] : "";
@@ -96,13 +128,22 @@ public class JSONUtils {
             i.username = username; i.fullname = fullname; i.email = email; i.isActive = isActive;
             i.vatID = vatID;
             i.hashedPassword = hashedPassword; i.saltBase64 = Base64.getEncoder().encodeToString(salt);
+            if (json.contains("\"qrSecret\":\"")){
+                String qrSecret = json.split("\"qrSecret\":\"")[1].split("\"")[0];
+                i.qrSecret = qrSecret;
+            }
             return i;
+            
         case COMPANY:
             vatID = json.contains("\"vatID\":\"") ? json.split("\"vatID\":\"")[1].split("\"")[0] : "";
             CompanyCustomer c = new CompanyCustomer();
             c.username = username; c.fullname = fullname; c.email = email; c.isActive = isActive;
             c.vatID = vatID;
             c.hashedPassword = hashedPassword; c.saltBase64 = Base64.getEncoder().encodeToString(salt);
+            if (json.contains("\"qrSecret\":\"")){
+                String qrSecret = json.split("\"qrSecret\":\"")[1].split("\"")[0];
+                c.qrSecret = qrSecret;
+            }
             return c;
         default:return null;
 }

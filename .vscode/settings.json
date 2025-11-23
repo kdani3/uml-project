@@ -1,0 +1,14 @@
+{
+    "java.project.sourcePaths": [
+        "."
+    ],
+    "java.project.referencedLibraries": [
+        "libs/javase-3.5.4.jar",
+        "/home/gav/Documents/uml-project/libs/jackson-annotations-2.20.jar",
+        "/home/gav/Documents/uml-project/libs/commons-codec-1.19.0.jar",
+        "/home/gav/Documents/uml-project/libs/jackson-databind-2.20.0.jar",
+        "/home/gav/Documents/uml-project/libs/jackson-core-2.20.0.jar",
+        "/home/gav/Documents/uml-project/libs/totp-1.7.1.jar",
+        "/home/gav/Documents/uml-project/libs/core-3.5.4.jar"
+    ]
+}

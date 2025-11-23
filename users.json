@@ -1,0 +1,5 @@
+[
+{"username":"admin1","fullname":"Super Admin","email":"admin@example.com","isActive":true,"role":"ADMIN","hashedPassword":"CpS2/lhG4+Suqjmc2qrbNyiuRZJ9Dn5IJp7ddOC9yNY=","saltBase64":"RdHvNflsrOQeuipT4WAQMQ==","qrSecret":"447RPD55RTMHMBDXPMOP6TWZRYZIKEIG"},
+{"username":"john_doe","fullname":"John Doe","vatID":"1234","email":"john@example.com","isActive":true,"role":"INDIVIDUAL","hashedPassword":"CEcG38HSdxQCcat7aqSzeWYYL1Orz8K48ejSuubDCsg=","saltBase64":"vHDkG2lilpSSMQdnZ85CcQ==","qrSecret":"null"},
+{"username":"acme_inc","fullname":"ACME Inc.","vatID":"21314","email":"contact@acme.com","isActive":true,"role":"COMPANY","hashedPassword":"rHGbjM0ijGIU+h8fcc8bLeQIQNvl772HxAr1Pd4hrDE=","saltBase64":"L7e4B/BVIIJEMM/X9XMJoA==","qrSecret":"null"}
+]

@@ -1,4 +1,4 @@
-package BankOfTuc;
+package BankOfTuc.auth;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -10,7 +10,7 @@ import javax.crypto.spec.PBEKeySpec;
 
 public class PasswordUtils {
 
-    //PBKDF2 parameters
+    //d parameters
     private static final int ITERATIONS = 65536;
     private static final int KEY_LENGTH = 256; //bits
 
