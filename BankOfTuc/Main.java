@@ -1,5 +1,5 @@
 package BankOfTuc;
-import java.net.URI;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
 
@@ -10,30 +10,33 @@ import BankOfTuc.auth.QrUtils;
 import dev.samstevens.totp.exceptions.QrGenerationException;
 
 public class Main {
-    public static void main(String[] args) throws QrGenerationException, URISyntaxException {
+    public static void main(String[] args) throws QrGenerationException, URISyntaxException, IOException {
         String filePath = "users.json";
-        JSONUtils.setFilePath(filePath);
+
+        UserFileManagement ufm = new UserFileManagement(filePath);
 
         User admin = new Admin("admin1", "adminpass", "Super Admin", "admin@example.com", true);
         Customer individual = new IndividualCustomer("john_doe", "password123", "John Doe","1234", "john@example.com", true);
         Customer company = new CompanyCustomer("acme_inc","secret456","ACME Inc.",  "21314", "contact@acme.com", true);
 
-        JSONUtils.addUser(admin);
-        JSONUtils.addUser(individual);
-        JSONUtils.addUser(company);
+        ufm.addUser(admin);
+        ufm.addUser(individual);
+        ufm.addUser(company);
 
-        User retrieved = JSONUtils.getUserByUsername("john_doe");
-        System.out.println("Found: " + retrieved.username + " | Role: " + retrieved.role);
+        User retrieved = ufm.getUserByUsername("john_doe");
+        if (retrieved!=null)
+            System.out.println("Found: " + retrieved.getUsername() + " | Role: " + retrieved.getRole());
 
-        List<User> allUsers = JSONUtils.loadUsers();
+        List<User> allUsers = ufm.getAllUsers();
+
         for (User u : allUsers) {
-            System.out.println(u.username + " | " + u.role + " | Active: " + u.isActive);
+            System.out.println(u.getUsername() + " | " + u.getRole() + " | Active: " + u.getActive());
         }
 
 
 
         Scanner sc = new Scanner(System.in);
-        LoginManager login = new LoginManager();
+        LoginManager login = new LoginManager(ufm);
 
         login.addListener(new LoginListener() {
             @Override public void onLogin(String u) {
@@ -64,16 +67,16 @@ public class Main {
 
                 System.out.print("Enter password: ");
                 String password = sc.nextLine();
-
+                //String password = readPasswordWithMasking();
                 int result = login.login(username, password);
 
                 switch (result) {
-                    case 1 -> loggedInMenu(sc, login, username);
+                    case 1 -> loggedInMenu(sc, login, username, ufm);
 
                     case 2 -> {
                         System.out.print("Enter TOTP code: ");
                         String code = sc.nextLine();
-                        if (login.qrCodeLogin(username, code)) {loggedInMenu(sc, login, username);}
+                        if (login.qrCodeLogin(username, code)) {loggedInMenu(sc, login, username, ufm);}
                     }
 
                     case 3 -> System.out.println("User already logged in");
@@ -90,12 +93,12 @@ public class Main {
         }
     }
 
-    private static void loggedInMenu(Scanner sc, LoginManager login, String username) throws QrGenerationException, URISyntaxException {
+    private static void loggedInMenu(Scanner sc, LoginManager login, String username,UserFileManagement ufm) throws QrGenerationException, URISyntaxException {
 
         while (login.isLoggedIn(username)) {
-            User user = JSONUtils.getUserByUsername(username);
+            User user = ufm.getUserByUsername(username);
 
-            System.out.println("\n--- User Menu (" + username + "/" + user.role + ") ---");
+            System.out.println("\n--- User Menu (" + username + "/" + user.getRole() + ") ---");
             System.out.println("1. Do action (refresh activity)");
             System.out.println("2. Create Qr Code");
             System.out.println("3. Settings");
@@ -113,23 +116,25 @@ public class Main {
                     break;
 
                 case "2":
-                    String qr = user.getQrCode();
-                    if (qr == null || qr.trim().isEmpty() || qr.trim().equalsIgnoreCase("null")){
+                    if (!user.hasQR()){
                         String[] qrResult = QrUtils.createQr(username);
                         String qrUriString = qrResult[0];
                         String qrSecret = qrResult[1];
 
                         ConsoleImagePrinter.showQrImage(qrUriString,"Qr"); 
+                        while(true){
 
-                        System.out.println("Enter Qr Code");
-                        String qrString = sc.nextLine();
-                        
-                        if(QrUtils.verifyQrCode(qrSecret, qrString)){
-                            user.setQrCode(qrSecret);
-                            System.out.println("Qr Code Created");
-                        }
-                        else{
-                            System.out.println("Wrong Qr Code");
+                            System.out.println("Enter Qr Code");
+                            String qrString = sc.nextLine();
+                            
+                            if(QrUtils.verifyQrCode(qrSecret, qrString)){
+                                user.setQrCode(qrSecret);
+                                System.out.println("Qr Code Created");
+                                break;
+                            }
+                            else{
+                                System.out.println("Wrong Qr Code \n Retry");
+                            }
                         }
                     }
                     else {
@@ -137,7 +142,7 @@ public class Main {
                     }
                     break;
                 case "3":
-                    SettingsMenu(sc, login,user);
+                    SettingsMenu(sc, login,user,ufm);
                 case "4":
                     login.logout(username);
                     return;
@@ -148,13 +153,13 @@ public class Main {
 
         }
     }
-    public static boolean userAuthenticate(User user, Scanner sc){
+    public static boolean verifyUserIdentity(User user, Scanner sc){
          System.out.println("Enter  Password:");
             String password = sc.nextLine();
             if(!PasswordUtils.verifyPassword(password.toCharArray(), user.getSalt(), user.getHashedPassword()))
                 return false;
         
-            if(user.getQrCode()!=null){
+            if(user.hasQR()){
                 System.out.println("Enter Qr Code");
                 String qrcode = sc.nextLine();
 
@@ -164,7 +169,7 @@ public class Main {
             return true;
 
     }
-    public static void SettingsMenu(Scanner sc, LoginManager login, User user){
+    public static void SettingsMenu(Scanner sc, LoginManager login, User user,UserFileManagement ufm){
         while (login.isLoggedIn(user.getUsername())) {
 
             System.out.println("\n--- Settings Menu (" + user + ") ---");
@@ -179,36 +184,56 @@ public class Main {
             login.activity(user.getUsername());
 
             switch(input) {
-                case "1": 
-                    System.out.println("Enter Current Password:");
-                    
+                case "1":  //reset password
+                    if (!verifyUserIdentity(user, sc)) break;
 
-                            while(true){
-                                System.out.println("Verification Complete \n Please Enter new Password");
-                                String attempt1 = sc.nextLine();
-                                System.out.println("Enter password again");
-                                String attempt2 = sc.nextLine();
+                    while (true) {
+                        System.out.println("Enter new password:");
+                        String p1 = sc.nextLine();
 
-                                if(attempt1.equals(attempt2)){
-                                    user.setPassword(attempt1);
-                                }
-                                else{
-                                    System.out.println("Passwords Do Not Match \n  Would you like to => \n 1. Try again \n 2. Return to Settings Menu");
-                                    String choice = sc.nextLine();
-                                    switch (choice) {
-                                        case "1":
-                                            continue;  
-                                    
-                                        case "2":
-                                            SettingsMenu(sc, login, user);
-                                            break;
-                                    }
-                                }
-                            }
+                        System.out.println("Enter again:");
+                        String p2 = sc.nextLine();
+
+                        if (p1.equals(p2)) {
+                            user.setPassword(p1);
+                            ufm.updateUser(user);
+
+                            System.out.println("Password updated!");
+                            break;
                         }
+
+                        System.out.println("Passwords do not match. Try again? (y/n)");
+                        if (!sc.nextLine().equalsIgnoreCase("y")) continue;
                     }
-                  
+                    break;
+                
+                case "2":
+                    if (!verifyUserIdentity(user, sc)) break;
+
+                    System.out.println("Enter new email");
+                    String email = sc.nextLine();
+                    user.setEmail(email);
+                    System.out.println("Email Updated");
+                    ufm.updateUser(user);
+                    break;
+
+                case "3":
+                    if (!verifyUserIdentity(user, sc)) break;
+
+                    System.out.println("Enter new username");
+                    String username = sc.nextLine();
+                    user.setUsername(username);
+                    System.out.println("username Updated");
+                    ufm.updateUser(user);
+                    break;
+                
+                case "4":
+                    return;
+
+
             }
+        }     
+    }
 
 }
 

@@ -6,5 +6,5 @@ public class CompanyCustomer extends Customer{
 
     }
 
-    public CompanyCustomer(){ this.role = Role.COMPANY;}
+    public CompanyCustomer(){ this.setRole(Role.COMPANY);}
 }

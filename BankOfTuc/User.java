@@ -4,26 +4,49 @@ import java.util.Base64;
 import BankOfTuc.auth.PasswordUtils;
 
 //The User must have a username,password, fullname, email(optional), isActive boolean and an ENUM for the Role(extends in each role appropriately)
-public abstract class User {
+public  class User {
+    private int id;
+    private String username;
+    private String fullname;
+    private String email;
+    private boolean isActive;  
+    private Role role;
+    private String saltBase64;
 
-    protected String username;
-    protected String fullname;
-    protected String email;
-    protected boolean isActive;  
-    protected Role role;
-    protected String saltBase64;
+    private String hashedPassword;
+    private String qrSecret;
 
-    protected String hashedPassword;
-    protected String qrSecret;
-
-    protected byte[] salt;//salt for verification afterwards
+    //private byte[] salt;
     
+    public void setid(int id){
+        this.id = id;
+    }
+
+    public int getid(){
+        return id;
+    }
+
+    public void setRole(Role role){
+        this.role = role;
+    }
+    public Role getRole(){
+        return role;
+    }
+
+    public void setActive(boolean active){
+        this.isActive = active;
+    }
+
+    public boolean getActive(){
+        return isActive;
+    }
     public String getHashedPassword(){
         return hashedPassword;
     }
 
     public byte[] getSalt() {
-        if (salt == null && saltBase64 != null) {
+        byte [] salt = null;
+        if (saltBase64 != null) {
             salt = Base64.getDecoder().decode(saltBase64);
         }
         return salt.clone();
@@ -31,12 +54,12 @@ public abstract class User {
 
     public void setQrCode(String qrSecret ){
         this.qrSecret = qrSecret;
-        JSONUtils.updateUser(this);
     }
     
     public String getQrCode(){
         return qrSecret;
     }
+    
     public static enum Role {
         ADMIN,
         INDIVIDUAL,
@@ -49,7 +72,6 @@ public abstract class User {
 
     public void setUsername(String username) {
         this.username = username;
-        JSONUtils.updateUser(this);
     }
 
     public String getEmail() {
@@ -58,15 +80,17 @@ public abstract class User {
 
     public void setEmail(String email) {
         this.email = email;
-        JSONUtils.updateUser(this);
     }
     
     public void setPassword(String password){
-        this.salt = PasswordUtils.generateSalt();
+        byte [] salt = PasswordUtils.generateSalt();
         this.saltBase64 = Base64.getEncoder().encodeToString(salt);
-        this.hashedPassword = PasswordUtils.hashPassword(password.toCharArray(), this.salt);
+        this.hashedPassword = PasswordUtils.hashPassword(password.toCharArray(), salt);
 
-        JSONUtils.updateUser(this);
+    }
+
+    public boolean hasQR(){
+        return !(qrSecret == null || qrSecret.trim().isEmpty() || qrSecret.trim().equalsIgnoreCase("null"));
     }
 
     public User(String username, String password, String fullname, String email, Role role, boolean isActive) {
@@ -75,29 +99,14 @@ public abstract class User {
         this.email = email;
         this.role = role;
         this.isActive = isActive;
-
-        this.salt = PasswordUtils.generateSalt();
+        
+        byte[] salt = PasswordUtils.generateSalt();
         this.saltBase64 = Base64.getEncoder().encodeToString(salt);
         this.qrSecret = null;
         //password hashing
-        this.hashedPassword = PasswordUtils.hashPassword(password.toCharArray(), this.salt);
+        this.hashedPassword = PasswordUtils.hashPassword(password.toCharArray(),salt);
     }
 
-
-      public User(String username, String password, String qrSecret ,String fullname, String email, Role role, boolean isActive) {
-        this.username = username;
-        this.fullname = fullname;
-        this.email = email;
-        this.role = role;
-        this.isActive = isActive;
-
-        this.salt = PasswordUtils.generateSalt();
-        this.saltBase64 = Base64.getEncoder().encodeToString(salt);
-
-        //password hashing
-        this.hashedPassword = PasswordUtils.hashPassword(password.toCharArray(), this.salt);
-        this.qrSecret = qrSecret;
-    }
 
     public User() {} // for deserialization
 

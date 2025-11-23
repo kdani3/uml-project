@@ -6,7 +6,7 @@ import java.util.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import BankOfTuc.JSONUtils;
+import BankOfTuc.UserFileManagement;
 import BankOfTuc.User;
 
 public class LoginManager {
@@ -15,9 +15,10 @@ public class LoginManager {
     private static final long TIMEOUT = 15 * 60 * 1000; // 15 minutes
     private static final String SESSION_FILE = "sessions.json";
     private static final ObjectMapper mapper = new ObjectMapper();
-
-    public LoginManager() {
+    private final UserFileManagement ufm  ;
+    public LoginManager(UserFileManagement ufm) {
         startTimeoutChecker();
+        this.ufm = ufm;
     }
 
     //add a listener
@@ -33,15 +34,14 @@ public class LoginManager {
      * 0 -> wrong username/password
      */
     public int login(String username, String password) {
-        User user = JSONUtils.getUserByUsername(username);
+        User user = ufm.getUserByUsername(username);
 
         if (user != null && PasswordUtils.verifyPassword(password.toCharArray(), user.getSalt(), user.getHashedPassword())) {
 
-            if (isLoggedIn(username)) return 3;
+            if (isLoggedIn(user.getUsername())) return 3;
 
-            String qr =user.getQrCode() ;
-            if (qr == null || qr.trim().isEmpty() || qr.trim().equalsIgnoreCase("null")) {
-                loginUser(username);
+            if (!user.hasQR()) {
+                loginUser(user.getUsername());
                 return 1;
             } else {
                 return 2;
@@ -52,9 +52,9 @@ public class LoginManager {
     }
 
     public boolean qrCodeLogin(String username, String qrcode) {
-        User user = JSONUtils.getUserByUsername(username);
+        User user = ufm.getUserByUsername(username);
         if (user != null && QrUtils.verifyQrCode(user.getQrCode(), qrcode)) {
-            loginUser(username);
+            loginUser(user.getUsername());
             return true;
         }
         return false;
@@ -81,7 +81,7 @@ public class LoginManager {
         if (changed) saveSessions(sessions);
     }
 
-    // ----------------- Internal persistent session methods -----------------
+    //internal persistent session methods 
 
     private void loginUser(String username) {
         List<Session> sessions = getSessions();
@@ -115,8 +115,7 @@ public class LoginManager {
         }
     }
 
-    // ----------------- Timeout checker -----------------
-
+    //timeout checker after 15 it sends a signal to end session
     private void startTimeoutChecker() {
         Thread t = new Thread(() -> {
             while (true) {

@@ -8,6 +8,6 @@ public class Admin extends User{
             super( username,  passwordToHash,  fullname,  email,  Role.ADMIN,  isActive);
 
         }
-    public Admin(){ this.role = Role.ADMIN;}
+    public Admin(){ this.setRole(Role.ADMIN);}
 
 }

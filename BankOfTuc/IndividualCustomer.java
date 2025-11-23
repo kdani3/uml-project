@@ -5,5 +5,5 @@ public class IndividualCustomer extends Customer {
         super(  username,  passwordToHash,  fullname, vatID, email,  Role.INDIVIDUAL,  isActive);
 
     }
-    public IndividualCustomer(){ this.role = Role.INDIVIDUAL;}
+    public IndividualCustomer(){ this.setRole(Role.INDIVIDUAL);}
 }
