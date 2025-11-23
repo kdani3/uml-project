@@ -1,4 +1,4 @@
-package BankOfTuc;
+package BankOfTuc.bookkeeping;
 
 import java.io.*;
 import java.util.*;
@@ -6,33 +6,54 @@ import java.util.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import BankOfTuc.CompanyCustomer;
+import BankOfTuc.Customer;
+import BankOfTuc.IndividualCustomer;
+import BankOfTuc.User;
+import BankOfTuc.accounting.BankAccount;
+
 public class UserFileManagement {
 
     private String filePath;
 
     private final Gson gson;
     private UserStore store;
+    private ArrayList<User> users = new ArrayList<>();
 
     public UserFileManagement(String filePath) throws IOException {
         this.filePath = filePath;
-        this.gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+        this.gson = new GsonBuilder()
+            .registerTypeAdapter(User.class, new UserDeserializer())
+            .setPrettyPrinting()
+            .serializeNulls()
+            .create();
+        
         load();
+    }
+
+    public UserStore getStore() {
+        return store;
+    }
+
+    public ArrayList<User> getUsers (){
+        return users;
     }
 
      
     private void load() {
-    try (FileReader reader = new FileReader(filePath)) {
-        store = gson.fromJson(reader, UserStore.class);
+        try (FileReader reader = new FileReader(filePath)) {
+            store = gson.fromJson(reader, UserStore.class);
 
-        //handle nulls in JSON
-        if (store == null || store.users == null) {
+            //handle nulls in JSON
+            if (store == null || store.users == null) {
+                store = new UserStore();
+            }
+    
+        } catch (IOException e) {
+            //file doesn't exist or can't be read — initialize empty store
             store = new UserStore();
         }
-    } catch (IOException e) {
-        //file doesn't exist or can't be read — initialize empty store
-        store = new UserStore();
     }
-}
 
     private  void save()  {
         try (FileWriter writer = new FileWriter(filePath)) {
@@ -51,7 +72,7 @@ public class UserFileManagement {
     public User addUser(User user)  {
     //check if user already exists by username
         for (User u : store.users) {
-            if (u.getUsername().equals(user.getUsername())) {
+            if (u.getUsername().equals(user.getUsername()) || u.getFullname().equals(user.getFullname()) || u.getEmail().equals(user.getEmail())) {
                 return u; 
             }
         }
@@ -102,5 +123,6 @@ public class UserFileManagement {
         }
         return null; // not found
     }
+
 
 }

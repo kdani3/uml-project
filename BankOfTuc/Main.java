@@ -3,26 +3,48 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.*;
 
+import BankOfTuc.User.Role;
+import BankOfTuc.accounting.BankAccount;
 import BankOfTuc.auth.LoginListener;
 import BankOfTuc.auth.LoginManager;
 import BankOfTuc.auth.PasswordUtils;
 import BankOfTuc.auth.QrUtils;
+import BankOfTuc.bookkeeping.CustomerFileManager;
+import BankOfTuc.bookkeeping.UserFileManagement;
+import BankOfTuc.bookkeeping.UsersCustomersBridge;
 import dev.samstevens.totp.exceptions.QrGenerationException;
 
 public class Main {
     public static void main(String[] args) throws QrGenerationException, URISyntaxException, IOException {
         String filePath = "users.json";
+        String customer_filePath = "customers.json";
 
+        CustomerFileManager cfm = new CustomerFileManager(customer_filePath);
         UserFileManagement ufm = new UserFileManagement(filePath);
+        UsersCustomersBridge ucb = new UsersCustomersBridge(ufm, cfm);
 
         User admin = new Admin("admin1", "adminpass", "Super Admin", "admin@example.com", true);
         Customer individual = new IndividualCustomer("john_doe", "password123", "John Doe","1234", "john@example.com", true);
         Customer company = new CompanyCustomer("acme_inc","secret456","ACME Inc.",  "21314", "contact@acme.com", true);
 
+
+
+        BankAccount account1 = new BankAccount(individual.getVatID());
+        BankAccount account2 = new BankAccount(company.getVatID());
+        BankAccount account3 = new BankAccount(company.getVatID());
+
+        individual.addBankAccount(account1);
+        company.addBankAccount(account2);
+        company.addBankAccount(account3);
+
+        cfm.addCustomer(individual);
+        cfm.addCustomer(company);
+
         ufm.addUser(admin);
         ufm.addUser(individual);
         ufm.addUser(company);
 
+        ucb.bridge();
         User retrieved = ufm.getUserByUsername("john_doe");
         if (retrieved!=null)
             System.out.println("Found: " + retrieved.getUsername() + " | Role: " + retrieved.getRole());
@@ -32,7 +54,6 @@ public class Main {
         for (User u : allUsers) {
             System.out.println(u.getUsername() + " | " + u.getRole() + " | Active: " + u.getActive());
         }
-
 
 
         Scanner sc = new Scanner(System.in);
@@ -105,6 +126,18 @@ public class Main {
             System.out.println("4. Logout");
             System.out.print("> ");
 
+            if(user.getRole() == Role.INDIVIDUAL){
+                IndividualCustomer customer = (IndividualCustomer) user;
+                for(BankAccount account : customer.getBankAccounts()){
+                    System.out.println(account.getIban() + "  " + account.getBalance());
+                }
+            }
+            else if(user.getRole() == Role.COMPANY){
+                CompanyCustomer customer = (CompanyCustomer) user;
+                for(BankAccount account : customer.getBankAccounts()){
+                    System.out.println(account.getIban() + "  " + account.getBalance());
+                }
+            }
             String input = sc.nextLine();
 
             //every time user interacts, update activity timestamp

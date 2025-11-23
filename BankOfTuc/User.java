@@ -60,6 +60,13 @@ public  class User {
         return qrSecret;
     }
     
+    public String getFullname(){
+        return fullname;
+    }
+
+    public void setFullname(String fulname){
+        this.fullname = fulname;
+    }
     public static enum Role {
         ADMIN,
         INDIVIDUAL,
