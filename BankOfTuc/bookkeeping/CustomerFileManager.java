@@ -3,7 +3,6 @@ package BankOfTuc.bookkeeping;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +12,6 @@ import com.google.gson.GsonBuilder;
 import BankOfTuc.CompanyCustomer;
 import BankOfTuc.Customer;
 import BankOfTuc.IndividualCustomer;
-import BankOfTuc.User;
 import BankOfTuc.accounting.BankAccount;
 
 public class CustomerFileManager {
@@ -22,12 +20,13 @@ public class CustomerFileManager {
     private final Gson gson;
     private CustomerStore store;
 
-    public ArrayList<User> bankAccs = new ArrayList<>();
+
     public CustomerFileManager(String filePath) throws IOException {
         this.filePath = filePath;
 
         this.gson = new GsonBuilder()
             .registerTypeAdapter(Customer.class,new CustomerSerialiser())
+            .registerTypeAdapter(BankAccount.class,new BankAccountSerializer())
             .setPrettyPrinting()
             .serializeNulls()
             .create();
@@ -51,8 +50,9 @@ public class CustomerFileManager {
     }
 
     private  void save()  {
-        try (FileWriter writer = new FileWriter(filePath)) {
+        try (FileWriter writer = new FileWriter(filePath,false)) {
             gson.toJson(store, writer);
+            writer.flush(); 
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -66,8 +66,6 @@ public class CustomerFileManager {
                 return c; 
             }
         }
-        // Assign ID = index
-        c.setid(store.customers.size());
         store.customers.add(c);
 
         save();
@@ -83,6 +81,15 @@ public class CustomerFileManager {
         }
 
        return false;
+    }
+
+    public boolean updateCustomerById(int i,Customer customer ){
+        if(i>=0){
+            store.customers.set(i, customer);
+            save();
+            return true;
+        }
+        return false;
     }
 
     public int getCustomerIndex(Customer customer){
@@ -136,11 +143,35 @@ public class CustomerFileManager {
             .collect(Collectors.toList());
     }
 
-    // Method to get all bank accounts for company customers
     public List<BankAccount> getCompanyCustomerBankAccounts() {
         return store.customers.stream()
             .filter(user -> user instanceof CompanyCustomer)
             .flatMap(user -> ((CompanyCustomer) user).getBankAccounts().stream())
             .collect(Collectors.toList());
     }
+
+    public void updateBankAccountForCustomer(BankAccount a, Customer c) {
+
+    // find customer
+    for (Customer cust : store.customers) {
+        if (cust.getUsername().equals(c.getUsername())) {
+
+            // find existing bank account
+            for (BankAccount acc : cust.getBankAccounts()) {
+
+                if (acc.getIban().equals(a.getIban())) {
+                    acc.setBalance(a.getBalance());
+                    save();
+                    return;
+                }
+            }
+
+            // not found → add new one
+            cust.addBankAccount(a);
+            save();
+            return;
+        }
+    }
+}
+
 }

@@ -29,22 +29,26 @@ public class Main {
 
 
 
-        BankAccount account1 = new BankAccount(individual.getVatID());
-        BankAccount account2 = new BankAccount(company.getVatID());
-        BankAccount account3 = new BankAccount(company.getVatID());
+        //BankAccount account1 = new BankAccount(individual.getVatID());
+        //BankAccount account2 = new BankAccount(company.getVatID());
+        //BankAccount account3 = new BankAccount(company.getVatID());
 
-        individual.addBankAccount(account1);
-        company.addBankAccount(account2);
-        company.addBankAccount(account3);
-
+        
+        //individual.addBankAccount(account1);
+        //company.addBankAccount(account2);
+        //company.addBankAccount(account3);
         cfm.addCustomer(individual);
         cfm.addCustomer(company);
 
         ufm.addUser(admin);
         ufm.addUser(individual);
         ufm.addUser(company);
+        //BankAccount account1 = individual.getBankAccounts().get(1);
 
         ucb.bridge();
+
+//        cfm.updateCustomer(individual);
+
         User retrieved = ufm.getUserByUsername("john_doe");
         if (retrieved!=null)
             System.out.println("Found: " + retrieved.getUsername() + " | Role: " + retrieved.getRole());
@@ -92,12 +96,12 @@ public class Main {
                 int result = login.login(username, password);
 
                 switch (result) {
-                    case 1 -> loggedInMenu(sc, login, username, ufm);
+                    case 1 -> loggedInMenu(sc, login, username, ufm,cfm);
 
                     case 2 -> {
                         System.out.print("Enter TOTP code: ");
                         String code = sc.nextLine();
-                        if (login.qrCodeLogin(username, code)) {loggedInMenu(sc, login, username, ufm);}
+                        if (login.qrCodeLogin(username, code)) {loggedInMenu(sc, login, username, ufm,cfm);}
                     }
 
                     case 3 -> System.out.println("User already logged in");
@@ -114,7 +118,7 @@ public class Main {
         }
     }
 
-    private static void loggedInMenu(Scanner sc, LoginManager login, String username,UserFileManagement ufm) throws QrGenerationException, URISyntaxException {
+    private static void loggedInMenu(Scanner sc, LoginManager login, String username,UserFileManagement ufm,CustomerFileManager cfm) throws QrGenerationException, URISyntaxException {
 
         while (login.isLoggedIn(username)) {
             User user = ufm.getUserByUsername(username);
@@ -127,7 +131,9 @@ public class Main {
             System.out.print("> ");
 
             if(user.getRole() == Role.INDIVIDUAL){
-                IndividualCustomer customer = (IndividualCustomer) user;
+                Customer customer = (Customer) cfm.getCustomerByUsername(username);
+                BankAccount accounts = customer.getBankAccounts().get(1);
+                accounts.reduceBalance(1);
                 for(BankAccount account : customer.getBankAccounts()){
                     System.out.println(account.getIban() + "  " + account.getBalance());
                 }

@@ -12,6 +12,7 @@ public class BankAccount {
         this.balance = 0;
     }
 
+    public BankAccount() {}
 
     public String getHolderID() {
         return holderVatID;
@@ -37,5 +38,12 @@ public class BankAccount {
         this.balance = balance;
     }
 
+    public void addBalance(double balance){
+        this.balance += balance;
+    }
+
+    public void reduceBalance(double balance){
+        this.balance -= balance;
+    }
   
 }

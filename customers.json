@@ -8,9 +8,19 @@
       "role": "INDIVIDUAL",
       "bankAccounts": [
         {
-          "holderVatID": "1234",
-          "iban": "GR5754125343813562674064",
-          "balance": 0.0
+          "iban": "GR7406766594163331563510",
+          "balance": 0.0,
+          "type": "BankAccount"
+        },
+        {
+          "iban": "GR8296800052198039988715",
+          "balance": 400.0,
+          "type": "BankAccount"
+        },
+        {
+          "iban": "GR1288445959230534773617",
+          "balance": 200.0,
+          "type": "BankAccount"
         }
       ]
     },
@@ -22,14 +32,14 @@
       "role": "COMPANY",
       "bankAccounts": [
         {
-          "holderVatID": "21314",
-          "iban": "GR4283715648578556409767",
-          "balance": 0.0
+          "iban": "GR6654165625236245446977",
+          "balance": 0.0,
+          "type": "BankAccount"
         },
         {
-          "holderVatID": "21314",
-          "iban": "GR4591079641606645457799",
-          "balance": 0.0
+          "iban": "GR8268734611661560574026",
+          "balance": 0.0,
+          "type": "BankAccount"
         }
       ]
     }

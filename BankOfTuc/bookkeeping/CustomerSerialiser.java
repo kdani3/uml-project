@@ -23,7 +23,7 @@ public class CustomerSerialiser implements JsonSerializer<Customer> {
         jsonObject.addProperty("vatID", customer.getVatID());
         jsonObject.addProperty("role", customer.getRole().toString());
         jsonObject.add("bankAccounts", context.serialize(customer.getBankAccounts()));
-
+        
 
         // Exclude the password field manually if needed
         // You can also modify other fields here if necessary
