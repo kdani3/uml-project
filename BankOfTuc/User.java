@@ -1,10 +1,11 @@
 package BankOfTuc;
 
 import java.util.Base64;
-import BankOfTuc.auth.PasswordUtils;
+
+import BankOfTuc.Auth.PasswordUtils;
 
 //The User must have a username,password, fullname, email(optional), isActive boolean and an ENUM for the Role(extends in each role appropriately)
-public  class User {
+public abstract class User {
     private int id;
     private String username;
     private String fullname;
@@ -52,6 +53,9 @@ public  class User {
         return salt.clone();
     }
 
+    public String getSaltBase64(){
+        return saltBase64;
+    }
     public void setQrCode(String qrSecret ){
         this.qrSecret = qrSecret;
     }

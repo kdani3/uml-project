@@ -3,7 +3,7 @@ package BankOfTuc;
 import java.util.ArrayList;
 import java.util.List;
 
-import BankOfTuc.accounting.BankAccount;
+import BankOfTuc.Accounting.BankAccount;
 
 public class Customer extends User{
     private String vatID;

@@ -1,0 +1,2 @@
+rfCode,payerVatID,payerIban,amount,nextDueDate,attempts,paused
+RF258239230597150,1234,GR7734679808311712878942,22.00,2025-12-03,0,false

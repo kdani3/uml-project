@@ -1,0 +1,5 @@
+Billid,rfcode,issuer username,payee username,Total Amount,Monthly Amount,Paid amount,issueDate,dueDate,isPaid,payDate,status,installments,paid installments
+213141,RF258239230597150,acme_inc,1234,22.0,7.333333333333333,0.0,2025-12-03,2026-03-02,false,,ACTIVE,0,0
+213142,RF97308920,acme_inc,1234,23.0,,0.0,2025-12-04,2026-02-02,false,,ACTIVE,0,0
+213143,RF229496552121388852087099857,acme_inc,1234,12321.0,,0.0,2025-12-04,2027-02-02,false,,ACTIVE,0,0
+213144,RF03761891935665549920310,acme_inc,1234,12.0,,12.0,2025-12-04,2028-02-02,true,2025-12-04,PAID,0,1

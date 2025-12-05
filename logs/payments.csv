@@ -1,0 +1,2 @@
+Date,Time,Sender Vat ID,Sender Account IBAN,RF Code,Bill Type,Company Vat ID,Receiver Account IBAN,Total Bill Amount,Paid Amount,Bill Status,Sender New Balance,Recipient New Balance,Installments Paid
+04-12-2025,23:30:00,1234,GR7734679808311712878942,RF03761891935665549920310,ONE-TIME,21314,GR1749044394464082555747,12.00,12.00,PAID,1890.50,194.00,1

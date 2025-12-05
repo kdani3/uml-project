@@ -1,0 +1,37 @@
+{
+  "customers": [
+    {
+      "username": "john_doe",
+      "fullname": "John Doe",
+      "email": "co.kontos@gmail.com",
+      "vatID": "1234",
+      "role": "INDIVIDUAL",
+      "bankAccounts": [
+        {
+          "iban": "GR7734679808311712878942",
+          "balance": 1866.5,
+          "type": "BankAccount"
+        },
+        {
+          "iban": "GR7734679808311712878934",
+          "balance": 3.0,
+          "type": "BankAccount"
+        }
+      ]
+    },
+    {
+      "username": "acme_inc",
+      "fullname": "ACME Inc.",
+      "email": "contact@acme.com",
+      "vatID": "21314",
+      "role": "COMPANY",
+      "bankAccounts": [
+        {
+          "iban": "GR1749044394464082555747",
+          "balance": 218.0,
+          "type": "BankAccount"
+        }
+      ]
+    }
+  ]
+}

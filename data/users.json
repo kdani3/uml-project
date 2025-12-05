@@ -1,0 +1,37 @@
+{
+  "users": [
+    {
+      "id": 0,
+      "username": "admin1",
+      "fullname": "Super Admin",
+      "email": "admin@example.com",
+      "isActive": true,
+      "role": "ADMIN",
+      "saltBase64": "4gNM3qk3luuQkiidiJHKnw\u003d\u003d",
+      "hashedPassword": "P4sa3yr/BSIk4Jth55GprOnZE2Znc+moMCJjZEMBEdI\u003d",
+      "qrSecret": null
+    },
+    {
+      "id": 1,
+      "username": "john_doe",
+      "fullname": "John Doe",
+      "email": "co.kontos@gmail.com",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "nFrcI3GNW938xUEichyyTQ\u003d\u003d",
+      "hashedPassword": "kubE0AXj5PUSEWvDldbBiknuVHQrk/8DIL1nIzMMWy4\u003d",
+      "qrSecret": null
+    },
+    {
+      "id": 2,
+      "username": "acme_inc",
+      "fullname": "ACME Inc.",
+      "email": "contact@acme.com",
+      "isActive": true,
+      "role": "COMPANY",
+      "saltBase64": "DazmEDPgimEAXRT6j987JA\u003d\u003d",
+      "hashedPassword": "ftsJ+qU6Hl5P/sIK9FECq/PfYvBK19o0j35bajC911o\u003d",
+      "qrSecret": null
+    }
+  ]
+}

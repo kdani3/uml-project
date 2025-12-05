@@ -1,5 +1,12 @@
 package BankOfTuc;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+
+import BankOfTuc.Payments.Bill;
+import BankOfTuc.Payments.BillFileStore;
+
 public class CompanyCustomer extends Customer{
    public CompanyCustomer( String username, String passwordToHash, String fullname,String vatID, String email, boolean isActive){
         super( username,  passwordToHash,  fullname,  vatID, email,  Role.COMPANY,  isActive);
@@ -7,4 +14,43 @@ public class CompanyCustomer extends Customer{
     }
 
     public CompanyCustomer(){ this.setRole(Role.COMPANY);}
+
+    public boolean issueBill(double amount,LocalDate dueDate,int installments,String payerID){
+
+        int companyBills;
+        try {
+            if(getBankAccounts().isEmpty())
+                return false;
+            
+            List<Bill> bills = BillFileStore.loadBills();
+            companyBills = BillFileStore.getCompanyBillsNum(getVatID(),bills);
+            String newBillID = getVatID()+(companyBills+1);
+            Bill bill = new Bill(newBillID,amount,LocalDate.now(),dueDate,installments,getUsername(),payerID);
+            BillFileStore.saveBill(bill);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+
+    public boolean issueBill(double amount,double monthlyAmount,LocalDate dueDate,int installments,String payerID){
+
+        int companyBills;
+        try {
+            List<Bill> bills = BillFileStore.loadBills();
+            companyBills = BillFileStore.getCompanyBillsNum(getVatID(),bills);
+            String newBillID = getVatID()+(companyBills+1);
+            Bill bill = new Bill(newBillID,amount,LocalDate.now(),dueDate,installments,getUsername(),payerID);
+            bill.setMonthlyAmount(monthlyAmount);
+            BillFileStore.saveBill(bill);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+
 }
