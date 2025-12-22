@@ -25,7 +25,7 @@ public class CompanyCustomer extends Customer{
             List<Bill> bills = BillFileStore.loadBills();
             companyBills = BillFileStore.getCompanyBillsNum(getVatID(),bills);
             String newBillID = getVatID()+(companyBills+1);
-            Bill bill = new Bill(newBillID,amount,LocalDate.now(),dueDate,installments,getUsername(),payerID);
+            Bill bill = new Bill(newBillID,amount,TimeService.getInstance().today(),dueDate,installments,getUsername(),payerID);
             BillFileStore.saveBill(bill);
         } catch (IOException e) {
             e.printStackTrace();
@@ -42,7 +42,7 @@ public class CompanyCustomer extends Customer{
             List<Bill> bills = BillFileStore.loadBills();
             companyBills = BillFileStore.getCompanyBillsNum(getVatID(),bills);
             String newBillID = getVatID()+(companyBills+1);
-            Bill bill = new Bill(newBillID,amount,LocalDate.now(),dueDate,installments,getUsername(),payerID);
+            Bill bill = new Bill(newBillID,amount,TimeService.getInstance().today(),dueDate,installments,getUsername(),payerID);
             bill.setMonthlyAmount(monthlyAmount);
             BillFileStore.saveBill(bill);
         } catch (IOException e) {

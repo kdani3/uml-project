@@ -104,7 +104,7 @@ public class UserFileManagement {
     }
 
     public int getMaxId() {
-        return store.users.size() - 1; // IDs are 0-based indices
+        return store.users.size() - 1;
     }
 
     public  User getUserByUsername(String username) {
@@ -115,7 +115,7 @@ public class UserFileManagement {
                 return u;
             }
         }
-        return null; // not found
+        return null; 
     }
 
 

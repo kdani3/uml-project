@@ -5,6 +5,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import BankOfTuc.TimeService;
+
 import java.text.DecimalFormat;
 
 public class PaymentLogger {
@@ -38,8 +41,8 @@ public class PaymentLogger {
     ) {
         ensureLogsDirectoryExists();
         ensureFileExists();
-        String date = LocalDateTime.now().format(DATE_FORMAT);
-        String time = LocalDateTime.now().format(TIME_FORMAT);
+        String date = TimeService.getInstance().now().format(DATE_FORMAT);
+        String time = TimeService.getInstance().now().format(TIME_FORMAT);
 
         String row = toCSV(
                 date,

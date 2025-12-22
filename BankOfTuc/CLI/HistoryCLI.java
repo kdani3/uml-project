@@ -222,7 +222,7 @@ public static void showTransactionHistory(Scanner sc, Customer customer,List<Tra
         }
         int feechoice;
         while (true) {
-            System.out.println("Choose Fees:\n1.SENDER\n2.SHARED\n3.RECIPIENT");
+            System.out.println("Choose Fees:\n1.OUR\n2.SHA");
             System.out.print("> ");
 
             String choice2 = sc.nextLine();
@@ -233,7 +233,7 @@ public static void showTransactionHistory(Scanner sc, Customer customer,List<Tra
         }
     
         Transfer transfer = new sepaTransfer();
-        int send  = transfer.sendMoney(customer, accIndex, e.counterpartyIban, e.counterpartyName, cfm, amount, details,feechoice);
+        int send  = transfer.sendMoney(customer, accIndex,e.bankCode, e.counterpartyIban, e.counterpartyName, cfm, amount, details,feechoice);
         if(send==0){
         System.out.println("You attempted a SEPA transfer for your own account.\nPlease use the Self Transfer tab");
         return;
@@ -313,7 +313,7 @@ public static void showTransactionHistory(Scanner sc, Customer customer,List<Tra
 
         int feechoice;
         while (true) {
-            System.out.println("Choose Fees:\n1.SENDER\n2.SHARED\n3.RECIPIENT");
+            System.out.println("Choose Fees:\n1.OUR\n2.SHA");
             System.out.print("> ");
 
             String choice2 = sc.nextLine();
@@ -324,9 +324,9 @@ public static void showTransactionHistory(Scanner sc, Customer customer,List<Tra
         }
     
         Transfer transfer = new sepaTransfer();
-        int send  = transfer.sendMoney(customer, accIndex, e.counterpartyIban, e.counterpartyName, cfm, amount, details,feechoice);
+        int send  = transfer.sendMoney(customer, accIndex,e.bankCode, e.counterpartyIban, e.counterpartyName, cfm, amount, details,feechoice);
         if(send==0){
-        System.out.println("You attempted a SWIFT transfer for your own account.\nPlease use the Self Transfer tab");
+        System.out.println("You attempted a SEPA transfer for your own account.\nPlease use the Self Transfer tab");
         return;
         }
         
@@ -475,7 +475,7 @@ public static void showTransactionHistory(Scanner sc, Customer customer,List<Tra
 
         Customer sendCustomer = cfm.getCustomerByIBAN(e.counterpartyIban);
         Transfer transaction = new InterBank();
-        int sendAttempt = transaction.sendMoney(customer, accIndex, e.receiverIban ,sendCustomer.getFullname(), cfm, amount,details,0);
+        int sendAttempt = transaction.sendMoney(customer, accIndex,e.bankCode, e.receiverIban ,sendCustomer.getFullname(), cfm, amount,details,0);
         if(sendAttempt==1){
             System.out.print("\t"+customer.getFullname());
             System.out.print("    ");

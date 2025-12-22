@@ -1,6 +1,8 @@
 package BankOfTuc.CLI;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import BankOfTuc.CompanyCustomer;
+import BankOfTuc.TimeService;
 import BankOfTuc.Payments.Bill;
 import BankOfTuc.Payments.Bill.BillStatus;
 import BankOfTuc.Payments.BillFileStore;
@@ -180,7 +183,7 @@ static void ManageBills(CompanyCustomer comp,Scanner sc) throws IOException{
     }
     
     static DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    static LocalDate now = LocalDate.now();
+    static LocalDate now = TimeService.getInstance().today();
 
     public static void issueBillMenu(CompanyCustomer comp,Scanner sc){
         if(comp.getBankAccounts().isEmpty()){
@@ -207,7 +210,7 @@ static void ManageBills(CompanyCustomer comp,Scanner sc) throws IOException{
         System.out.print("Enter due date (dd-MM-yyyy): ");
 
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate now = LocalDate.now();
+        LocalDate now = TimeService.getInstance().today();
 
         LocalDate date = LocalDate.parse(sc.nextLine(),inputFormatter);
 
@@ -242,6 +245,9 @@ static void ManageBills(CompanyCustomer comp,Scanner sc) throws IOException{
                     }
                 }
                 Double monthlyAmount = amount/inst;
+                monthlyAmount = BigDecimal.valueOf(monthlyAmount)
+                .setScale(2, RoundingMode.HALF_UP)
+                .doubleValue();
                 System.out.println("Calculated Monthly Payment: "+monthlyAmount);
                 comp.issueBill(amount,monthlyAmount, date, inst,payerID);
                 

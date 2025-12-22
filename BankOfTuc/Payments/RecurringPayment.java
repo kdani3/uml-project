@@ -12,6 +12,7 @@ import java.util.Objects;
 import BankOfTuc.Customer;
 import BankOfTuc.EmailUtils;
 import BankOfTuc.EnvReader;
+import BankOfTuc.TimeService;
 import BankOfTuc.Accounting.BankAccount;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Logging.PaymentLogger;
@@ -57,7 +58,7 @@ public class RecurringPayment {
             return false;
         }
 
-        if (!LocalDate.now().isBefore(nextDueDate)) {
+        if (!TimeService.getInstance().today().isBefore(nextDueDate)) {
             boolean success = executePayment(cfm);
             currentAttempts++;
 
@@ -75,7 +76,7 @@ public class RecurringPayment {
     }
 
     private void sendFailedPaymentEmail(Customer customer,String rfCode,double amount){
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = TimeService.getInstance().now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         String attemptDateTime = now.format(formatter); 
         Map<String, String> env = null;
@@ -140,7 +141,7 @@ public class RecurringPayment {
 
             double newPaid = bill.getPaidAmount() + monthlyAmount;
             bill.setPaidAmount(newPaid);
-            bill.setPayDate(LocalDate.now());
+            bill.setPayDate(TimeService.getInstance().today());
             bill.setPaidInstallments(bill.getPaidInstallments()+1);
 
             if (newPaid == bill.getAmount()&& bill.getInstallments()==bill.getPaidInstallments()) {

@@ -24,7 +24,7 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             System.out.println("\n--- User Menu (" + username + "/" + user.getRole() + ") ---");
             System.out.println("1. Transfer");
             System.out.println("2. Payments");
-            System.out.println("3. Transactions History");
+            System.out.println("3. History");
             System.out.println("4. Settings");
             System.out.println("5. Logout");
 
@@ -105,7 +105,5 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
 
         }
     }
-
-    // In your CLI class
     
 }

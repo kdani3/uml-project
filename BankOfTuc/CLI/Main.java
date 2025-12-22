@@ -136,6 +136,9 @@ public class Main {
         else if(role.equals(Role.COMPANY)){
             CompanyCLI.loggedInMenu(sc, login, user, ufm, cfm);
         }
+        else if(role.equals(Role.ADMIN)){
+            AdminCLI.loggedInMenu(sc, login, user, ufm, cfm);
+        }
 
     }
     

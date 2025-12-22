@@ -147,7 +147,7 @@ public class TransferCLI {
             return;
         }
 
-        //BankAccount sendingAccount = accounts.get(accChoice-1);
+        //BankAccount sendingAccount = accounts.get(accChoice-1)
 
         System.out.println("Enter receiving IBAN for interbank");
         System.out.print("> ");
@@ -242,7 +242,7 @@ public class TransferCLI {
         System.out.println("Attempting InterBank Transaction");
 
         Transfer transaction = new InterBank();
-        int sendAttempt = transaction.sendMoney(customer, accChoice-1, receivingIBAN ,receiverFullname, cfm, amount,details,0);
+        int sendAttempt = transaction.sendMoney(customer, accChoice-1,"TUCGRAAXX", receivingIBAN ,receiverFullname, cfm, amount,details,0);
         if(sendAttempt==1){
             System.out.print("\t"+customer.getFullname());
             System.out.print("    ");
@@ -298,6 +298,14 @@ public class TransferCLI {
             return;
         }
 
+        System.out.println("Enter creditor's Bank BIC");
+        System.out.print("> ");
+        String bic = sc.nextLine();
+        if(bic.isBlank() || bic.isEmpty()){
+            System.out.println("The BIC is required for this transfer");
+            return;
+        }
+
         System.out.println("Enter Recipient IBAN for interbank");
         System.out.print("> ");
 
@@ -344,7 +352,7 @@ public class TransferCLI {
         
         int feechoice;
         while (true) {
-            System.out.println("Choose Fees:\n1.SENDER\n2.SHARED\n3.RECIPIENT");
+            System.out.println("Choose Fees:\n1.OUR\n2.SHA");
             System.out.print("> ");
 
             String choice = sc.nextLine();
@@ -355,13 +363,17 @@ public class TransferCLI {
         }
       
         Transfer transfer = new sepaTransfer();
-        int send  = transfer.sendMoney(customer, accChoice-1, receivingIBAN, receiverFullname, cfm, amount, details,feechoice);
+        int send  = transfer.sendMoney(customer, accChoice-1,bic,receivingIBAN, receiverFullname, cfm, amount, details,feechoice);
         if(send==0){
             System.out.println("You attempted a SEPA transfer for your own account.\nPlease use the Self Transfer tab");
             return;
         }
         if(send==-1){
             System.out.println("Your balance bounced");
+            return;
+        }
+        if(send==-2){
+            System.out.println("The request got rejected");
             return;
         }
         if(send==1){
@@ -404,7 +416,15 @@ public class TransferCLI {
             return;
         }
 
-        System.out.println("Enter Recipient IBAN for interbank");
+        System.out.println("Enter creditor's Bank Swift Code");
+        System.out.print("> ");
+        String swift = sc.nextLine();
+        if(swift.isBlank() || swift.isEmpty()){
+            System.out.println("The Swift Code is required for this transfer");
+            return;
+        }
+
+        System.out.println("Enter Recipient IBAN for Swift");
         System.out.print("> ");
 
         String receivingIBAN = sc.nextLine().trim();
@@ -454,7 +474,7 @@ public class TransferCLI {
         }
         int feechoice;
         while (true) {
-            System.out.println("Choose Fees:\n1.SENDER\n2.SHARED\n3.RECIPIENT");
+            System.out.println("Choose Fees:\n1.OUR\n2.SHA");
             System.out.print("> ");
 
             String choice = sc.nextLine();
@@ -465,13 +485,17 @@ public class TransferCLI {
         }
       
         Transfer transfer = new swiftTransfer();
-        int send  = transfer.sendMoney(customer, accChoice-1, receivingIBAN, receiverFullname, cfm, amount, details,feechoice);
+        int send  = transfer.sendMoney(customer, accChoice-1,swift, receivingIBAN, receiverFullname, cfm, amount, details,feechoice);
         if(send==0){
             System.out.println("You attempted a SEPA transfer for your own account.\nPlease use the Self Transfer tab");
             return;
         }
         if(send==-1){
             System.out.println("Your balance bounced");
+            return;
+        }
+        if(send==-2){
+            System.out.println("Swift Transfer was Rejected");
             return;
         }
         if(send==1){

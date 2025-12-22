@@ -5,13 +5,16 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import BankOfTuc.TimeService;
+
 import java.text.DecimalFormat;
 
 public class TransferLogger {
 
     private static final String FILE = "logs/transfers.csv";
     private static final String HEADER =
-            "Date,Time,Sender Vat ID,Sender Account IBAN,Transfer Type,Recipient Vat ID,Recipient Fullname,Receiver Account IBAN,Amount,Status,Sender New Balance,Receiver New Balance,Transfer Details";
+            "Date,Time,Sender Vat ID,Sender Account IBAN,Transfer Type,Recipient Vat ID,Recipient Fullname,Recipient Bank Code,Recipient Account IBAN,Amount,Status,Sender New Balance,Receiver New Balance,Transfer Details";
 
     private static final DateTimeFormatter DATE_FORMAT =
             DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -28,6 +31,7 @@ public class TransferLogger {
             String transferType,
             String receiverVatId,
             String recipientFullName,
+            String bankCode,
             String toAccount,
             double amount,
             boolean success,
@@ -38,8 +42,8 @@ public class TransferLogger {
 
         ensureLogsDirectoryExists();
         ensureFileExists();
-        String date = LocalDateTime.now().format(DATE_FORMAT);
-        String time = LocalDateTime.now().format(TIME_FORMAT);
+        String date = TimeService.getInstance().now().format(DATE_FORMAT);
+        String time = TimeService.getInstance().now().format(TIME_FORMAT);
         String status = success ? "SUCCESS" : "FAILED";
 
         String row = toCSV(
@@ -50,6 +54,7 @@ public class TransferLogger {
                 transferType,
                 receiverVatId,
                 recipientFullName,
+                bankCode,
                 toAccount,
                 MONEY.format(amount),
                 status,

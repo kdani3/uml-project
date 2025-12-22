@@ -6,6 +6,7 @@ import java.util.List;
 
 import BankOfTuc.CompanyCustomer;
 import BankOfTuc.IndividualCustomer;
+import BankOfTuc.TimeService;
 import BankOfTuc.Accounting.BankAccount;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Logging.PaymentLogger;
@@ -50,7 +51,7 @@ public class Payment {
         else{
             bill.setStatus(BillStatus.PARTIALLY_PAID);
         }
-        this.date = LocalDate.now();
+        this.date = TimeService.getInstance().today();
         bill.setPaidAmount(amount);
         bill.setPayDate(date);
         bill.setPaidInstallments(bill.getPaidInstallments()+1);

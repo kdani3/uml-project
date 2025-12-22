@@ -30,9 +30,9 @@ public class TransactionHistoryService {
         public final String senderIban;
         public final String receiverVatId;
         public final String receiverIban;
-
+        public final String bankCode;
         public TransactionEntry(String datetime, String type,
-                                String counterpartyName, String counterpartyIban,
+                                String counterpartyName, String bankCode, String counterpartyIban,
                                 double amount, boolean isOutgoing,
                                 String rfCode, String details,
                                 String senderVatId, String senderIban,
@@ -49,6 +49,7 @@ public class TransactionHistoryService {
             this.senderIban = senderIban;
             this.receiverVatId = receiverVatId;
             this.receiverIban = receiverIban;
+            this.bankCode = bankCode;
         }
 
         public String getAmountDisplay() {
@@ -122,7 +123,7 @@ public class TransactionHistoryService {
 
                 list.add(new TransactionEntry(
                     datetime, "PAYMENT",
-                    counterpartyName, counterpartyIban,
+                    counterpartyName,"", counterpartyIban,
                     amount, isOutgoing,
                     rfCode, "",
                     senderVat, senderIban,
@@ -141,30 +142,32 @@ public class TransactionHistoryService {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] cols = line.split(",", -1);
-                if (cols.length < 13) continue;
-
-                if (!"SUCCESS".equals(cols[9])) continue;
-
+                if (cols.length < 12) continue; 
+            
+                if (!"SUCCESS".equals(cols[10])) continue;
+            
                 String senderVat = cols[2];
                 String receiverVat = cols[5];
                 boolean isOutgoing = vatId.equals(senderVat);
-
+            
                 if (!isOutgoing && !vatId.equals(receiverVat)) continue;
-
+            
                 String datetime = cols[0] + " " + cols[1];
-                double amount = Double.parseDouble(cols[8]);
                 String transferType = cols[4];
                 String senderIban = cols[3];
-                String receiverIban = cols[7];
-                String details = cols[12];
-                String receiverName = cols[6];
-
-                String counterpartyName = isOutgoing ? receiverName : getNameByVatId(senderVat,cfm);
+                
+                String receiverName = cols[6];  
+                String bankCode = cols[7];
+                String receiverIban = cols[8];  
+                double amount = Double.parseDouble(cols[9]); 
+                String details = cols[13];      
+            
+                String counterpartyName = isOutgoing ? receiverName : getNameByVatId(senderVat, cfm);
                 String counterpartyIban = isOutgoing ? receiverIban : senderIban;
-
+            
                 list.add(new TransactionEntry(
                     datetime, transferType,
-                    counterpartyName, counterpartyIban,
+                    counterpartyName,bankCode, counterpartyIban,
                     amount, isOutgoing,
                     "", details,
                     senderVat, senderIban,

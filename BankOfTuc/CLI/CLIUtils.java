@@ -1,6 +1,8 @@
 package BankOfTuc.CLI;
 
+import java.security.SecureRandom;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import BankOfTuc.User;
 import BankOfTuc.Auth.LoginManager;
@@ -145,5 +147,18 @@ public static boolean verifyUserIdentity(User user, Scanner sc){
                           ######  ** ****** #### #  ##  #  ##  ## #####           
                          ######   """;
                 System.out.println(logo);
+    }
+
+    public static String generateUnicodePassword(int length) {
+    SecureRandom random = new SecureRandom();
+    
+    return random.ints(length, 0, 62) 
+                .map(i -> {
+                    if (i < 10) return 0x30 + i;       
+                    if (i < 36) return 0x41 + (i - 10); 
+                    return 0x61 + (i - 36);             
+                })
+                .mapToObj(cp -> String.valueOf((char) cp))
+                .collect(Collectors.joining());
     }
 }

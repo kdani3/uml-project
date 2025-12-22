@@ -19,7 +19,7 @@ public class InterBank extends Transfer{
     }
 
     @Override
-    public int sendMoney(Customer sendingCustomer, int sendingCustomerBankIndex,String receiverIBAN,String receiverName,CustomerFileManager cfm,double amount, String details,int feeChoice) {
+    public int sendMoney(Customer sendingCustomer, int sendingCustomerBankIndex,String BIC,String receiverIBAN,String receiverName,CustomerFileManager cfm,double amount, String details,int feeChoice) {
 
         Customer receiverCustomer = cfm.getCustomerByIBAN(receiverIBAN);
         this.receiverCustomer = receiverCustomer;
@@ -34,6 +34,7 @@ public class InterBank extends Transfer{
                 "INTERNAL",
                 "no id",
                 receiverName,
+                BIC,
                 "no iban",
                 amount,
                 false,
@@ -60,6 +61,7 @@ public class InterBank extends Transfer{
                 "INTERNAL",
                 receiverCustomer.getVatID(),
                 receiverName,
+                BIC,
                 receiverCustomer.getBankAccounts().get(receiverIndex).getIban(),
                 amount,
                 false,
@@ -78,6 +80,7 @@ public class InterBank extends Transfer{
                 "INTERNAL",
                 receiverCustomer.getVatID(),
                 receiverName,
+                BIC,
                 receiverCustomer.getBankAccounts().get(receiverIndex).getIban(),
                 amount,
                 false,
@@ -95,6 +98,7 @@ public class InterBank extends Transfer{
                 "INTERNAL",
                 receiverCustomer.getVatID(),
                 receiverName,
+                BIC,
                 receiverCustomer.getBankAccounts().get(receiverIndex).getIban(),
                 amount,
                 false,
@@ -112,6 +116,7 @@ public class InterBank extends Transfer{
                 "INTERNAL",
                 receiverCustomer.getVatID(),
                 receiverName,
+                BIC,
                 receiverCustomer.getBankAccounts().get(receiverIndex).getIban(),
                 amount,
                 false,
@@ -130,6 +135,7 @@ public class InterBank extends Transfer{
                 "INTERNAL",
                 receiverCustomer.getVatID(),
                 receiverName,
+                BIC,
                 receiverCustomer.getBankAccounts().get(receiverIndex).getIban(),
                 amount,
                 false,
@@ -147,6 +153,7 @@ public class InterBank extends Transfer{
                 "INTERNAL",
                 receiverCustomer.getVatID(),
                 receiverName,
+                BIC,
                 receiverCustomer.getBankAccounts().get(receiverIndex).getIban(),
                 amount,
                 false,
@@ -171,6 +178,7 @@ public class InterBank extends Transfer{
                 "INTERNAL",
                 receiverCustomer.getVatID(),
                 receiverName,
+                BIC,
                 receiverCustomer.getBankAccounts().get(receiverIndex).getIban(),
                 amount,
                 true,

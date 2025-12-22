@@ -9,7 +9,7 @@
       "bankAccounts": [
         {
           "iban": "GR7734679808311712878942",
-          "balance": 1866.5,
+          "balance": 1781.5,
           "type": "BankAccount"
         },
         {
@@ -28,7 +28,7 @@
       "bankAccounts": [
         {
           "iban": "GR1749044394464082555747",
-          "balance": 218.0,
+          "balance": 258.0,
           "type": "BankAccount"
         }
       ]

@@ -4,6 +4,8 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 
+import BankOfTuc.TimeService;
+
 public class BillFileStore {
 
     private static final String FILE = "data/bills.csv";
@@ -156,7 +158,7 @@ private static Bill fromCSV(String line) {
 
     public static void expireOverdueBills(List<Bill> bills) throws IOException {
 
-        LocalDate now = LocalDate.now();
+        LocalDate now = TimeService.getInstance().today();
         boolean changed = false;
 
         for (Bill bill : bills) {
@@ -176,7 +178,7 @@ private static Bill fromCSV(String line) {
 
     public static void updateMonthlyBills(List<Bill> bills) throws IOException {
 
-        LocalDate now = LocalDate.now();
+        LocalDate now = TimeService.getInstance().today();
         boolean changed = false;
 
         for (Bill bill : bills) {

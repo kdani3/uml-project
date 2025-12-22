@@ -4,6 +4,7 @@ package BankOfTuc.Payments;
 import java.io.IOException;
 import java.util.List;
 
+import BankOfTuc.TimeService;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 public class CustomerPaymentService {
     private final RecurringPaymentScheduler scheduler;
@@ -26,7 +27,7 @@ public class CustomerPaymentService {
         vatid,   // ← stored in service
         iban,
         amount,
-        java.time.LocalDate.now()
+        TimeService.getInstance().today()
         );
         scheduler.addRecurringPayment(rp);
 
