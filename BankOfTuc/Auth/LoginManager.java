@@ -117,27 +117,30 @@ public class LoginManager {
         }
     }
 
-    //timeout checker after 15 it sends a signal to end session
     private void startTimeoutChecker() {
         Thread t = new Thread(() -> {
             while (true) {
                 long now = System.currentTimeMillis();
                 List<Session> sessions = getSessions();
                 boolean changed = false;
-
+    
                 Iterator<Session> it = sessions.iterator();
                 while (it.hasNext()) {
                     Session s = it.next();
                     if (now - s.getLastActivity() >= TIMEOUT) {
                         it.remove();
-                        listeners.forEach(l -> l.onTimeout(s.getUsername()));
+                        if (isLoggedIn(s.getUsername())) {
+                            listeners.forEach(l -> l.onTimeout(s.getUsername()));
+                        }
                         changed = true;
                     }
                 }
-
+    
                 if (changed) saveSessions(sessions);
-
-                try { Thread.sleep(30_000); } catch (InterruptedException ignored) {}
+    
+                try {
+                    Thread.sleep(30_000); // Check every 30 seconds
+                } catch (InterruptedException ignored) {}
             }
         });
         t.setDaemon(true);

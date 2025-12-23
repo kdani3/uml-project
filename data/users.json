@@ -32,6 +32,17 @@
       "saltBase64": "DazmEDPgimEAXRT6j987JA\u003d\u003d",
       "hashedPassword": "ftsJ+qU6Hl5P/sIK9FECq/PfYvBK19o0j35bajC911o\u003d",
       "qrSecret": null
+    },
+    {
+      "id": 3,
+      "username": "meowmeow",
+      "fullname": "Meow Meow",
+      "email": "",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "UjAS1iqqnhpJs+FbgAm2LA\u003d\u003d",
+      "hashedPassword": "UeIOATR3vAiZ3cwRK8LPS+nCXoar/c169NvsbZpoMd8\u003d",
+      "qrSecret": null
     }
   ]
 }

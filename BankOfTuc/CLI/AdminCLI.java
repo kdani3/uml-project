@@ -194,10 +194,8 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             currentDateTime = timeService.now();
             System.out.println("Simulated date: " + currentDateTime.format(formatter));
 
-            // You can also simulate hours here, for finer-grained control.
         }
 
-        // Once we reach or surpass the target date, stop simulation
         System.out.println("Target date " + targetDate + " reached. Stopping simulation.");
     }
 }

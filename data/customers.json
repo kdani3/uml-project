@@ -32,6 +32,14 @@
           "type": "BankAccount"
         }
       ]
+    },
+    {
+      "username": "meowmeow",
+      "fullname": "Meow Meow",
+      "email": "",
+      "vatID": "01234567",
+      "role": "INDIVIDUAL",
+      "bankAccounts": []
     }
   ]
 }
