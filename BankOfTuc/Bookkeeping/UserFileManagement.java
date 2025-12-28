@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.*;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import BankOfTuc.User;
 
 public class UserFileManagement {
@@ -15,15 +14,31 @@ public class UserFileManagement {
     private UserStore store;
     private ArrayList<User> users = new ArrayList<>();
 
-    public UserFileManagement(String filePath) throws IOException {
+    private static volatile UserFileManagement instance;
+
+    private UserFileManagement(String filePath) throws IOException {
         this.filePath = filePath;
-        this.gson = new GsonBuilder()
-            .registerTypeAdapter(User.class, new UserDeserializer())
-            .setPrettyPrinting()
-            .serializeNulls()
-            .create();
+        this.gson = GsonProvider.get();
         
         load();
+    }
+
+    public static UserFileManagement getInstance(String filePath) throws IOException {
+        if (instance == null) {
+            synchronized (UserFileManagement.class) {
+                if (instance == null) {
+                    instance = new UserFileManagement(filePath);
+                }
+            }
+        }
+        return instance;
+    }
+
+    public static UserFileManagement getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("UserFileManagement not initialized. Call getInstance(filePath) first.");
+        }
+        return instance;
     }
 
     public UserStore getStore() {

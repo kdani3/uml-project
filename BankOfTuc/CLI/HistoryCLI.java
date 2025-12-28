@@ -20,7 +20,7 @@ import BankOfTuc.Logging.TransactionHistoryService;
 import BankOfTuc.Transfers.InterBank;
 import BankOfTuc.Transfers.SelfTransfer;
 import BankOfTuc.Transfers.Transfer;
-import BankOfTuc.Transfers.sepaTransfer;
+import BankOfTuc.Transfers.SepaTransfer;
 
 public class HistoryCLI {
 public static void showTransactionHistory(Scanner sc, Customer customer,List<TransactionHistoryService.TransactionEntry> history  ,CustomerFileManager cfm) {
@@ -232,7 +232,7 @@ public static void showTransactionHistory(Scanner sc, Customer customer,List<Tra
                 break;
         }
     
-        Transfer transfer = new sepaTransfer();
+        Transfer transfer = new SepaTransfer();
         int send  = transfer.sendMoney(customer, accIndex,e.bankCode, e.counterpartyIban, e.counterpartyName, cfm, amount, details,feechoice);
         if(send==0){
         System.out.println("You attempted a SEPA transfer for your own account.\nPlease use the Self Transfer tab");
@@ -323,7 +323,7 @@ public static void showTransactionHistory(Scanner sc, Customer customer,List<Tra
                 break;
         }
     
-        Transfer transfer = new sepaTransfer();
+        Transfer transfer = new SepaTransfer();
         int send  = transfer.sendMoney(customer, accIndex,e.bankCode, e.counterpartyIban, e.counterpartyName, cfm, amount, details,feechoice);
         if(send==0){
         System.out.println("You attempted a SEPA transfer for your own account.\nPlease use the Self Transfer tab");

@@ -38,7 +38,10 @@ public class SepaTransferService {
 
         } catch (IOException | InterruptedException e) {
             System.err.println("Request failed: " + e.getMessage());
-            return "Exception occurred: " + e.getMessage() != null;
+            if (e instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
+            return false;
         }
     }
 

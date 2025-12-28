@@ -25,14 +25,14 @@ public class CustomerSerialiser implements JsonSerializer<Customer> ,  JsonDeser
     public JsonElement serialize(Customer customer, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject jsonObject = new JsonObject();
 
-        //explicit serailisation
-        jsonObject.addProperty("username", customer.getUsername());
-        jsonObject.addProperty("fullname", customer.getFullname());
-        jsonObject.addProperty("email", customer.getEmail());
-        jsonObject.addProperty("vatID", customer.getVatID());
-        jsonObject.addProperty("role", customer.getRole().toString());
-        jsonObject.add("bankAccounts", context.serialize(customer.getBankAccounts()));
-        
+        if (customer.getUsername() != null) jsonObject.addProperty("username", customer.getUsername());
+        if (customer.getFullname() != null) jsonObject.addProperty("fullname", customer.getFullname());
+        if (customer.getEmail() != null) jsonObject.addProperty("email", customer.getEmail());
+        if (customer.getVatID() != null) jsonObject.addProperty("vatID", customer.getVatID());
+        if (customer.getRole() != null) jsonObject.addProperty("role", customer.getRole().toString());
+
+        Type listType = new com.google.gson.reflect.TypeToken<List<BankAccount>>() {}.getType();
+        jsonObject.add("bankAccounts", context.serialize(customer.getBankAccounts(), listType));
 
         return jsonObject;
     }
@@ -55,11 +55,18 @@ public class CustomerSerialiser implements JsonSerializer<Customer> ,  JsonDeser
             customer = new CompanyCustomer(username, "...", fullname, vatID, email, true);
         }
 
-        List<BankAccount> accounts =
-            ctx.deserialize(obj.get("bankAccounts"),
-            new TypeToken<List<BankAccount>>(){}.getType());
-
-        customer.setBankAccounts(accounts != null ? accounts : new ArrayList<>());
+        JsonElement accountsEl = obj.get("bankAccounts");
+        List<BankAccount> accounts = new ArrayList<>();
+        if (accountsEl != null && accountsEl.isJsonArray()) {
+            for (JsonElement elt : accountsEl.getAsJsonArray()) {
+                try {
+                    BankAccount ba = ctx.deserialize(elt, BankAccount.class);
+                    if (ba != null) accounts.add(ba);
+                } catch (Exception e) {
+                }
+            }
+        }
+        customer.setBankAccounts(accounts);
 
         return customer;
     }

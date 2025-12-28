@@ -25,8 +25,8 @@ public class Main {
         String filePath = "data/users.json";
         String customer_filePath = "data/customers.json";
 
-        CustomerFileManager cfm = new CustomerFileManager(customer_filePath);
-        UserFileManagement ufm = new UserFileManagement(filePath);
+        CustomerFileManager cfm = CustomerFileManager.getInstance(customer_filePath);
+        UserFileManagement ufm = UserFileManagement.getInstance(filePath);
         //UsersCustomersBridge ucb = new UsersCustomersBridge(ufm, cfm);
 
        /*  User admin = new Admin("admin1", "adminpass", "Super Admin", "admin@example.com", true);

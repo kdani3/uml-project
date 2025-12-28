@@ -15,6 +15,23 @@ public class CompanyCustomer extends Customer{
 
     public CompanyCustomer(){ this.setRole(Role.COMPANY);}
 
+    @Override
+    public boolean addBankAccount(BankOfTuc.Accounting.BankAccount account) {
+        if (getBankAccounts().size() >= 1) {
+            return false; // only 1 account allowed for companies
+        }
+
+        var type = account.getType();
+        if (type == null) return false;
+        if (type != BankOfTuc.Accounting.BankAccount.AccountType.COMPANY) {
+            return false; // companies only have COMPANY account type
+        }
+
+        return super.addBankAccount(account);
+    }
+
+
+
     public boolean issueBill(double amount,LocalDate dueDate,int installments,String payerID){
 
         int companyBills;

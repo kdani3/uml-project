@@ -17,8 +17,9 @@ public class Customer extends User{
     }
     public Customer(){}
 
-    public void addBankAccount(BankAccount account){
+    public boolean addBankAccount(BankAccount account){
         this.bankAccounts.add(account);
+        return true;
     }
     public String getVatID() {
         return vatID;
@@ -31,5 +32,10 @@ public class Customer extends User{
     }
     public void setBankAccounts(List<BankAccount> bankAccounts) {
         this.bankAccounts = bankAccounts;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s (%s) [%s]", getUsername() != null ? getUsername() : "", getFullname() != null ? getFullname() : "", vatID != null ? vatID : "");
     }
 }

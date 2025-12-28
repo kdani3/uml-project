@@ -43,7 +43,17 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
 
             String input = sc.nextLine();
 
+            if (!login.isLoggedIn(username)) {
+                System.out.println("Session timed out. Returning to main menu.");
+                return;
+            }
+
             login.activity(username);
+
+            if (!login.isLoggedIn(username)) {
+                System.out.println("Session timed out. Returning to main menu.");
+                return;
+            }
 
             switch (input) {
                 case "1":

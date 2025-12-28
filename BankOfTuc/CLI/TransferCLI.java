@@ -11,7 +11,7 @@ import BankOfTuc.Accounting.BankAccount;
 import BankOfTuc.Auth.LoginManager;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Transfers.InterBank;
-import BankOfTuc.Transfers.sepaTransfer;
+import BankOfTuc.Transfers.SepaTransfer;
 import BankOfTuc.Transfers.swiftTransfer;
 import BankOfTuc.Transfers.SelfTransfer;
 import BankOfTuc.Transfers.Transfer;
@@ -362,7 +362,7 @@ public class TransferCLI {
                 break;
         }
       
-        Transfer transfer = new sepaTransfer();
+        Transfer transfer = new SepaTransfer();
         int send  = transfer.sendMoney(customer, accChoice-1,bic,receivingIBAN, receiverFullname, cfm, amount, details,feechoice);
         if(send==0){
             System.out.println("You attempted a SEPA transfer for your own account.\nPlease use the Self Transfer tab");

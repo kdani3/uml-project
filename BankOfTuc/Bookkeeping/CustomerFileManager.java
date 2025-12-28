@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 //import java.util.HashMap;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import BankOfTuc.CompanyCustomer;
 import BankOfTuc.Customer;
@@ -22,18 +21,32 @@ public class CustomerFileManager {
     private final Gson gson;
     private CustomerStore store;
 
+    private static volatile CustomerFileManager instance;
 
-    public CustomerFileManager(String filePath) throws IOException {
+    private CustomerFileManager(String filePath) throws IOException {
         this.filePath = filePath;
 
-        this.gson = new GsonBuilder()
-            .registerTypeAdapter(Customer.class,new CustomerSerialiser())
-            .registerTypeAdapter(BankAccount.class,new BankAccountSerializer())
-            .setPrettyPrinting()
-            .serializeNulls()
-            .create();
+        this.gson = GsonProvider.get();
 
         load();
+    }
+
+    public static CustomerFileManager getInstance(String filePath) throws IOException {
+        if (instance == null) {
+            synchronized (CustomerFileManager.class) {
+                if (instance == null) {
+                    instance = new CustomerFileManager(filePath);
+                }
+            }
+        }
+        return instance;
+    }
+
+    public static CustomerFileManager getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("CustomerFileManager not initialized. Call getInstance(filePath) first.");
+        }
+        return instance;
     }
 
     public BankAccount findAccountByIBAN(String iban) {

@@ -27,6 +27,7 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             System.out.println("3. History");
             System.out.println("4. Settings");
             System.out.println("5. Logout");
+            System.out.println("6. Add bank account");
 
             CompanyCustomer customer = (CompanyCustomer) cfm.getCustomerByUsername(username);
             cfm.updateCustomer(customer);
@@ -37,7 +38,7 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
 
                 for(int i=0;i<accounts.size();i++){
                     BankAccount account = accounts.get(i);
-                    System.out.println(i+1+". "+account.getIban() + " | " + account.getBalance()+ " €");
+                    System.out.println(i+1+". "+account.getIban() + " (" + (account.getType() != null ? account.getType() : BankAccount.AccountType.CHECKING) + ") | " + account.getBalance()+ " €");
                 }
             }
             
@@ -72,7 +73,17 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
 
             String input = sc.nextLine();
 
+            if (!login.isLoggedIn(username)) {
+                System.out.println("Session timed out. Returning to main menu.");
+                return;
+            }
+
             login.activity(username);
+
+            if (!login.isLoggedIn(username)) {
+                System.out.println("Session timed out. Returning to main menu.");
+                return;
+            }
 
             switch (input) {
                 case "1":
@@ -101,6 +112,10 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
                 case "5":
                     login.logout(username);
                     return;
+
+                case "6":
+                    BankAccountCLI.addCompanyAccount(sc, customer, cfm);
+                    break;
 
                 default:
                     System.out.println("Invalid option");
