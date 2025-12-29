@@ -9,6 +9,7 @@ import BankOfTuc.User;
 
 public final class GsonProvider {
     private static final Gson GSON = new GsonBuilder()
+            .serializeNulls() // ⭐ ΑΥΤΟ ΕΙΝΑΙ ΤΟ FIX
             .registerTypeAdapter(BankAccount.class, new BankAccountSerializer())
             .registerTypeAdapter(Customer.class, new CustomerSerialiser())
             .registerTypeAdapter(User.class, new UserDeserializer())

@@ -31,16 +31,8 @@ public class UserDeserializer implements JsonDeserializer<User>,JsonSerializer<U
         jsonObject.addProperty("role", user.getRole().toString());
         jsonObject.addProperty("saltBase64", user.getSaltBase64());
         jsonObject.addProperty("hashedPassword", user.getHashedPassword());
-         System.out.println("\n\n\n\n nig");
-        if (user.getQrCode() == null) {
-            System.out.println("mpikame edw");
-            jsonObject.add("qrSecret", JsonNull.INSTANCE);
-        } else {
-            
-            jsonObject.addProperty("qrSecret", user.getQrCode());
-        }
+        jsonObject.addProperty("qrSecret", user.getQrCode());
         
-
         // Exclude the password field manually if needed
         // You can also modify other fields here if necessary
         return jsonObject;
