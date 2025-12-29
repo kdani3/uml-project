@@ -20,6 +20,7 @@ import BankOfTuc.Auth.LoginManager;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Bookkeeping.UserFileManagement;
 import BankOfTuc.Logging.TransactionHistoryService;
+import BankOfTuc.Logging.TransactionHistoryService.TransactionEntry;
 import dev.samstevens.totp.exceptions.QrGenerationException;
 
 public class AdminCLI {
@@ -57,10 +58,12 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
 
             switch (input) {
                 case "1":
-/*                     //boolean transact = TransferCLI.TransferMenu(sc,login,customer,cfm);
-                    if(transact)
-                        break;
- */
+                    //boolean transact = TransferCLI.TransferMenu(sc,login,customer,cfm);
+                    //if(transact)
+                     //   break;
+                    CustomersManagement(sc, login, admin, ufm, cfm);
+                    break;
+ 
                 case "2":
 /*                     PaymentCLI.managePayments(sc, customer, cfm);
                     break;
@@ -87,7 +90,7 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
     public static void CustomersManagement(Scanner sc, LoginManager login, User user,UserFileManagement ufm,CustomerFileManager cfm)  {
         System.out.println("Enter Customer username or VatID");
         System.out.print("> ");
-        String searchInput = sc.next();
+        String searchInput = sc.nextLine();
         Customer cust;
         boolean isNumeric = searchInput.matches("-?\\d+(\\.\\d+)?");
 
@@ -100,6 +103,7 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             return;
         }
 
+        System.out.println("\n--- Managing: " + cust.getFullname() + " ---");
         System.out.println("1. Reset Password");
         System.out.println("2. Edit Customer's Details");
         System.out.println("3. Edit Recurring Payments");
@@ -107,13 +111,18 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         System.out.println("5. Return");
 
         System.out.print("> ");
-        String select = sc.next();
+        String select = sc.nextLine();
         switch (select){
             case "1":
                 String p = CLIUtils.generateUnicodePassword(8);
-                User custUser = (User) cust;
-                custUser.setPassword(p);
-                ufm.updateUser(custUser);
+                User userToUpdate = ufm.getUserByUsername(cust.getUsername());
+                if(userToUpdate == null) {
+                    System.out.println("Error: User found in customers.json but not in users.json!");
+                    break;
+                }
+                //User custUser = (User) cust;
+                userToUpdate.setPassword(p);
+                ufm.updateUser(userToUpdate);
                 System.out.println("New user password: "+p);
                 break;
             case "2":
@@ -121,6 +130,14 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
                 break;
             case "3":
                 PaymentCLI.manageRecurringPayments(sc, cust, cfm);
+                break;
+            case "4":
+                viewCustomerTransfers(cust, cfm);
+                break;
+            case "5":
+                break;
+            default:
+                System.out.println("Invalid selection");
                 break;
 
 
@@ -137,14 +154,17 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
 
         System.out.print("> ");
         User user  = (User) customer;
-        String select = sc.next();
+        String select = sc.nextLine();
         switch(select) {
             case "1" -> updateField(sc, "Username", user.getUsername(), user::setUsername);
             case "2" -> updateField(sc, "Fullname", user.getFullname(), user::setFullname);
             case "3" -> updateField(sc, "Email", user.getEmail(), user::setEmail);
-            default  -> {   System.out.println("Invalid selection"); 
-                            return;
-                        }
+            case "4" -> {
+                // Return to previous menu
+            }
+            default  -> System.out.println("Invalid selection"); 
+                         
+                        
         }
     }
 
@@ -153,7 +173,7 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
     System.out.println("Enter new " + fieldName);
     System.out.print("> ");
     
-    String newValue = sc.next();
+    String newValue = sc.nextLine();
     setter.accept(newValue);
     System.out.println(fieldName + " updated in memory.");
     }
@@ -186,6 +206,46 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             simulateToTargetDate(targetDate);
         } else {
             System.out.println("Target date is in the past or today. No simulation needed.");
+        }
+    }
+
+    /**
+     * View Customer's Transfers/History
+     * Uses TransactionHistoryService to fetch data.
+     */
+    private static void viewCustomerTransfers(Customer cust, CustomerFileManager cfm) {
+        System.out.println("\n--- Transfer History for " + cust.getFullname() + " (" + cust.getVatID() + ") ---");
+        
+        try {
+            // Fetch history using the existing service
+            List<TransactionEntry> history = TransactionHistoryService.getHistoryForCustomer(cust.getVatID(), cfm);
+
+            if (history.isEmpty()) {
+                System.out.println("No transfers found for this customer.");
+            } else {
+                // Print Table Header
+                System.out.printf("%-20s %-15s %-25s %-15s %-30s%n", 
+                    "DATE", "TYPE", "COUNTERPARTY", "AMOUNT", "DETAILS");
+                System.out.println("-------------------------------------------------------------------------------------------------------------");
+                
+                // Print Rows
+                for (TransactionEntry entry : history) {
+                    // Filter: Get ONLY transfers (and not bill payments):
+                    // if (entry.type.equals("PAYMENT")) continue; 
+                    // However, usually 'Transfers' in a broad sense includes payments too.
+
+                    System.out.printf("%-20s %-15s %-25s %-15s %-30s%n",
+                        entry.datetime,
+                        entry.type,
+                        entry.counterpartyName.length() > 24 ? entry.counterpartyName.substring(0, 21) + "..." : entry.counterpartyName,
+                        entry.getAmountDisplay(), // Returns formatted string like "+50.00" or "-20.00"
+                        entry.details.length() > 29 ? entry.details.substring(0, 26) + "..." : entry.details
+                    );
+                }
+                System.out.println("-------------------------------------------------------------------------------------------------------------");
+            }
+        } catch (Exception e) {
+            System.out.println("Error fetching customer history: " + e.getMessage());
         }
     }
 

@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
@@ -30,7 +31,14 @@ public class UserDeserializer implements JsonDeserializer<User>,JsonSerializer<U
         jsonObject.addProperty("role", user.getRole().toString());
         jsonObject.addProperty("saltBase64", user.getSaltBase64());
         jsonObject.addProperty("hashedPassword", user.getHashedPassword());
-        jsonObject.addProperty("qrSecret", user.getQrCode());
+         System.out.println("\n\n\n\n nig");
+        if (user.getQrCode() == null) {
+            System.out.println("mpikame edw");
+            jsonObject.add("qrSecret", JsonNull.INSTANCE);
+        } else {
+            
+            jsonObject.addProperty("qrSecret", user.getQrCode());
+        }
         
 
         // Exclude the password field manually if needed
