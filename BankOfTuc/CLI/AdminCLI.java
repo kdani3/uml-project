@@ -36,7 +36,8 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             System.out.println("3. Transfers Management");
             System.out.println("4. Time Simulation");
             System.out.println("5. Settings");
-            System.out.println("6. Logout");
+            System.out.println("6. Remove User");
+            System.out.println("7. Logout");
 
 
             Admin admin = (Admin) ufm.getUserByUsername(username);            
@@ -114,7 +115,10 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
                     boolean settings = CLIUtils.SettingsMenu(sc, login,user,ufm);
                     if(settings)
                         break;
-                case "6":
+                case "6": 
+                    removeUser(sc, username, ufm, cfm);
+                    break;
+                case "7":
                     login.logout(username);
                     return;
                
@@ -356,6 +360,53 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             }
         } catch (Exception e) {
             System.out.println("Error fetching customer history: " + e.getMessage());
+        }
+    }
+    private static void removeUser(Scanner sc, String currentUsername, UserFileManagement ufm, CustomerFileManager cfm) {
+        System.out.println("Enter username to delete:");
+        System.out.print("> ");
+        String usernameDel = sc.nextLine().trim();
+
+        // Αποτροπή διαγραφής του εαυτού του
+        if (usernameDel.equals(currentUsername)) {
+            System.out.println("Error: You cannot delete your own account while logged in.");
+            return;
+        }
+
+        User userDel = ufm.getUserByUsername(usernameDel);
+        if (userDel == null) {
+            System.out.println("User not found.");
+            return;
+        }
+
+        System.out.println("Are you sure you want to delete user '" + usernameDel + "' and all associated data? (Y/N)");
+        System.out.print("> ");
+        if (!sc.nextLine().trim().equalsIgnoreCase("y")) {
+            System.out.println("Deletion cancelled.");
+            return;
+        }
+
+        // 1. Διαγραφή από customers.json (αν υπάρχει)
+        Customer custDel = cfm.getCustomerByUsername(usernameDel);
+        if (custDel != null) {
+            try {
+                cfm.deleteCustomer(custDel);
+                System.out.println("Associated customer data removed.");
+            } catch (IOException e) {
+                System.out.println("Error removing customer data: " + e.getMessage());
+            }
+        }
+
+        // 2. Διαγραφή από users.json
+        try {
+            boolean deleted = ufm.deleteUser(userDel.getid());
+            if (deleted) {
+                System.out.println("User deleted successfully.");
+            } else {
+                System.out.println("Failed to delete user.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error deleting user: " + e.getMessage());
         }
     }
 }
