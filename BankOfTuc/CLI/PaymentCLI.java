@@ -302,7 +302,7 @@ public class PaymentCLI {
             }
 
             printPayments(payments);
-            System.out.println("Enter payment number to pause:");
+            System.out.println("Enter payment number to cancel:");
             System.out.print("> ");
             int choice = Integer.parseInt(sc.nextLine().trim())-1;
 

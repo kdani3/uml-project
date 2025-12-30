@@ -155,27 +155,60 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         System.out.print("> ");
         User user  = (User) customer;
         String select = sc.nextLine();
-        switch(select) {
-            case "1" -> updateField(sc, "Username", user.getUsername(), user::setUsername);
-            case "2" -> updateField(sc, "Fullname", user.getFullname(), user::setFullname);
-            case "3" -> updateField(sc, "Email", user.getEmail(), user::setEmail);
-            case "4" -> {
-                // Return to previous menu
+
+        User linkedUser = ufm.getUserByUsername(customer.getUsername());
+
+        if(linkedUser == null) {
+            System.out.println("Error: Could not find linked user in users.json!");
+            return;
+        }
+
+        switch (select) {
+            case "1" -> {
+                // Username Change
+                String newVal = getNewValue(sc, "Username", customer.getUsername());
+                // Ενημέρωση μνήμης και στα δύο αντικείμενα
+                customer.setUsername(newVal);
+                linkedUser.setUsername(newVal);
+                // Αποθήκευση
+                saveChanges(customer, linkedUser, cfm, ufm);
             }
-            default  -> System.out.println("Invalid selection"); 
-                         
-                        
+            case "2" -> {
+                // Fullname Change
+                String newVal = getNewValue(sc, "Fullname", customer.getFullname());
+                customer.setFullname(newVal);
+                linkedUser.setFullname(newVal);
+                saveChanges(customer, linkedUser, cfm, ufm);
+            }
+            case "3" -> {
+                // Email Change
+                String newVal = getNewValue(sc, "Email", customer.getEmail());
+                customer.setEmail(newVal);
+                linkedUser.setEmail(newVal);
+                saveChanges(customer, linkedUser, cfm, ufm);
+            }
+            case "4" -> {
+                // Return
+            }
+            default -> System.out.println("Invalid selection");
         }
     }
 
-    private static void updateField(Scanner sc, String fieldName, String currentVal, Consumer<String> setter) {
-    System.out.println("Current " + fieldName + ": " + currentVal);
-    System.out.println("Enter new " + fieldName);
-    System.out.print("> ");
-    
-    String newValue = sc.nextLine();
-    setter.accept(newValue);
-    System.out.println(fieldName + " updated in memory.");
+    // Βοηθητική μέθοδος για την ανάγνωση της νέας τιμής (αντικαθιστά την updateField για πιο καθαρό έλεγχο)
+    private static String getNewValue(Scanner sc, String fieldName, String currentVal) {
+        System.out.println("Current " + fieldName + ": " + currentVal);
+        System.out.println("Enter new " + fieldName + ": ");
+        System.out.print("> ");
+        return sc.nextLine().trim();
+    }
+
+    // Βοηθητική μέθοδος για την αποθήκευση και στα δύο αρχεία
+    private static void saveChanges(Customer customer, User linkedUser, CustomerFileManager cfm, UserFileManagement ufm) {
+        // 1. Αποθήκευση στο customers.json
+        cfm.updateCustomer(customer);
+        
+        // 2. Αποθήκευση στο users.json (χρησιμοποιώντας το linkedUser που έχει το σωστό ID)
+        ufm.updateUser(linkedUser);
     }
 
     private static void setTargetDate() {
