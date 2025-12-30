@@ -118,6 +118,10 @@ public class Main {
                         System.out.println("Account is deactivated.\nPlease contact our support.");
                     }
 
+                    case 6 -> {
+                        System.out.println("Account locked due to too many failed attempts. Try again later seconds.");
+                    }
+
                     default -> System.out.println("Wrong username or password");
                 }
 
