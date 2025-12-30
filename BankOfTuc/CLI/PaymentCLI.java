@@ -38,7 +38,7 @@ public class PaymentCLI {
         System.out.println("Enter Bill RF Code:");
         String rf = sc.nextLine().trim();
         
-        if(!rf.startsWith("RF")||rf.length()!=25){
+        if(!rf.startsWith("RF")||rf.length()<4){
             System.out.println("Wrong RF");
             return;
         }

@@ -89,7 +89,7 @@ public static boolean verifyUserIdentity(User user, Scanner sc){
                 
                 case "4":
                     if (!user.hasQR()){
-                        if(CLIUtils.createQr(user, sc))
+                        if(CLIUtils.createQr(user, sc, ufm))
                             break;
                     }
                     else {
@@ -106,26 +106,34 @@ public static boolean verifyUserIdentity(User user, Scanner sc){
     }
 
 
-    public static boolean createQr(User user,Scanner sc){
+    // Πρόσθεσε στον ορισμό το: UserFileManagement ufm
+    public static boolean createQr(User user, Scanner sc, UserFileManagement ufm) {
         String[] qrResult = null;
         try {
             qrResult = QrUtils.createQr(user.getUsername());
         } catch (QrGenerationException e) {
-            System.err.println("Error while creating QR for user"+ user.getUsername());
+            System.err.println("Error while creating QR for user" + user.getUsername());
             e.printStackTrace();
+            return false;
         }
+        
         String qrUriString = qrResult[0];
         String qrSecret = qrResult[1];
 
-        ConsoleImagePrinter.showQrImage(qrUriString,"Qr"); 
+        ConsoleImagePrinter.showQrImage(qrUriString, "Qr");
+        
         while(true){
-
             System.out.println("Enter Qr Code");
             String qrString = sc.nextLine();
             
             if(QrUtils.verifyQrCode(qrSecret, qrString)){
+                // 1. Ενημέρωση του αντικειμένου στη μνήμη
                 user.setQrCode(qrSecret);
-                System.out.println("Qr Code Created");
+                
+                // 2. ΑΠΟΘΗΚΕΥΣΗ ΣΤΟ ΑΡΧΕΙΟ (Αυτό έλειπε)
+                ufm.updateUser(user); 
+                
+                System.out.println("Qr Code Created and Saved!");
                 return true;
             }
             else{

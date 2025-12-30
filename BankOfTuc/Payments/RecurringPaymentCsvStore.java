@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import BankOfTuc.Accounting.BankAccount;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
@@ -31,7 +32,7 @@ public class RecurringPaymentCsvStore {
             for (RecurringPayment p : payments) {
 
                 String vatId = (p.getPayerVatID());
-                writer.printf("%s,%s,%s,%.2f,%s,%d,%s%n",
+                writer.printf(Locale.US,"%s,%s,%s,%.2f,%s,%d,%s%n",
                     p.getRfCode(),
                     vatId,
                     p.getPayerIban(),

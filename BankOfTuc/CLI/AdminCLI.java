@@ -21,6 +21,7 @@ import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Bookkeeping.UserFileManagement;
 import BankOfTuc.Logging.TransactionHistoryService;
 import BankOfTuc.Logging.TransactionHistoryService.TransactionEntry;
+import BankOfTuc.Payments.CustomerPaymentService;
 import dev.samstevens.totp.exceptions.QrGenerationException;
 
 public class AdminCLI {
@@ -65,11 +66,48 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
                     break;
  
                 case "2":
-/*                     PaymentCLI.managePayments(sc, customer, cfm);
+                    System.out.println("Enter Customer username or VatID to manage payments:");
+                    System.out.print("> ");
+                    String payQuery = sc.nextLine();
+                    
+                    // Αναζήτηση πελάτη (όπως και στο case 1)
+                    boolean isNum = payQuery.matches("-?\\d+(\\.\\d+)?");
+                    Customer payCust = isNum 
+                        ? cfm.getCustomerbyVatid(payQuery) 
+                        : cfm.getCustomerByUsername(payQuery);
+
+                    if (payCust != null) {
+                        System.out.println("Managing payments for: " + payCust.getFullname());
+                        // Τώρα μπορούμε να καλέσουμε τη μέθοδο
+                        PaymentCLI.managePayments(sc, payCust, cfm);
+                    } else 
+                        System.out.println("Customer not found.");
+                    
+                    break;
+                case "3":
+                    System.out.println("Enter Customer username or VatID to perform transfers:");
+                    System.out.print("> ");
+                    String transQuery = sc.nextLine();
+                    
+                    // Αναζήτηση πελάτη
+                    boolean isNumTrans = transQuery.matches("-?\\d+(\\.\\d+)?");
+                    Customer transCust = isNumTrans 
+                        ? cfm.getCustomerbyVatid(transQuery) 
+                        : cfm.getCustomerByUsername(transQuery);
+
+                    if (transCust != null) {
+                        System.out.println("Initiating Transfer Menu for: " + transCust.getFullname());
+                        
+                        // Κλήση του υπάρχοντος TransferCLI
+                        // Περνάμε το login του admin (τυπικά), αλλά το transCust είναι αυτό που μετράει
+                        TransferCLI.TransferMenu(sc, login, transCust, cfm);
+                    } else 
+                        System.out.println("Customer not found.");
+                    
                     break;
                
-*/              case "4":
-                        setTargetDate();
+               case "4":
+                        setTargetDate(sc, cfm);
                     break;
                     
                 case "5":
@@ -199,7 +237,7 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         System.out.println("Current " + fieldName + ": " + currentVal);
         System.out.println("Enter new " + fieldName + ": ");
         System.out.print("> ");
-        return sc.nextLine().trim();
+        return sc.nextLine();
     }
 
     // Βοηθητική μέθοδος για την αποθήκευση και στα δύο αρχεία
@@ -211,35 +249,74 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         ufm.updateUser(linkedUser);
     }
 
-    private static void setTargetDate() {
-        Scanner scanner = new Scanner(System.in);
+    private static void setTargetDate(Scanner sc, CustomerFileManager cfm) { // <-- Προσθήκη cfm
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-        // Request target date input
         System.out.println("Enter the target date for simulation (dd-MM-yyyy): ");
-        String targetDateInput = scanner.nextLine();
+        System.out.print("> ");
+        
+        String targetDateInput = sc.nextLine().trim();
+        
         LocalDate targetDate = null;
         try {
-            // Try to parse the input string into LocalDate
             targetDate = LocalDate.parse(targetDateInput, formatter);
             System.out.println("Target date for simulation is: " + targetDate);
         } catch (Exception e) {
-            // Handle invalid input format
             System.out.println("Invalid date format. Please enter the date in DD-MM-YYYY format.");
-        }
-        // Get the current system date (real-time)
-        LocalDate currentDate = LocalDate.now();
-        if(targetDate==null){
-            System.out.println("Error getting target date");
             return;
         }
-        // Compare the target date with current date
+
+        LocalDate currentDate = timeService.today();
+
         if (targetDate.isAfter(currentDate)) {
             System.out.println("Target date is after the current date, simulating time...");
-            simulateToTargetDate(targetDate);
+            simulateToTargetDate(targetDate, cfm); // <-- Πέρασμα του cfm
         } else {
             System.out.println("Target date is in the past or today. No simulation needed.");
         }
+    }
+
+    private static void simulateToTargetDate(LocalDate targetDate, CustomerFileManager cfm) { // <-- Προσθήκη cfm
+        LocalDate currentDate = timeService.today();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+        if (!timeService.isSimulated()) {
+            timeService.startSimulation();
+        }
+
+        // Αρχικοποίηση του Service για έλεγχο πληρωμών
+        CustomerPaymentService payService;
+        try {
+            // Χρησιμοποιούμε ένα dummy ID γιατί ο scheduler φορτώνει ΟΛΕΣ τις πληρωμές
+            payService = new CustomerPaymentService("ADMIN_SIM", cfm);
+        } catch (IOException e) {
+            System.out.println("Error initializing payment service: " + e.getMessage());
+            return;
+        }
+
+        System.out.println("Simulation started. Advancing time...");
+
+        while (currentDate.isBefore(targetDate)) {
+            timeService.advanceHours(1);
+            
+            // Κάθε μέρα στις 08:00 το πρωί εκτελούμε τις πάγιες εντολές
+            if (timeService.now().getHour() == 8) {
+                currentDate = timeService.today();
+                System.out.println("New Day: " + currentDate + " - Checking recurring payments...");
+                
+                try {
+                    // Αυτή η μέθοδος καλεί το scheduler.dailyCheck() που ελέγχει ΟΛΕΣ τις πληρωμές
+                    payService.processDuePayments();
+                } catch (IOException e) {
+                    System.out.println("Error processing payments: " + e.getMessage());
+                }
+            }
+            
+            currentDate = timeService.today();
+        }
+
+        System.out.println("Target date " + targetDate + " reached. Stopping simulation.");
+        System.out.println("Current Simulated Time: " + timeService.now().format(formatter));
     }
 
     /**
@@ -280,26 +357,6 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         } catch (Exception e) {
             System.out.println("Error fetching customer history: " + e.getMessage());
         }
-    }
-
-    private static void simulateToTargetDate(LocalDate targetDate) {
-        LocalDate currentDate = timeService.today();
-        LocalDateTime currentDateTime = timeService.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
-        if (!timeService.isSimulated()) {
-            timeService.startSimulation();
-        }
-        while (currentDate.isBefore(targetDate)) {
-            //timeService.advanceDays(1); 
-            timeService.advanceHours(1);
-            currentDate = timeService.today();
-            currentDateTime = timeService.now();
-            System.out.println("Simulated date: " + currentDateTime.format(formatter));
-
-        }
-
-        System.out.println("Target date " + targetDate + " reached. Stopping simulation.");
     }
 }
 
