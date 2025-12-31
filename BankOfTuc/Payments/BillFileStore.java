@@ -95,7 +95,7 @@ public class BillFileStore {
             }
         }
     }
-//Billid,rfcode,issuer username,Total Amount,Monthly Amount,Paid amount,issueDate,dueDate,isPaid,payDate,status,installments,paid installments\n
+
     private static String toCSV(Bill b) {
         String payDateStr = (b.getPayDate() == null) ? "" : b.getPayDate().toString();
         String monthlyAmount = (b.getMonthlyAmount() == 0) ? "" : String.valueOf(b.getMonthlyAmount());
@@ -116,10 +116,8 @@ public class BillFileStore {
                 String.valueOf(b.getPaidInstallments())
         );
     }
-//Billid,rfcode,issuer username,Total Amount,Monthly Amount,Paid amount,issueDate,dueDate,isPaid,payDate,status,installments,paid installments\n
-//(String Billid, double amount, LocalDate issueDate, LocalDate dueDate, int installments, String issuerUsername)
 
-private static Bill fromCSV(String line) {
+    private static Bill fromCSV(String line) {
 
         String[] data = line.split(",");
 
@@ -233,5 +231,27 @@ private static Bill fromCSV(String line) {
             }
         }
         return null;
+    }
+
+    // --- ΝΕΕΣ ΜΕΘΟΔΟΙ ΓΙΑ ΤΟ GUI ---
+
+    // Βρίσκει λογαριασμούς με βάση το ID του πληρωτή (Payee/Customer VAT)
+    public static List<Bill> findByPayee(String payeeVatID) throws IOException {
+        List<Bill> allBills = loadBills();
+        List<Bill> result = new ArrayList<>();
+        
+        for (Bill b : allBills) {
+            // Το getpayerID() αντιστοιχεί στο Payee Username/VatID στο CSV
+            if (b.getpayerID().equals(payeeVatID)) {
+                result.add(b);
+            }
+        }
+        return result;
+    }
+
+    // Βρίσκει έναν λογαριασμό με βάση το Bill ID (φορτώνει αυτόματα)
+    public static Bill findById(String billId) throws IOException {
+        List<Bill> bills = loadBills();
+        return getBillbyID(billId, bills);
     }
 }
