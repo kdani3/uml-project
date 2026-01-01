@@ -3,6 +3,16 @@
         "."
     ],
     "java.project.referencedLibraries": [
-        "libs/*.jar"
+        "c:\\Users\\cokon\\uml-project\\libs\\flying-saucer-pdf-9.1.22.jar",
+        "c:\\Users\\cokon\\uml-project\\libs\\core-3.5.4.jar",
+        "c:\\Users\\cokon\\uml-project\\libs\\flying-saucer-core-9.1.22.jar",
+        "c:\\Users\\cokon\\uml-project\\libs\\jackson-annotations-2.20.jar",
+        "c:\\Users\\cokon\\uml-project\\libs\\totp-1.7.1.jar",
+        "c:\\Users\\cokon\\uml-project\\libs\\jackson-core-2.20.0.jar",
+        "c:\\Users\\cokon\\uml-project\\libs\\jackson-databind-2.20.0.jar",
+        "c:\\Users\\cokon\\uml-project\\libs\\javase-3.5.4.jar",
+        "c:\\Users\\cokon\\uml-project\\libs\\commons-codec-1.19.0.jar",
+        "c:\\Users\\cokon\\uml-project\\libs\\gson-2.10.1.jar",
+        "c:\\Users\\cokon\\uml-project\\libs\\itext-2.1.7.jar"
     ]
 }

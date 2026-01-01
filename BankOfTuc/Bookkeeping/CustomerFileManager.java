@@ -170,7 +170,7 @@ public class CustomerFileManager {
 
     public boolean deleteCustomer(Customer customer) throws IOException {
         int i = getCustomerIndex(customer);
-        if (i==0) return false;
+        if (i<0) return false;
         store.customers.remove(i);
 
         save();

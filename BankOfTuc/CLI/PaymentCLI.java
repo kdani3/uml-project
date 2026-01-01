@@ -38,7 +38,7 @@ public class PaymentCLI {
         System.out.println("Enter Bill RF Code:");
         String rf = sc.nextLine().trim();
         
-        if(!rf.startsWith("RF")||rf.length()!=25){
+        if(!rf.startsWith("RF")||rf.length()<4){
             System.out.println("Wrong RF");
             return;
         }
@@ -302,7 +302,7 @@ public class PaymentCLI {
             }
 
             printPayments(payments);
-            System.out.println("Enter payment number to pause:");
+            System.out.println("Enter payment number to cancel:");
             System.out.print("> ");
             int choice = Integer.parseInt(sc.nextLine().trim())-1;
 

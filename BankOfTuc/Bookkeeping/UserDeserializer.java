@@ -32,7 +32,6 @@ public class UserDeserializer implements JsonDeserializer<User>,JsonSerializer<U
         jsonObject.addProperty("hashedPassword", user.getHashedPassword());
         jsonObject.addProperty("qrSecret", user.getQrCode());
         
-
         // Exclude the password field manually if needed
         // You can also modify other fields here if necessary
         return jsonObject;
