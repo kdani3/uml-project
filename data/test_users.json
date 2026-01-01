@@ -7,8 +7,9 @@
       "email": "alice1@example.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "iPJLUV6NTvAsrpwgCj2jtw\u003d\u003d",
-      "hashedPassword": "SW+daywpoO7s+5aIVwCZJtaAoS+J6HnvpI8ANATO9UA\u003d"
+      "saltBase64": "poWJHqAyc27OGhYwqnFAvA\u003d\u003d",
+      "hashedPassword": "OCaTOnFPTDKrSgIApDNHJtXLwBzqTISG5ySNUTDSgCI\u003d",
+      "qrSecret": null
     },
     {
       "id": 1,
@@ -17,8 +18,9 @@
       "email": "bob2@example.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "FOTSmL4GXdf39F3BADAbJg\u003d\u003d",
-      "hashedPassword": "cYB37GOJS8wopiJhKwq0Of6zDvzwhLk+Nnn0bUJ/ekE\u003d"
+      "saltBase64": "Fc7HEtcjq7KceB5T9lGvDg\u003d\u003d",
+      "hashedPassword": "pr1untRejziQUBW32LRUYK4II9QHKv0DDhJfnRB0oO8\u003d",
+      "qrSecret": null
     },
     {
       "id": 2,
@@ -27,8 +29,9 @@
       "email": "carol3@example.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "PScfHvw6obJD9cI3vwDDdw\u003d\u003d",
-      "hashedPassword": "Z6yaemsf9ciYf9RTC/XhQmLpJea+OLKXScFKeUczOKw\u003d"
+      "saltBase64": "hcnx8znIyhcACRX2sA7AMg\u003d\u003d",
+      "hashedPassword": "FHiyDi6k1og6B3P/ZEHg1ib3mKKRP2QrXdCFBzeSUQY\u003d",
+      "qrSecret": null
     },
     {
       "id": 3,
@@ -37,8 +40,9 @@
       "email": "david4@example.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "EwQIRkmRMmTZ8OjoYIZMkg\u003d\u003d",
-      "hashedPassword": "qnHXO06ytzUpbgWP6eSGV/RI5FVTcD60jibG75JI+/U\u003d"
+      "saltBase64": "SeExmlMotOvIl3jDMVMjsg\u003d\u003d",
+      "hashedPassword": "uq/JHeAdad0Q/yyc8631Do49sW20IqJirCTPC4hxSdc\u003d",
+      "qrSecret": null
     },
     {
       "id": 4,
@@ -47,8 +51,9 @@
       "email": "eve5@example.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "/iFPRhDfknbsjDbpDE/k7Q\u003d\u003d",
-      "hashedPassword": "g86JzDoZC9nwpjwVRV0eNmkpjaM2DZ9c5YZbqGciM3k\u003d"
+      "saltBase64": "lICh8FIIexUJGEnX6uC8pQ\u003d\u003d",
+      "hashedPassword": "GCmTbJzBS6DuppspJR/x9sJWZoz+/C1w4aA4Elf7EMM\u003d",
+      "qrSecret": null
     },
     {
       "id": 5,
@@ -57,8 +62,9 @@
       "email": "frank6@example.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "p3ik+Yh0zE8vGI0/7Ci/qw\u003d\u003d",
-      "hashedPassword": "E9vfo5ZCBy35hha22L4Ex3db/00zU1kxdhOOPusSzAk\u003d"
+      "saltBase64": "51CXlHzdC58VmUFUhkIAmA\u003d\u003d",
+      "hashedPassword": "qM2mNy2uSeJYML6m0rt1d5PptLyHLNf6kKQJVb6jurA\u003d",
+      "qrSecret": null
     },
     {
       "id": 6,
@@ -67,8 +73,9 @@
       "email": "grace7@example.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "EkX2vxrFKBMaO83C9NvVaw\u003d\u003d",
-      "hashedPassword": "IRH3mXPKLAYWAARXZGGmBFXotCZsg2/2Ka+Y+EkeeNE\u003d"
+      "saltBase64": "kYF4w9KHUK9aEyW7ccyKkw\u003d\u003d",
+      "hashedPassword": "mNBkUNH+NFY1+gomkLZBvyvxeceHhAXAlVDMp0FTCZo\u003d",
+      "qrSecret": null
     },
     {
       "id": 7,
@@ -77,8 +84,9 @@
       "email": "heidi8@example.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "r5yvS+N2JZPcM9VpymQnPA\u003d\u003d",
-      "hashedPassword": "j2ZB9AIMqlNtrjmjSwofEeQ95OJFciWPza4AVzgOh+g\u003d"
+      "saltBase64": "IbDkXQ6nUs93aE1Fcew0Gg\u003d\u003d",
+      "hashedPassword": "UFsOj4uSY6/X4lKlVuDEOgjTMmaefRNqnDNTND43wJw\u003d",
+      "qrSecret": null
     },
     {
       "id": 8,
@@ -87,8 +95,9 @@
       "email": "ivan9@example.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "VoCPi+R/cfMWdsY/wG/LgQ\u003d\u003d",
-      "hashedPassword": "SBeCVbmu3NVIXVSy5hKuHFoThWVih0fEdW4WSCsbnz8\u003d"
+      "saltBase64": "1kfMlT2DZKZ8hg8R6aj4Yg\u003d\u003d",
+      "hashedPassword": "8X1J1B1wp0lMq/+abyyFPNdYaUDpREy84xkKWSXC6Es\u003d",
+      "qrSecret": null
     },
     {
       "id": 9,
@@ -97,8 +106,9 @@
       "email": "judy10@example.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "pOB/FhX5ZDzx/5dcVT8gig\u003d\u003d",
-      "hashedPassword": "ua189vIYKKuycerkId9dDVPfwGOkPEXdxEJ7YUn00z4\u003d"
+      "saltBase64": "dcLJYK8r5lmYW5ySx7+FlQ\u003d\u003d",
+      "hashedPassword": "KMRIJADiHxeOxw1ZI+XnuGL6LEABUbBMHX/g+vPGTuI\u003d",
+      "qrSecret": null
     },
     {
       "id": 10,
@@ -107,8 +117,9 @@
       "email": "acme1@example.com",
       "isActive": true,
       "role": "COMPANY",
-      "saltBase64": "XijsHOswjg6t36kA5dxolw\u003d\u003d",
-      "hashedPassword": "iC6aXNVmTsa3CyzSID+FSc+vNBQeOP1dG9WE+ACXZtc\u003d"
+      "saltBase64": "WIygaDRML6L+HxCZxO4GtA\u003d\u003d",
+      "hashedPassword": "QXMYcqIJbuRWTohftIUST3ibsCUqLFbYeh/6u3Dv5Ek\u003d",
+      "qrSecret": null
     },
     {
       "id": 11,
@@ -117,8 +128,9 @@
       "email": "beta2@example.com",
       "isActive": true,
       "role": "COMPANY",
-      "saltBase64": "IG7sI934RgcpTAuWWG/83g\u003d\u003d",
-      "hashedPassword": "mVem09M2oP+1vpOk12PQJ/0PV1QzoNcjxU0frHCeoqs\u003d"
+      "saltBase64": "Y7zrCmku/FOacBP01Hn+WQ\u003d\u003d",
+      "hashedPassword": "7HkM6vYsbbcbwmiVjFbVzNVuZrXqf1jRs6gbdA4epsU\u003d",
+      "qrSecret": null
     },
     {
       "id": 12,
@@ -127,8 +139,9 @@
       "email": "corp3@example.com",
       "isActive": true,
       "role": "COMPANY",
-      "saltBase64": "I29qbRbWdBDlEidQ511swA\u003d\u003d",
-      "hashedPassword": "rKSJB4/aKA+bxQg3mmnjMhSm9GlVgFF1ePiFfG1kcfs\u003d"
+      "saltBase64": "iCP45m47mVqqMatktU1sew\u003d\u003d",
+      "hashedPassword": "wpHhxex3Uo55XwT636/7HCFUHmKailmQl9i0D9fZlWE\u003d",
+      "qrSecret": null
     },
     {
       "id": 13,
@@ -137,8 +150,9 @@
       "email": "delta4@example.com",
       "isActive": true,
       "role": "COMPANY",
-      "saltBase64": "6JkV4QCo8jdrQ+k673Jbwg\u003d\u003d",
-      "hashedPassword": "KIJf88MRll7HL6Z5XgCj8/ciLCnkXr1V2d0l8ySrxAs\u003d"
+      "saltBase64": "bkq+V84/RHiekIqwZ3wv5Q\u003d\u003d",
+      "hashedPassword": "Bd9iJYaobMdOAOQMZQvQg3ik1MA2Z9tsIyGZvyVdGp0\u003d",
+      "qrSecret": null
     },
     {
       "id": 14,
@@ -147,8 +161,9 @@
       "email": "echo5@example.com",
       "isActive": true,
       "role": "COMPANY",
-      "saltBase64": "Ia79F/BfOp9jh1THMdj19g\u003d\u003d",
-      "hashedPassword": "p/RmtbYtHh5fyKz8KaKIKkK7RMABcppmZ3kr3HD8rC8\u003d"
+      "saltBase64": "GiW/w2MdqpPxzhz2409pqA\u003d\u003d",
+      "hashedPassword": "YgkRbZ+RRGC+FetLE0T32n4sbivEHB4974rMx1J2ozE\u003d",
+      "qrSecret": null
     },
     {
       "id": 15,
@@ -157,8 +172,9 @@
       "email": "foxtrot6@example.com",
       "isActive": true,
       "role": "COMPANY",
-      "saltBase64": "VpTPt97Dp+KLPOCWeJKhGw\u003d\u003d",
-      "hashedPassword": "pjQOQUMeAADoAjl3EvmhIoT9xs+3eRyt5vtMISR0RvQ\u003d"
+      "saltBase64": "kNNSYRnROawlPO0Vzvq36w\u003d\u003d",
+      "hashedPassword": "Ku3nr2r9w0abZlM+tJ4FMMf9KDm9E4gPDSUZQZXs5tY\u003d",
+      "qrSecret": null
     },
     {
       "id": 16,
@@ -167,8 +183,9 @@
       "email": "gamma7@example.com",
       "isActive": true,
       "role": "COMPANY",
-      "saltBase64": "4fAwcuId8454OyL/pYwcdQ\u003d\u003d",
-      "hashedPassword": "3Kq70FeOsfi9mgipboNuH5UD0cdFz4ZahzhMRriLER4\u003d"
+      "saltBase64": "ZTM3jAIBUYqbMs7Cx/fWCw\u003d\u003d",
+      "hashedPassword": "V17y4GNF41OtakQDpyM4ubyKqXSqMlIEHiNUY9Co0wA\u003d",
+      "qrSecret": null
     },
     {
       "id": 17,
@@ -177,8 +194,9 @@
       "email": "hotel8@example.com",
       "isActive": true,
       "role": "COMPANY",
-      "saltBase64": "BCcBi09hYrEmXqz8YaaTYA\u003d\u003d",
-      "hashedPassword": "L/4riVb43qxuz0qagyb0M+cIdOmsdN7pe5YXd3xiKnA\u003d"
+      "saltBase64": "gcuUqQxphuO5zkG3vQiCtQ\u003d\u003d",
+      "hashedPassword": "qVW/HPyLXgZ+vryxmYNDkztan2xLx+1wosCwKZyn3AM\u003d",
+      "qrSecret": null
     },
     {
       "id": 18,
@@ -187,8 +205,9 @@
       "email": "india9@example.com",
       "isActive": true,
       "role": "COMPANY",
-      "saltBase64": "MuI1V2z7G6MhvWCVVDP62g\u003d\u003d",
-      "hashedPassword": "tOfhKmUXcvPofkrijA3vrZM7ph9ZGFmodYbZ/V3YNss\u003d"
+      "saltBase64": "fTsgL0dn+PyKQB90KA7Vsw\u003d\u003d",
+      "hashedPassword": "B08L76cqsxqCWusydDt/Kp/MADpqQ8gthJOvb8yvjhw\u003d",
+      "qrSecret": null
     },
     {
       "id": 19,
@@ -197,8 +216,9 @@
       "email": "juliet10@example.com",
       "isActive": true,
       "role": "COMPANY",
-      "saltBase64": "/2shaBtkzlIgC78/uOZaJA\u003d\u003d",
-      "hashedPassword": "tLfUX8du+nyw11G6H3v1xuCFtq+AJfocSjHaLqzA5GA\u003d"
+      "saltBase64": "0XUGNkZ+zacsvAhEe4ezVw\u003d\u003d",
+      "hashedPassword": "9QyAArJTVcjIxrcYC8Qjngwh0p//YjnLJTKHj+Ol+ZM\u003d",
+      "qrSecret": null
     }
   ]
 }
