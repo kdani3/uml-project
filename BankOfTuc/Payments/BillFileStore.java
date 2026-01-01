@@ -119,29 +119,40 @@ public class BillFileStore {
 //Billid,rfcode,issuer username,Total Amount,Monthly Amount,Paid amount,issueDate,dueDate,isPaid,payDate,status,installments,paid installments\n
 //(String Billid, double amount, LocalDate issueDate, LocalDate dueDate, int installments, String issuerUsername)
 
-private static Bill fromCSV(String line) {
+    private static Bill fromCSV(String line) {
 
-        String[] data = line.split(",");
+        String[] data = line.split(",", -1); // keep trailing empty fields
 
-        Bill b = new Bill(
-                data[0],
-                Double.parseDouble(data[4]),
-                LocalDate.parse(data[7]),
-                LocalDate.parse(data[8]),
-                Integer.parseInt(data[13]),
-                data[2],
-                data[3]
-        );
-        if (!data[10].isEmpty()) 
-            b.setPayDate(LocalDate.parse(data[10]));
-        if (!data[5].isEmpty()) 
-            b.setMonthlyAmount(Double.parseDouble(data[5]));
-        b.setPaidAmount(Double.parseDouble(data[6]));
-        b.setRfcode(data[1]);
-        b.setPaid(Boolean.parseBoolean(data[9]));
-        b.setStatus(Bill.BillStatus.valueOf(data[11]));
-        b.setPaidInstallments(Integer.parseInt(data[13]));
-        b.setIssuerUsername(data[2]);
+        // helper to safely get field value
+        java.util.function.IntFunction<String> g = (i) -> (i >= 0 && i < data.length) ? data[i] : "";
+
+        String billid = g.apply(0);
+        String rf = g.apply(1);
+        String issuer = g.apply(2);
+        String payee = g.apply(3);
+
+        double amount = 0.0;
+        try { amount = Double.parseDouble(g.apply(4)); } catch (Exception ignored) {}
+
+        java.time.LocalDate issue = TimeService.getInstance().today();
+        try { if (!g.apply(7).isEmpty()) issue = LocalDate.parse(g.apply(7)); } catch (Exception ignored) {}
+
+        java.time.LocalDate due = TimeService.getInstance().today();
+        try { if (!g.apply(8).isEmpty()) due = LocalDate.parse(g.apply(8)); } catch (Exception ignored) {}
+
+        int installments = 1;
+        try { if (!g.apply(12).isEmpty()) installments = Integer.parseInt(g.apply(12)); } catch (Exception ignored) {}
+
+        Bill b = new Bill(billid, amount, issue, due, installments, issuer, payee);
+
+        try { if (!g.apply(10).isEmpty()) b.setPayDate(LocalDate.parse(g.apply(10))); } catch (Exception ignored) {}
+        try { if (!g.apply(5).isEmpty()) b.setMonthlyAmount(Double.parseDouble(g.apply(5))); } catch (Exception ignored) {}
+        try { b.setPaidAmount(Double.parseDouble(g.apply(6))); } catch (Exception ignored) {}
+        if (!rf.isEmpty()) b.setRfcode(rf);
+        try { b.setPaid(Boolean.parseBoolean(g.apply(9))); } catch (Exception ignored) {}
+        try { if (!g.apply(11).isEmpty()) b.setStatus(Bill.BillStatus.valueOf(g.apply(11))); } catch (Exception ignored) {}
+        try { b.setPaidInstallments(Integer.parseInt(g.apply(13))); } catch (Exception ignored) {}
+        b.setIssuerUsername(issuer);
         return b;
     }
 
@@ -183,11 +194,11 @@ private static Bill fromCSV(String line) {
 
         for (Bill bill : bills) {
 
-            if (bill.getStatus() == Bill.BillStatus.MONTHLY_PAID &&
-                bill.getPayDate().getMonth()!=now.getMonth()) {
-
-                bill.setStatus(Bill.BillStatus.ACTIVE);
-                changed = true;
+            if (bill.getStatus() == Bill.BillStatus.MONTHLY_PAID) {
+                if (bill.getPayDate() == null || bill.getPayDate().getMonth() != now.getMonth()) {
+                    bill.setStatus(Bill.BillStatus.ACTIVE);
+                    changed = true;
+                }
             }
         }
 
@@ -202,6 +213,8 @@ private static Bill fromCSV(String line) {
         int idlength =  compVatID.length();
         for (Bill bill : bills) {
             String billid = bill.getBillid();
+            if (billid == null) continue;
+            if (billid.length() < idlength) continue;
             String compidfrombill = billid.substring(0,idlength);
             if (compidfrombill.equals(compVatID)) {
                 companyBills++;
@@ -217,6 +230,8 @@ private static Bill fromCSV(String line) {
         int idlength =  compVatID.length();
         for (Bill bill : bills) {
             String billid = bill.getBillid();
+            if (billid == null) continue;
+            if (billid.length() < idlength) continue;
             String compidfrombill = billid.substring(0,idlength);
             if (compidfrombill.equals(compVatID)) {
                 compBills.add(bill);

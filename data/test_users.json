@@ -1,0 +1,204 @@
+{
+  "users": [
+    {
+      "id": 0,
+      "username": "induser1",
+      "fullname": "Alice One",
+      "email": "alice1@example.com",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "iPJLUV6NTvAsrpwgCj2jtw\u003d\u003d",
+      "hashedPassword": "SW+daywpoO7s+5aIVwCZJtaAoS+J6HnvpI8ANATO9UA\u003d"
+    },
+    {
+      "id": 1,
+      "username": "induser2",
+      "fullname": "Bob Two",
+      "email": "bob2@example.com",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "FOTSmL4GXdf39F3BADAbJg\u003d\u003d",
+      "hashedPassword": "cYB37GOJS8wopiJhKwq0Of6zDvzwhLk+Nnn0bUJ/ekE\u003d"
+    },
+    {
+      "id": 2,
+      "username": "induser3",
+      "fullname": "Carol Three",
+      "email": "carol3@example.com",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "PScfHvw6obJD9cI3vwDDdw\u003d\u003d",
+      "hashedPassword": "Z6yaemsf9ciYf9RTC/XhQmLpJea+OLKXScFKeUczOKw\u003d"
+    },
+    {
+      "id": 3,
+      "username": "induser4",
+      "fullname": "David Four",
+      "email": "david4@example.com",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "EwQIRkmRMmTZ8OjoYIZMkg\u003d\u003d",
+      "hashedPassword": "qnHXO06ytzUpbgWP6eSGV/RI5FVTcD60jibG75JI+/U\u003d"
+    },
+    {
+      "id": 4,
+      "username": "induser5",
+      "fullname": "Eve Five",
+      "email": "eve5@example.com",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "/iFPRhDfknbsjDbpDE/k7Q\u003d\u003d",
+      "hashedPassword": "g86JzDoZC9nwpjwVRV0eNmkpjaM2DZ9c5YZbqGciM3k\u003d"
+    },
+    {
+      "id": 5,
+      "username": "induser6",
+      "fullname": "Frank Six",
+      "email": "frank6@example.com",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "p3ik+Yh0zE8vGI0/7Ci/qw\u003d\u003d",
+      "hashedPassword": "E9vfo5ZCBy35hha22L4Ex3db/00zU1kxdhOOPusSzAk\u003d"
+    },
+    {
+      "id": 6,
+      "username": "induser7",
+      "fullname": "Grace Seven",
+      "email": "grace7@example.com",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "EkX2vxrFKBMaO83C9NvVaw\u003d\u003d",
+      "hashedPassword": "IRH3mXPKLAYWAARXZGGmBFXotCZsg2/2Ka+Y+EkeeNE\u003d"
+    },
+    {
+      "id": 7,
+      "username": "induser8",
+      "fullname": "Heidi Eight",
+      "email": "heidi8@example.com",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "r5yvS+N2JZPcM9VpymQnPA\u003d\u003d",
+      "hashedPassword": "j2ZB9AIMqlNtrjmjSwofEeQ95OJFciWPza4AVzgOh+g\u003d"
+    },
+    {
+      "id": 8,
+      "username": "induser9",
+      "fullname": "Ivan Nine",
+      "email": "ivan9@example.com",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "VoCPi+R/cfMWdsY/wG/LgQ\u003d\u003d",
+      "hashedPassword": "SBeCVbmu3NVIXVSy5hKuHFoThWVih0fEdW4WSCsbnz8\u003d"
+    },
+    {
+      "id": 9,
+      "username": "induser10",
+      "fullname": "Judy Ten",
+      "email": "judy10@example.com",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "pOB/FhX5ZDzx/5dcVT8gig\u003d\u003d",
+      "hashedPassword": "ua189vIYKKuycerkId9dDVPfwGOkPEXdxEJ7YUn00z4\u003d"
+    },
+    {
+      "id": 10,
+      "username": "comuser1",
+      "fullname": "Acme One",
+      "email": "acme1@example.com",
+      "isActive": true,
+      "role": "COMPANY",
+      "saltBase64": "XijsHOswjg6t36kA5dxolw\u003d\u003d",
+      "hashedPassword": "iC6aXNVmTsa3CyzSID+FSc+vNBQeOP1dG9WE+ACXZtc\u003d"
+    },
+    {
+      "id": 11,
+      "username": "comuser2",
+      "fullname": "Beta Two",
+      "email": "beta2@example.com",
+      "isActive": true,
+      "role": "COMPANY",
+      "saltBase64": "IG7sI934RgcpTAuWWG/83g\u003d\u003d",
+      "hashedPassword": "mVem09M2oP+1vpOk12PQJ/0PV1QzoNcjxU0frHCeoqs\u003d"
+    },
+    {
+      "id": 12,
+      "username": "comuser3",
+      "fullname": "Corp Three",
+      "email": "corp3@example.com",
+      "isActive": true,
+      "role": "COMPANY",
+      "saltBase64": "I29qbRbWdBDlEidQ511swA\u003d\u003d",
+      "hashedPassword": "rKSJB4/aKA+bxQg3mmnjMhSm9GlVgFF1ePiFfG1kcfs\u003d"
+    },
+    {
+      "id": 13,
+      "username": "comuser4",
+      "fullname": "Delta Four",
+      "email": "delta4@example.com",
+      "isActive": true,
+      "role": "COMPANY",
+      "saltBase64": "6JkV4QCo8jdrQ+k673Jbwg\u003d\u003d",
+      "hashedPassword": "KIJf88MRll7HL6Z5XgCj8/ciLCnkXr1V2d0l8ySrxAs\u003d"
+    },
+    {
+      "id": 14,
+      "username": "comuser5",
+      "fullname": "Echo Five",
+      "email": "echo5@example.com",
+      "isActive": true,
+      "role": "COMPANY",
+      "saltBase64": "Ia79F/BfOp9jh1THMdj19g\u003d\u003d",
+      "hashedPassword": "p/RmtbYtHh5fyKz8KaKIKkK7RMABcppmZ3kr3HD8rC8\u003d"
+    },
+    {
+      "id": 15,
+      "username": "comuser6",
+      "fullname": "Foxtrot Six",
+      "email": "foxtrot6@example.com",
+      "isActive": true,
+      "role": "COMPANY",
+      "saltBase64": "VpTPt97Dp+KLPOCWeJKhGw\u003d\u003d",
+      "hashedPassword": "pjQOQUMeAADoAjl3EvmhIoT9xs+3eRyt5vtMISR0RvQ\u003d"
+    },
+    {
+      "id": 16,
+      "username": "comuser7",
+      "fullname": "Gamma Seven",
+      "email": "gamma7@example.com",
+      "isActive": true,
+      "role": "COMPANY",
+      "saltBase64": "4fAwcuId8454OyL/pYwcdQ\u003d\u003d",
+      "hashedPassword": "3Kq70FeOsfi9mgipboNuH5UD0cdFz4ZahzhMRriLER4\u003d"
+    },
+    {
+      "id": 17,
+      "username": "comuser8",
+      "fullname": "Hotel Eight",
+      "email": "hotel8@example.com",
+      "isActive": true,
+      "role": "COMPANY",
+      "saltBase64": "BCcBi09hYrEmXqz8YaaTYA\u003d\u003d",
+      "hashedPassword": "L/4riVb43qxuz0qagyb0M+cIdOmsdN7pe5YXd3xiKnA\u003d"
+    },
+    {
+      "id": 18,
+      "username": "comuser9",
+      "fullname": "India Nine",
+      "email": "india9@example.com",
+      "isActive": true,
+      "role": "COMPANY",
+      "saltBase64": "MuI1V2z7G6MhvWCVVDP62g\u003d\u003d",
+      "hashedPassword": "tOfhKmUXcvPofkrijA3vrZM7ph9ZGFmodYbZ/V3YNss\u003d"
+    },
+    {
+      "id": 19,
+      "username": "comuser10",
+      "fullname": "Juliet Ten",
+      "email": "juliet10@example.com",
+      "isActive": true,
+      "role": "COMPANY",
+      "saltBase64": "/2shaBtkzlIgC78/uOZaJA\u003d\u003d",
+      "hashedPassword": "tLfUX8du+nyw11G6H3v1xuCFtq+AJfocSjHaLqzA5GA\u003d"
+    }
+  ]
+}

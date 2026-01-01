@@ -38,7 +38,9 @@ public class CompanyCustomer extends Customer{
         try {
             if(getBankAccounts().isEmpty())
                 return false;
-            
+            // enforce at least 1 installment
+            if (installments < 1) installments = 1;
+
             List<Bill> bills = BillFileStore.loadBills();
             companyBills = BillFileStore.getCompanyBillsNum(getVatID(),bills);
             String newBillID = getVatID()+(companyBills+1);
@@ -56,6 +58,9 @@ public class CompanyCustomer extends Customer{
 
         int companyBills;
         try {
+            // enforce at least 1 installment
+            if (installments < 1) installments = 1;
+
             List<Bill> bills = BillFileStore.loadBills();
             companyBills = BillFileStore.getCompanyBillsNum(getVatID(),bills);
             String newBillID = getVatID()+(companyBills+1);

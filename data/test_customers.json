@@ -1,0 +1,334 @@
+{
+  "customers": [
+    {
+      "username": "induser2",
+      "fullname": "Bob Two",
+      "email": "bob2@example.com",
+      "vatID": "100000002",
+      "role": "INDIVIDUAL",
+      "bankAccounts": [
+        {
+          "iban": "GR6357000958565387844566",
+          "balance": 149.0,
+          "type": "CHECKING"
+        },
+        {
+          "iban": "GR4796072132261366605457",
+          "balance": 500.0,
+          "type": "SAVINGS"
+        }
+      ]
+    },
+    {
+      "username": "induser2",
+      "fullname": "Bob Two",
+      "email": "bob2@example.com",
+      "vatID": "100000002",
+      "role": "INDIVIDUAL",
+      "bankAccounts": [
+        {
+          "iban": "GR6357000958565387844566",
+          "balance": 149.0,
+          "type": "CHECKING"
+        },
+        {
+          "iban": "GR4796072132261366605457",
+          "balance": 500.0,
+          "type": "SAVINGS"
+        }
+      ]
+    },
+    {
+      "username": "induser3",
+      "fullname": "Carol Three",
+      "email": "carol3@example.com",
+      "vatID": "100000003",
+      "role": "INDIVIDUAL",
+      "bankAccounts": [
+        {
+          "iban": "GR5125900439176625962391",
+          "balance": 1000.0,
+          "type": "CHECKING"
+        },
+        {
+          "iban": "GR0373004288930266901767",
+          "balance": 500.0,
+          "type": "SAVINGS"
+        }
+      ]
+    },
+    {
+      "username": "induser4",
+      "fullname": "David Four",
+      "email": "david4@example.com",
+      "vatID": "100000004",
+      "role": "INDIVIDUAL",
+      "bankAccounts": [
+        {
+          "iban": "GR9215583589126474703679",
+          "balance": 1000.0,
+          "type": "CHECKING"
+        },
+        {
+          "iban": "GR2437809223074770778765",
+          "balance": 500.0,
+          "type": "SAVINGS"
+        }
+      ]
+    },
+    {
+      "username": "induser5",
+      "fullname": "Eve Five",
+      "email": "eve5@example.com",
+      "vatID": "100000005",
+      "role": "INDIVIDUAL",
+      "bankAccounts": [
+        {
+          "iban": "GR9627975282345666618846",
+          "balance": 1000.0,
+          "type": "CHECKING"
+        },
+        {
+          "iban": "GR0476920945022075784386",
+          "balance": 500.0,
+          "type": "SAVINGS"
+        }
+      ]
+    },
+    {
+      "username": "induser6",
+      "fullname": "Frank Six",
+      "email": "frank6@example.com",
+      "vatID": "100000006",
+      "role": "INDIVIDUAL",
+      "bankAccounts": [
+        {
+          "iban": "GR0870423591104924013502",
+          "balance": 1000.0,
+          "type": "CHECKING"
+        },
+        {
+          "iban": "GR6231890925985392698441",
+          "balance": 500.0,
+          "type": "SAVINGS"
+        }
+      ]
+    },
+    {
+      "username": "induser7",
+      "fullname": "Grace Seven",
+      "email": "grace7@example.com",
+      "vatID": "100000007",
+      "role": "INDIVIDUAL",
+      "bankAccounts": [
+        {
+          "iban": "GR5275820845987930243195",
+          "balance": 1000.0,
+          "type": "CHECKING"
+        },
+        {
+          "iban": "GR5500282623233061993340",
+          "balance": 500.0,
+          "type": "SAVINGS"
+        }
+      ]
+    },
+    {
+      "username": "induser8",
+      "fullname": "Heidi Eight",
+      "email": "heidi8@example.com",
+      "vatID": "100000008",
+      "role": "INDIVIDUAL",
+      "bankAccounts": [
+        {
+          "iban": "GR4962656570139714144030",
+          "balance": 1000.0,
+          "type": "CHECKING"
+        },
+        {
+          "iban": "GR9247420572323390086599",
+          "balance": 500.0,
+          "type": "SAVINGS"
+        }
+      ]
+    },
+    {
+      "username": "induser9",
+      "fullname": "Ivan Nine",
+      "email": "ivan9@example.com",
+      "vatID": "100000009",
+      "role": "INDIVIDUAL",
+      "bankAccounts": [
+        {
+          "iban": "GR8591811223538702215146",
+          "balance": 1000.0,
+          "type": "CHECKING"
+        },
+        {
+          "iban": "GR7368221604519246209834",
+          "balance": 500.0,
+          "type": "SAVINGS"
+        }
+      ]
+    },
+    {
+      "username": "induser10",
+      "fullname": "Judy Ten",
+      "email": "judy10@example.com",
+      "vatID": "100000010",
+      "role": "INDIVIDUAL",
+      "bankAccounts": [
+        {
+          "iban": "GR8170885242416682649339",
+          "balance": 1000.0,
+          "type": "CHECKING"
+        },
+        {
+          "iban": "GR4843354226417388013307",
+          "balance": 500.0,
+          "type": "SAVINGS"
+        }
+      ]
+    },
+    {
+      "username": "comuser1",
+      "fullname": "Acme One",
+      "email": "acme1@example.com",
+      "vatID": "200000001",
+      "role": "COMPANY",
+      "bankAccounts": [
+        {
+          "iban": "GR4840330746799989157998",
+          "balance": 2400.0,
+          "type": "COMPANY"
+        }
+      ]
+    },
+    {
+      "username": "comuser2",
+      "fullname": "Beta Two",
+      "email": "beta2@example.com",
+      "vatID": "200000002",
+      "role": "COMPANY",
+      "bankAccounts": [
+        {
+          "iban": "GR2510483614747671924938",
+          "balance": 2300.0,
+          "type": "COMPANY"
+        }
+      ]
+    },
+    {
+      "username": "comuser3",
+      "fullname": "Corp Three",
+      "email": "corp3@example.com",
+      "vatID": "200000003",
+      "role": "COMPANY",
+      "bankAccounts": [
+        {
+          "iban": "GR8852433326248473448323",
+          "balance": 2300.0,
+          "type": "COMPANY"
+        }
+      ]
+    },
+    {
+      "username": "comuser4",
+      "fullname": "Delta Four",
+      "email": "delta4@example.com",
+      "vatID": "200000004",
+      "role": "COMPANY",
+      "bankAccounts": [
+        {
+          "iban": "GR9438762207465107741773",
+          "balance": 2300.0,
+          "type": "COMPANY"
+        }
+      ]
+    },
+    {
+      "username": "comuser5",
+      "fullname": "Echo Five",
+      "email": "echo5@example.com",
+      "vatID": "200000005",
+      "role": "COMPANY",
+      "bankAccounts": [
+        {
+          "iban": "GR6364679945334052430715",
+          "balance": 2150.0,
+          "type": "COMPANY"
+        }
+      ]
+    },
+    {
+      "username": "comuser6",
+      "fullname": "Foxtrot Six",
+      "email": "foxtrot6@example.com",
+      "vatID": "200000006",
+      "role": "COMPANY",
+      "bankAccounts": [
+        {
+          "iban": "GR5215824832061395738515",
+          "balance": 2000.0,
+          "type": "COMPANY"
+        }
+      ]
+    },
+    {
+      "username": "comuser7",
+      "fullname": "Gamma Seven",
+      "email": "gamma7@example.com",
+      "vatID": "200000007",
+      "role": "COMPANY",
+      "bankAccounts": [
+        {
+          "iban": "GR3423283341392443363386",
+          "balance": 2000.0,
+          "type": "COMPANY"
+        }
+      ]
+    },
+    {
+      "username": "comuser8",
+      "fullname": "Hotel Eight",
+      "email": "hotel8@example.com",
+      "vatID": "200000008",
+      "role": "COMPANY",
+      "bankAccounts": [
+        {
+          "iban": "GR8590805631490570836524",
+          "balance": 2000.0,
+          "type": "COMPANY"
+        }
+      ]
+    },
+    {
+      "username": "comuser9",
+      "fullname": "India Nine",
+      "email": "india9@example.com",
+      "vatID": "200000009",
+      "role": "COMPANY",
+      "bankAccounts": [
+        {
+          "iban": "GR7037410584547177084609",
+          "balance": 2000.0,
+          "type": "COMPANY"
+        }
+      ]
+    },
+    {
+      "username": "comuser10",
+      "fullname": "Juliet Ten",
+      "email": "juliet10@example.com",
+      "vatID": "200000010",
+      "role": "COMPANY",
+      "bankAccounts": [
+        {
+          "iban": "GR0796420539110682989980",
+          "balance": 2000.0,
+          "type": "COMPANY"
+        }
+      ]
+    }
+  ]
+}

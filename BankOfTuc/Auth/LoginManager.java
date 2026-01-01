@@ -105,8 +105,16 @@ public class LoginManager {
     }
 
     public void logout(String username) {
+        logout(username, true);
+    }
+
+    public void logout(String username, boolean notify) {
         logoutUser(username);
-        listeners.forEach(l -> l.onLogout(username));
+        if (notify) listeners.forEach(l -> l.onLogout(username));
+    }
+
+    public void logoutSilent(String username) {
+        logout(username, false);
     }
 
     public boolean isLoggedIn(String username) {

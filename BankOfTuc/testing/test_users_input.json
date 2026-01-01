@@ -1,0 +1,23 @@
+[
+  {"username":"induser1","password":"Passw0rd1","fullname":"Alice One","email":"alice1@example.com","vatid":"100000001","role":"INDIVIDUAL"},
+  {"username":"induser2","password":"Passw0rd2","fullname":"Bob Two","email":"bob2@example.com","vatid":"100000002","role":"INDIVIDUAL"},
+  {"username":"induser3","password":"Passw0rd3","fullname":"Carol Three","email":"carol3@example.com","vatid":"100000003","role":"INDIVIDUAL"},
+  {"username":"induser4","password":"Passw0rd4","fullname":"David Four","email":"david4@example.com","vatid":"100000004","role":"INDIVIDUAL"},
+  {"username":"induser5","password":"Passw0rd5","fullname":"Eve Five","email":"eve5@example.com","vatid":"100000005","role":"INDIVIDUAL"},
+  {"username":"induser6","password":"Passw0rd6","fullname":"Frank Six","email":"frank6@example.com","vatid":"100000006","role":"INDIVIDUAL"},
+  {"username":"induser7","password":"Passw0rd7","fullname":"Grace Seven","email":"grace7@example.com","vatid":"100000007","role":"INDIVIDUAL"},
+  {"username":"induser8","password":"Passw0rd8","fullname":"Heidi Eight","email":"heidi8@example.com","vatid":"100000008","role":"INDIVIDUAL"},
+  {"username":"induser9","password":"Passw0rd9","fullname":"Ivan Nine","email":"ivan9@example.com","vatid":"100000009","role":"INDIVIDUAL"},
+  {"username":"induser10","password":"Passw0rd10","fullname":"Judy Ten","email":"judy10@example.com","vatid":"100000010","role":"INDIVIDUAL"},
+
+  {"username":"comuser1","password":"CompPass1","fullname":"Acme One","email":"acme1@example.com","vatid":"200000001","role":"COMPANY"},
+  {"username":"comuser2","password":"CompPass2","fullname":"Beta Two","email":"beta2@example.com","vatid":"200000002","role":"COMPANY"},
+  {"username":"comuser3","password":"CompPass3","fullname":"Corp Three","email":"corp3@example.com","vatid":"200000003","role":"COMPANY"},
+  {"username":"comuser4","password":"CompPass4","fullname":"Delta Four","email":"delta4@example.com","vatid":"200000004","role":"COMPANY"},
+  {"username":"comuser5","password":"CompPass5","fullname":"Echo Five","email":"echo5@example.com","vatid":"200000005","role":"COMPANY"},
+  {"username":"comuser6","password":"CompPass6","fullname":"Foxtrot Six","email":"foxtrot6@example.com","vatid":"200000006","role":"COMPANY"},
+  {"username":"comuser7","password":"CompPass7","fullname":"Gamma Seven","email":"gamma7@example.com","vatid":"200000007","role":"COMPANY"},
+  {"username":"comuser8","password":"CompPass8","fullname":"Hotel Eight","email":"hotel8@example.com","vatid":"200000008","role":"COMPANY"},
+  {"username":"comuser9","password":"CompPass9","fullname":"India Nine","email":"india9@example.com","vatid":"200000009","role":"COMPANY"},
+  {"username":"comuser10","password":"CompPass10","fullname":"Juliet Ten","email":"juliet10@example.com","vatid":"200000010","role":"COMPANY"}
+]
