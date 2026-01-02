@@ -9,17 +9,17 @@
       "bankAccounts": [
         {
           "iban": "GR7734679808311712878942",
-          "balance": 934.5,
+          "balance": 3089.5,
           "type": "CHECKING"
         },
         {
           "iban": "GR7734679808311712878934",
-          "balance": 426.5,
+          "balance": 1096.5,
           "type": "SAVINGS"
         },
         {
           "iban": "GR5619648830465475563953",
-          "balance": 447.5,
+          "balance": 948.5,
           "type": "CHECKING"
         }
       ]
@@ -33,7 +33,7 @@
       "bankAccounts": [
         {
           "iban": "GR1749044394464082555747",
-          "balance": 697.0,
+          "balance": 1457.0,
           "type": "COMPANY"
         }
       ]

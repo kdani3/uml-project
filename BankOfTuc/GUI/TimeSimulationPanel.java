@@ -3,10 +3,10 @@ package BankOfTuc.GUI;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Payments.CustomerPaymentService;
 import BankOfTuc.TimeService;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -14,36 +14,55 @@ public class TimeSimulationPanel extends JPanel {
     private final CustomerFileManager cfm;
     private final TimeService timeService = TimeService.getInstance();
     private JLabel lblCurrentDate;
+    
+    private final Color BRAND_COLOR = new Color(159, 13, 64);
 
     public TimeSimulationPanel(CustomerFileManager cfm) {
         this.cfm = cfm;
-        setLayout(new GridBagLayout());
+        // Layout
+        setLayout(new MigLayout("fill, insets 50", "[center]", "[center]"));
+        setBackground(Color.WHITE);
         
         initComponents();
     }
 
     private void initComponents() {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        // Κάρτα Προσομοίωσης
+        JPanel card = new JPanel(new MigLayout("wrap 1, insets 30, fillx", "[350!]", "[]20[]10[]20[]"));
+        card.setBackground(Color.WHITE);
+        card.setBorder(BorderFactory.createLineBorder(BRAND_COLOR, 2));
 
-        // Current Date Display
-        lblCurrentDate = new JLabel("Current Date: " + timeService.today());
-        lblCurrentDate.setFont(new Font("Arial", Font.BOLD, 16));
-        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
-        add(lblCurrentDate, gbc);
+        // Header
+        JLabel title = new JLabel("Προσομοίωση Χρόνου");
+        title.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        title.setForeground(BRAND_COLOR);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        card.add(title, "center");
 
-        // Input Target Date
-        gbc.gridwidth = 1; gbc.gridy = 1;
-        add(new JLabel("Target Date (dd-MM-yyyy):"), gbc);
-        
-        JTextField txtDate = new JTextField(10);
-        gbc.gridx = 1;
-        add(txtDate, gbc);
+        // Current Date
+        lblCurrentDate = new JLabel("Τρέχουσα: " + timeService.today().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        lblCurrentDate.setFont(new Font("Consolas", Font.BOLD, 18));
+        lblCurrentDate.setForeground(Color.DARK_GRAY);
+        lblCurrentDate.setHorizontalAlignment(SwingConstants.CENTER);
+        card.add(lblCurrentDate, "center");
 
-        // Run Button
-        JButton btnSimulate = new JButton("Run Simulation");
-        gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
-        add(btnSimulate, gbc);
+        // Input
+        card.add(new JLabel("Ημερομηνία Στόχος (dd-MM-yyyy):"));
+        JTextField txtDate = new JTextField();
+        txtDate.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        txtDate.setHorizontalAlignment(SwingConstants.CENTER);
+        card.add(txtDate, "growx, h 40!");
+
+        // Button
+        JButton btnSimulate = new JButton("Έναρξη Προσομοίωσης");
+        btnSimulate.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnSimulate.setBackground(BRAND_COLOR);
+        btnSimulate.setForeground(Color.WHITE);
+        btnSimulate.setFocusPainted(false);
+        btnSimulate.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        card.add(btnSimulate, "growx, h 45!");
+
+        add(card);
 
         // Logic
         btnSimulate.addActionListener(e -> {
@@ -55,16 +74,16 @@ public class TimeSimulationPanel extends JPanel {
                 if (targetDate.isAfter(timeService.today())) {
                     runSimulation(targetDate);
                 } else {
-                    JOptionPane.showMessageDialog(this, "Date must be in the future.");
+                    JOptionPane.showMessageDialog(this, "Η ημερομηνία πρέπει να είναι μελλοντική.", "Σφάλμα", JOptionPane.WARNING_MESSAGE);
                 }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Invalid Date Format!");
+                JOptionPane.showMessageDialog(this, "Μη έγκυρη μορφή ημερομηνίας (dd-MM-yyyy)!", "Σφάλμα", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
 
     private void runSimulation(LocalDate targetDate) {
-        // Τρέχουμε το simulation σε νέο Thread για να μην παγώσει το GUI
+        // Run in thread to prevent UI freezing
         new Thread(() -> {
             try {
                 CustomerPaymentService payService = new CustomerPaymentService("ADMIN_SIM", cfm);
@@ -79,16 +98,15 @@ public class TimeSimulationPanel extends JPanel {
                     }
                     current = timeService.today();
                     
-                    // Update UI Label
-                    String dateStr = current.toString();
-                    SwingUtilities.invokeLater(() -> lblCurrentDate.setText("Simulating: " + dateStr));
+                    String dateStr = current.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+                    SwingUtilities.invokeLater(() -> lblCurrentDate.setText("Προσομοίωση: " + dateStr));
                     
-                    Thread.sleep(10); // Μικρή καθυστέρηση για εφε
+                    Thread.sleep(15); 
                 }
                 
                 SwingUtilities.invokeLater(() -> {
-                    lblCurrentDate.setText("Current Date: " + timeService.today());
-                    JOptionPane.showMessageDialog(this, "Simulation Complete!");
+                    lblCurrentDate.setText("Τρέχουσα: " + timeService.today().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+                    JOptionPane.showMessageDialog(this, "Η προσομοίωση ολοκληρώθηκε!");
                 });
 
             } catch (Exception e) {

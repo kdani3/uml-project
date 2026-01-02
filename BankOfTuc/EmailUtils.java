@@ -367,7 +367,7 @@ public static void sendEmailWithPdfAttachment(
                         font-size: 14px;
                     }
                     .details-table {
-                        width: 100%;
+                        width: 100%%;
                         margin: 20px 0;
                         border-collapse: collapse;
                     }
@@ -378,11 +378,11 @@ public static void sendEmailWithPdfAttachment(
                     .details-table td:first-child {
                         font-weight: 600;
                         color: #333;
-                        width: 40%;
+                        width: 40%%;
                     }
                     .details-table td:last-child {
                         color: #000;
-                        width: 60%;
+                        width: 60%%;
                     }
                 </style>
             </head>

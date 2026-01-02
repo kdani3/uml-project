@@ -18,8 +18,8 @@
       "email": "co.kontos@gmail.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "cyj90JtIYyfHuM1QhM9ZvA\u003d\u003d",
-      "hashedPassword": "wI1dnNenMVOvIDPgGmYf0u4CigfOM0JlJ1fTyZv+9GA\u003d",
+      "saltBase64": "1k5wtyIwYPngQCyyR+hnKg\u003d\u003d",
+      "hashedPassword": "t/VABd/7AwiDreMdqiGJrX7r+jP+xtNti2IJo7k1Vis\u003d",
       "qrSecret": null
     },
     {

@@ -6,11 +6,12 @@ import BankOfTuc.Payments.Bill;
 import BankOfTuc.Payments.BillFileStore;
 import BankOfTuc.Payments.Bill.BillStatus;
 import BankOfTuc.Accounting.BankAccount;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.io.IOException;
 import java.util.List;
 
 public class AdminPaymentsPanel extends JPanel {
@@ -19,114 +20,110 @@ public class AdminPaymentsPanel extends JPanel {
     private JTable billsTable;
     private DefaultTableModel billsModel;
     private Customer selectedCustomer;
+    
+    // Branding
+    private final Color BRAND_COLOR = new Color(159, 13, 64);
 
     public AdminPaymentsPanel(CustomerFileManager cfm) {
         this.cfm = cfm;
-        setLayout(new BorderLayout());
+        // Layout
+        setLayout(new MigLayout("fill, insets 30", "[grow]", "[][grow]"));
+        setBackground(Color.WHITE);
 
-        // Top: Select Customer
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        topPanel.add(new JLabel("Select Customer:"));
-        customerSelector = new JComboBox<>();
-        loadCustomers();
-        customerSelector.addActionListener(e -> loadCustomerBills());
-        topPanel.add(customerSelector);
+        // --- Top Bar (Φίλτρα & Actions) ---
+        JPanel topBar = new JPanel(new MigLayout("insets 0", "[][grow][]"));
+        topBar.setBackground(Color.WHITE);
+
+        JLabel lblCust = new JLabel("Επιλογή Πελάτη:");
+        lblCust.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblCust.setForeground(BRAND_COLOR);
+        topBar.add(lblCust);
         
-        JButton btnPay = new JButton("Pay Selected Bill");
+        customerSelector = new JComboBox<>();
+        customerSelector.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        cfm.getAllCustomers().stream()
+           .filter(c -> "INDIVIDUAL".equals(c.getRole().toString()))
+           .forEach(c -> customerSelector.addItem(c.getUsername()));
+        customerSelector.addActionListener(e -> loadCustomerBills());
+        topBar.add(customerSelector, "w 250!");
+
+        JButton btnPay = new JButton("Εξόφληση Λογαριασμού");
+        styleButton(btnPay);
+        btnPay.setBackground(new Color(39, 174, 96)); // Πράσινο για την πληρωμή
         btnPay.addActionListener(e -> paySelectedBill());
-        topPanel.add(btnPay);
+        topBar.add(btnPay, "pushx, align right");
 
-        add(topPanel, BorderLayout.NORTH);
+        add(topBar, "growx, wrap");
 
-        // Center: Bills Table
-        String[] cols = {"Bill ID", "Issuer", "Amount", "Status", "Due Date"};
+        // --- Table ---
+        String[] cols = {"Bill ID", "Εκδότης", "Ποσό (€)", "Κατάσταση", "Ημ. Λήξης"};
         billsModel = new DefaultTableModel(cols, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
+            @Override public boolean isCellEditable(int r, int c) { return false; }
         };
         billsTable = new JTable(billsModel);
-        add(new JScrollPane(billsTable), BorderLayout.CENTER);
-    }
-
-    private void loadCustomers() {
-        for (Customer c : cfm.getAllCustomers()) {
-            if (c.getRole().toString().equals("INDIVIDUAL")) {
-                customerSelector.addItem(c.getUsername());
-            }
-        }
+        styleTable(billsTable);
+        
+        add(new JScrollPane(billsTable), "grow, push");
     }
 
     private void loadCustomerBills() {
-        String username = (String) customerSelector.getSelectedItem();
-        if (username == null) return;
-        selectedCustomer = cfm.getCustomerByUsername(username);
-        
-        billsModel.setRowCount(0);
-        
         try {
-            // Χρήση της νέας μεθόδου findByPayee
+            String u = (String) customerSelector.getSelectedItem();
+            if (u == null) return;
+            selectedCustomer = cfm.getCustomerByUsername(u);
+            billsModel.setRowCount(0);
             List<Bill> bills = BillFileStore.findByPayee(selectedCustomer.getVatID());
-            
             for (Bill b : bills) {
-                // Διόρθωση getter: getBillid() αντί για getId()
                 billsModel.addRow(new Object[]{b.getBillid(), b.getIssuerUsername(), b.getAmount(), b.getStatus(), b.getDueDate()});
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error loading bills: " + e.getMessage());
-        }
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
     private void paySelectedBill() {
         int row = billsTable.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Select a bill first.");
-            return;
+             JOptionPane.showMessageDialog(this, "Παρακαλώ επιλέξτε έναν λογαριασμό."); return;
         }
-
-        String billId = (String) billsModel.getValueAt(row, 0);
-        
         try {
-            // Χρήση της νέας μεθόδου findById
-            Bill bill = BillFileStore.findById(billId);
-
-            if (bill == null) {
-                JOptionPane.showMessageDialog(this, "Bill not found!");
-                return;
-            }
-
+            String id = (String) billsModel.getValueAt(row, 0);
+            Bill bill = BillFileStore.findById(id);
             if (bill.getStatus() == BillStatus.PAID) {
-                JOptionPane.showMessageDialog(this, "Bill is already paid!");
-                return;
+                JOptionPane.showMessageDialog(this, "Ο λογαριασμός είναι ήδη εξοφλημένος!"); return;
             }
-
-            if (selectedCustomer.getBankAccounts().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Customer has no bank accounts!");
-                return;
-            }
-
-            BankAccount acc = selectedCustomer.getBankAccounts().get(0);
-            if (acc.getBalance() >= bill.getAmount()) {
-                acc.reduceBalance(bill.getAmount());
-                bill.setStatus(BillStatus.PAID);
-                bill.setPaid(true);
-                
-                // Ενημέρωση πελάτη
-                cfm.updateCustomer(selectedCustomer);
-                
-                // Διόρθωση: Χρήση updateBill αντί για save()
-                BillFileStore.updateBill(bill); 
-                
-                loadCustomerBills();
-                JOptionPane.showMessageDialog(this, "Bill Paid Successfully!");
+            if (!selectedCustomer.getBankAccounts().isEmpty()) {
+                BankAccount acc = selectedCustomer.getBankAccounts().get(0);
+                if (acc.getBalance() >= bill.getAmount()) {
+                    acc.reduceBalance(bill.getAmount());
+                    bill.setStatus(BillStatus.PAID);
+                    bill.setPaid(true);
+                    cfm.updateCustomer(selectedCustomer);
+                    BillFileStore.updateBill(bill);
+                    loadCustomerBills();
+                    JOptionPane.showMessageDialog(this, "Η πληρωμή ολοκληρώθηκε επιτυχώς!");
+                } else JOptionPane.showMessageDialog(this, "Ανεπαρκές υπόλοιπο.");
             } else {
-                JOptionPane.showMessageDialog(this, "Insufficient Funds!");
+                JOptionPane.showMessageDialog(this, "Ο πελάτης δεν διαθέτει τραπεζικό λογαριασμό.");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error processing payment: " + e.getMessage());
-        }
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    private void styleButton(JButton btn) {
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+
+    private void styleTable(JTable table) {
+        table.setRowHeight(30);
+        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        table.setSelectionBackground(new Color(255, 235, 238));
+        table.setSelectionForeground(Color.BLACK);
+        
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(BRAND_COLOR);
+        header.setForeground(Color.WHITE);
+        header.setFont(new Font("Segoe UI", Font.BOLD, 14));
     }
 }
