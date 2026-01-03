@@ -9,15 +9,23 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 public class CustomerHomePanel extends JPanel {
     private final IndividualCustomer customer;
     private final CustomerFileManager cfm;
-    private final JTabbedPane parentTabs; // Για αλλαγή tab από τα κουμπιά
+    private final JTabbedPane parentTabs;
 
     private final Color BRAND_COLOR = new Color(159, 13, 64);
-    private final Color BG_COLOR = new Color(250, 250, 250);
     private final Color TEXT_PRIMARY = new Color(50, 50, 50);
+    
+    // Privacy Mode Variables
+    private boolean isBalanceHidden = false;
+    private double totalBalance = 0.0;
+    private JLabel lblBalanceValue;
+    private JButton btnPrivacy;
 
     public CustomerHomePanel(IndividualCustomer customer, CustomerFileManager cfm, JTabbedPane parentTabs) {
         this.customer = customer;
@@ -25,7 +33,7 @@ public class CustomerHomePanel extends JPanel {
         this.parentTabs = parentTabs;
 
         setLayout(new MigLayout("fill, insets 40, wrap 3", "[33%][33%][33%]", "[]30[]30[grow]"));
-        setBackground(BG_COLOR);
+        setBackground(BRAND_COLOR);
 
         initComponents();
     }
@@ -34,15 +42,15 @@ public class CustomerHomePanel extends JPanel {
         // Header
         JLabel lblWelcome = new JLabel("Καλωσήρθατε, " + customer.getFullname());
         lblWelcome.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        lblWelcome.setForeground(Color.GRAY);
+        lblWelcome.setForeground(Color.WHITE);
         add(lblWelcome, "span 3, wrap");
 
         // --- Stats Cards ---
         
-        // 1. Balance
-        double totalBalance = customer.getBankAccounts().stream()
+        // 1. Balance Card (Custom με Privacy Button)
+        totalBalance = customer.getBankAccounts().stream()
                 .mapToDouble(BankAccount::getBalance).sum();
-        add(createStatCard("ΣΥΝΟΛΙΚΟ ΥΠΟΛΟΙΠΟ", String.format("%.2f €", totalBalance)), "grow");
+        add(createBalanceCard("ΣΥΝΟΛΙΚΟ ΥΠΟΛΟΙΠΟ"), "grow");
 
         // 2. Accounts Count
         int accountCount = customer.getBankAccounts().size();
@@ -76,12 +84,67 @@ public class CustomerHomePanel extends JPanel {
         add(actionsPanel, "span 3, grow, push");
     }
 
+    // --- Helper Formatting Method ---
+    private String formatCurrency(double amount) {
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+        symbols.setDecimalSeparator(',');
+        symbols.setGroupingSeparator('.');
+        DecimalFormat df = new DecimalFormat("#,##0.00", symbols);
+        return df.format(amount) + " €";
+    }
+
+    // --- Balance Card Logic ---
+    private JPanel createBalanceCard(String title) {
+        JPanel card = new JPanel(new MigLayout("fill, insets 25", "[grow][]", "[]5[]"));
+        card.setBackground(Color.WHITE);
+        card.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
+            BorderFactory.createMatteBorder(0, 6, 0, 0, Color.BLACK)
+        ));
+
+        JLabel lblTitle = new JLabel(title);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblTitle.setForeground(Color.GRAY);
+
+        btnPrivacy = new JButton("Hide");
+        btnPrivacy.setFont(new Font("Segoe UI", Font.BOLD, 10));
+        btnPrivacy.setBackground(Color.WHITE);
+        btnPrivacy.setForeground(Color.BLACK);
+        btnPrivacy.setFocusPainted(false);
+        btnPrivacy.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+        btnPrivacy.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        btnPrivacy.addActionListener(e -> togglePrivacy());
+
+        // Use formatter here
+        lblBalanceValue = new JLabel(formatCurrency(totalBalance));
+        lblBalanceValue.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        lblBalanceValue.setForeground(TEXT_PRIMARY);
+
+        card.add(lblTitle);
+        card.add(btnPrivacy, "align right, h 25!, w 50!, wrap");
+        card.add(lblBalanceValue, "span 2");
+        return card;
+    }
+
+    private void togglePrivacy() {
+        isBalanceHidden = !isBalanceHidden;
+        if (isBalanceHidden) {
+            lblBalanceValue.setText("**** €");
+            btnPrivacy.setText("Show");
+        } else {
+            lblBalanceValue.setText(formatCurrency(totalBalance)); // Use formatter here
+            btnPrivacy.setText("Hide");
+        }
+    }
+
+    // --- Standard Cards ---
     private JPanel createStatCard(String title, String value) {
         JPanel card = new JPanel(new MigLayout("fill, insets 25", "[grow]", "[]5[]"));
         card.setBackground(Color.WHITE);
         card.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
-            BorderFactory.createMatteBorder(0, 6, 0, 0, BRAND_COLOR)
+            BorderFactory.createMatteBorder(0, 6, 0, 0, Color.BLACK) 
         ));
 
         JLabel lblTitle = new JLabel(title);

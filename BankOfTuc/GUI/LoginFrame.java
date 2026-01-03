@@ -187,12 +187,17 @@ public class LoginFrame extends JFrame {
     }
 
     private void proceed(String username) throws IOException {
-        User user = ufm.getUserByUsername(username);
+        User user = ufm.getUserByUsername(username); 
 
-        if (user.getRole().toString().equals("ADMIN")) {
+        if (user.getRole() == User.Role.ADMIN) {
             new MainDashboardFrame(user, ufm, cfm).setVisible(true);
-        } else {
+        } 
+        else if (user.getRole() == User.Role.INDIVIDUAL) {
             new CustomerDashboardFrame(user, ufm, cfm).setVisible(true);
+        }
+        else if (user.getRole() == User.Role.COMPANY) {
+            // ΝΕΟ: Ανοίγουμε το Company Dashboard
+            new CompanyDashboardFrame(user, ufm, cfm).setVisible(true);
         }
 
         this.dispose();

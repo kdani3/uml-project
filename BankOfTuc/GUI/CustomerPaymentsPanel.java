@@ -45,10 +45,11 @@ public class CustomerPaymentsPanel extends JPanel {
     // --- TAB 1: ONE-TIME BILL PAYMENTS ---
     private JPanel createBillsPanel() {
         JPanel panel = new JPanel(new MigLayout("fill, insets 20", "[grow]", "[][grow][]"));
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ
 
         JLabel lblTitle = new JLabel("Οι Λογαριασμοί μου (Απλήρωτοι)");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblTitle.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ
         panel.add(lblTitle, "wrap");
 
         String[] cols = {"RF Code", "Εκδότης", "Ποσό (€)", "Ημ. Λήξης"};
@@ -61,11 +62,10 @@ public class CustomerPaymentsPanel extends JPanel {
 
         // Action Buttons
         JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        actions.setBackground(Color.WHITE);
+        actions.setOpaque(false); // Διαφανές
         
         JButton btnPay = new JButton("Πληρωμή Επιλεγμένου");
         styleButton(btnPay);
-        btnPay.setBackground(new Color(39, 174, 96));
         btnPay.addActionListener(e -> paySelectedBill(billsTable));
         
         JButton btnPayManual = new JButton("Πληρωμή με RF (Χειροκίνητα)");
@@ -139,10 +139,11 @@ public class CustomerPaymentsPanel extends JPanel {
     // --- TAB 2: RECURRING PAYMENTS ---
     private JPanel createRecurringPanel() {
         JPanel panel = new JPanel(new MigLayout("fill, insets 20", "[grow]", "[][grow][]"));
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ
 
         JLabel lblTitle = new JLabel("Διαχείριση Πάγιων Εντολών");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblTitle.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ
         panel.add(lblTitle, "wrap");
 
         String[] cols = {"RF Code", "Επόμενη Πληρωμή", "Κατάσταση", "Προσπάθειες"};
@@ -155,12 +156,12 @@ public class CustomerPaymentsPanel extends JPanel {
 
         // Buttons
         JPanel btnPanel = new JPanel(new GridLayout(1, 4, 10, 0));
-        btnPanel.setBackground(Color.WHITE);
+        btnPanel.setOpaque(false);
 
-        JButton btnAdd = new JButton("Νέα Πάγια"); styleButton(btnAdd); btnAdd.setBackground(new Color(39, 174, 96));
+        JButton btnAdd = new JButton("Νέα Πάγια"); styleButton(btnAdd); 
         JButton btnPause = new JButton("Παύση"); styleButton(btnPause);
         JButton btnResume = new JButton("Συνέχιση"); styleButton(btnResume);
-        JButton btnCancel = new JButton("Ακύρωση"); styleButton(btnCancel); btnCancel.setBackground(new Color(192, 57, 43));
+        JButton btnCancel = new JButton("Ακύρωση"); styleButton(btnCancel); 
 
         btnAdd.addActionListener(e -> addRecurring());
         btnPause.addActionListener(e -> toggleStatus(true));
@@ -237,8 +238,8 @@ public class CustomerPaymentsPanel extends JPanel {
     // --- STYLING HELPERS ---
     private void styleButton(JButton btn) {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        btn.setForeground(Color.WHITE);
-        btn.setBackground(BRAND_COLOR);
+        btn.setForeground(Color.BLACK);
+        btn.setBackground(Color.WHITE);
         btn.setFocusPainted(false);
         btn.setBorderPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -250,8 +251,8 @@ public class CustomerPaymentsPanel extends JPanel {
         table.setSelectionBackground(new Color(255, 235, 238));
         table.setSelectionForeground(Color.BLACK);
         JTableHeader header = table.getTableHeader();
-        header.setBackground(BRAND_COLOR);
-        header.setForeground(Color.GRAY);
+        header.setBackground(Color.WHITE);
+        header.setForeground(BRAND_COLOR);
         header.setFont(new Font("Segoe UI", Font.BOLD, 14));
     }
 }

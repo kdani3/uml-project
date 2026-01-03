@@ -44,7 +44,7 @@ public class MainDashboardFrame extends JFrame {
         // --- TABS ---
         
         // 0. Αρχική
-        tabbedPane.addTab("Admin Dashboard", createHomePanel());
+        tabbedPane.addTab("Επισκόπηση", createHomePanel());
 
         if (user.getRole().toString().equals("ADMIN")) {
             // Admin Tabs (Indices: 1, 2, 3, 4)
@@ -61,11 +61,13 @@ public class MainDashboardFrame extends JFrame {
 
         // 6. Έξοδος
         JPanel logoutPanel = new JPanel(new MigLayout("fill, insets 0", "[center]", "[center]"));
-        logoutPanel.setBackground(Color.WHITE);
+        logoutPanel.setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR Background
         
         JButton btnLogout = new JButton("Αποσύνδεση");
         styleButton(btnLogout);
-        btnLogout.setBackground(BRAND_COLOR); 
+        // Αντιστροφή χρωμάτων κουμπιού για να φαίνεται στο κόκκινο
+        btnLogout.setBackground(Color.WHITE); 
+        btnLogout.setForeground(Color.BLACK);
         
         btnLogout.addActionListener(e -> {
             LoginManager loginManager = new LoginManager(ufm);
@@ -83,12 +85,12 @@ public class MainDashboardFrame extends JFrame {
     private JPanel createHomePanel() {
         // Layout: 3 Στήλες (33% η καθεμία) για τα πάνω κουτιά
         JPanel home = new JPanel(new MigLayout("fill, insets 40, wrap 3", "[33%][33%][33%]", "[]30[]30[grow]"));
-        home.setBackground(BG_COLOR);
+        home.setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR Background
 
         // Header
         JLabel lblWelcome = new JLabel("Πίνακας Διαχείρισης");
         lblWelcome.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        lblWelcome.setForeground(Color.GRAY);
+        lblWelcome.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκά γράμματα
         home.add(lblWelcome, "span 3, wrap");
 
         // --- TOP CARDS ---
@@ -146,7 +148,7 @@ public class MainDashboardFrame extends JFrame {
         // Κόκκινη μπάρα αριστερά
         card.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
-            BorderFactory.createMatteBorder(0, 6, 0, 0, BRAND_COLOR) 
+            BorderFactory.createMatteBorder(0, 6, 0, 0, Color.black) 
         ));
 
         JLabel lblTitle = new JLabel(title);

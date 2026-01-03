@@ -2,5 +2,9 @@
   "" : {
     "attempts" : 2,
     "until" : null
+  },
+  "co.kontos@gmail.com" : {
+    "attempts" : 1,
+    "until" : null
   }
 }

@@ -13,6 +13,7 @@ public class SettingsPanel extends JPanel {
     private final User currentUser;
     private final UserFileManagement ufm;
     
+    // Branding
     private final Color BRAND_COLOR = new Color(159, 13, 64);
 
     public SettingsPanel(User user, UserFileManagement ufm) {
@@ -20,9 +21,9 @@ public class SettingsPanel extends JPanel {
         this.ufm = ufm;
         // Layout: Center
         setLayout(new MigLayout("fill, insets 50", "[center]", "[center]"));
-        setBackground(Color.WHITE);
+        setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR Background
 
-        // Card Panel
+        // Card Panel (Λευκό κουτί στη μέση)
         JPanel card = new JPanel(new MigLayout("wrap 1, insets 30, fillx", "[fill, 350!]", "[]30[]15[]"));
         card.setBackground(Color.WHITE);
         card.setBorder(BorderFactory.createTitledBorder(
@@ -57,7 +58,7 @@ public class SettingsPanel extends JPanel {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btn.setBackground(BRAND_COLOR);
-        btn.setForeground(Color.WHITE);
+        btn.setForeground(Color.black);
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         return btn;
@@ -75,7 +76,6 @@ public class SettingsPanel extends JPanel {
     private void setup2FA() {
         try {
             // 1. Δημιουργία του QR Code και του Secret
-            // qr[0] = Data URI (εικόνα), qr[1] = Secret Key
             String[] qr = QrUtils.createQr(currentUser.getUsername());
             String dataUri = qr[0];
             String secretKey = qr[1];
@@ -89,15 +89,11 @@ public class SettingsPanel extends JPanel {
             lblInst.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             qrPanel.add(lblInst, BorderLayout.NORTH);
 
-            // 3. Αποκωδικοποίηση και εμφάνιση της εικόνας από το Data URI
+            // 3. Αποκωδικοποίηση εικόνας
             try {
-                // Το string είναι της μορφής "data:image/png;base64,....."
-                // Παίρνουμε το κομμάτι μετά το κόμμα
                 String base64Image = dataUri.split(",")[1];
                 byte[] imageBytes = Base64.getDecoder().decode(base64Image);
-                
                 ImageIcon icon = new ImageIcon(imageBytes);
-                // Resize για να φαίνεται ωραία (200x200)
                 Image img = icon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
                 JLabel lblImage = new JLabel(new ImageIcon(img));
                 lblImage.setHorizontalAlignment(SwingConstants.CENTER);
@@ -107,19 +103,18 @@ public class SettingsPanel extends JPanel {
                 e.printStackTrace();
             }
 
-            // 4. Εμφάνιση του κλειδιού (Backup)
+            // 4. Εμφάνιση κλειδιού
             JTextField txtSecret = new JTextField(secretKey);
             txtSecret.setEditable(false);
             txtSecret.setHorizontalAlignment(SwingConstants.CENTER);
             txtSecret.setFont(new Font("Monospaced", Font.BOLD, 16));
             txtSecret.setBorder(BorderFactory.createTitledBorder("Ή εισάγετε αυτό το κλειδί:"));
-            
             qrPanel.add(txtSecret, BorderLayout.SOUTH);
             
-            // 5. Εμφάνιση Διαλόγου
+            // 5. Εμφάνιση
             JOptionPane.showMessageDialog(this, qrPanel, "Ενεργοποίηση 2FA", JOptionPane.PLAIN_MESSAGE);
             
-            // 6. Αποθήκευση στον χρήστη
+            // 6. Αποθήκευση
             currentUser.setQrCode(secretKey);
             ufm.updateUser(currentUser);
             

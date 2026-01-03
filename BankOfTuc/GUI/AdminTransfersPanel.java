@@ -24,7 +24,7 @@ public class AdminTransfersPanel extends JPanel {
     
     // UI Components
     private JComboBox<String> customerSelector;
-    private JComboBox<String> accountSelector; // Νέο Dropdown για λογαριασμούς
+    private JComboBox<String> accountSelector;
     private JLabel lblBalance;
     
     // Data
@@ -38,22 +38,22 @@ public class AdminTransfersPanel extends JPanel {
         this.ufm = ufm;
         
         setLayout(new MigLayout("fillx, insets 40", "[][grow]", "[]15[]15[]20[]30[]"));
-        setBackground(Color.WHITE);
+        setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR
 
         // Τίτλος
         JLabel title = new JLabel("Εκτέλεση Μεταφοράς");
         title.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        title.setForeground(BRAND_COLOR);
+        title.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό
         add(title, "span 2, wrap");
 
         // 1. Επιλογή Πελάτη
         JLabel lblSelCust = new JLabel("Επιλογή Πελάτη:");
         lblSelCust.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblSelCust.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό
         add(lblSelCust);
         
         customerSelector = new JComboBox<>();
         customerSelector.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        // Γέμισμα πελατών
         cfm.getAllCustomers().forEach(c -> customerSelector.addItem(c.getUsername()));
         
         customerSelector.addActionListener(e -> loadCustomerAccounts());
@@ -62,6 +62,7 @@ public class AdminTransfersPanel extends JPanel {
         // 2. Επιλογή Λογαριασμού (IBAN)
         JLabel lblSelAcc = new JLabel("Επιλογή Λογαριασμού:");
         lblSelAcc.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblSelAcc.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό
         add(lblSelAcc);
 
         accountSelector = new JComboBox<>();
@@ -72,7 +73,7 @@ public class AdminTransfersPanel extends JPanel {
         // 3. Υπόλοιπο Επιλεγμένου Λογαριασμού
         lblBalance = new JLabel("Διαθέσιμο Υπόλοιπο: -");
         lblBalance.setFont(new Font("Consolas", Font.BOLD, 18));
-        lblBalance.setForeground(new Color(39, 174, 96)); // Green
+        lblBalance.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό για να φαίνεται
         add(lblBalance, "span 2, center, wrap");
 
         // 4. Κουμπιά Ενεργειών (Grid 2x2)
@@ -93,19 +94,13 @@ public class AdminTransfersPanel extends JPanel {
     }
 
     // --- UI UPDATE METHODS ---
-
     private void loadCustomerAccounts() {
         String u = (String) customerSelector.getSelectedItem();
         if (u == null) return;
-        
         selectedCustomer = cfm.getCustomerByUsername(u);
-        
-        // Καθαρισμός και γέμισμα του Account Selector
         accountSelector.removeAllItems();
-        
         if (selectedCustomer != null && !selectedCustomer.getBankAccounts().isEmpty()) {
             for (BankAccount acc : selectedCustomer.getBankAccounts()) {
-                // Εμφανίζουμε IBAN και Τύπο
                 accountSelector.addItem(acc.getIban() + " (" + acc.getType() + ")");
             }
         } else {
@@ -119,8 +114,6 @@ public class AdminTransfersPanel extends JPanel {
             selectedAccount = null;
             return;
         }
-
-        // Βρίσκουμε τον επιλεγμένο λογαριασμό με βάση το index (ή το string)
         int index = accountSelector.getSelectedIndex();
         if (index >= 0 && index < selectedCustomer.getBankAccounts().size()) {
             selectedAccount = selectedCustomer.getBankAccounts().get(index);
@@ -128,223 +121,125 @@ public class AdminTransfersPanel extends JPanel {
         }
     }
 
-    // --- LOGIC METHODS ---
+    // ... (Λογική μεταφορών παραμένει ίδια: performSelfTransfer, performInterBankTransfer, performSwiftTransfer, performSepaTransfer) ...
+    // Θα συμπεριλάβω μόνο τις μεθόδους, ο κώδικας λογικής δεν αλλάζει.
 
-    // 1. SELF TRANSFER (Προσαρμοσμένη Logic)
     private void performSelfTransfer() {
-        if (!validateSelection()) return;
-        
-        // Έλεγχος αν έχει τουλάχιστον 2 λογαριασμούς
+         if (!validateSelection()) return;
         List<BankAccount> accounts = selectedCustomer.getBankAccounts();
         if (accounts.size() < 2) {
             JOptionPane.showMessageDialog(this, "Ο πελάτης διαθέτει μόνο έναν λογαριασμό.\nΔεν μπορεί να γίνει Ίδια Μεταφορά.", "Σφάλμα", JOptionPane.WARNING_MESSAGE);
             return;
         }
-
-        // Δημιουργία Panel για το Dialog
         JPanel panel = new JPanel(new GridLayout(0, 1, 5, 5));
-        
-        // Dropdown για τον λογαριασμό ΠΡΟΟΡΙΣΜΟΥ (Target)
-        // Πρέπει να εξαιρέσουμε τον επιλεγμένο λογαριασμό (Source)
         JComboBox<String> targetBox = new JComboBox<>();
         for (BankAccount acc : accounts) {
             if (!acc.getIban().equals(selectedAccount.getIban())) {
                 targetBox.addItem(acc.getIban() + " (" + acc.getType() + ")");
             }
         }
-
         JTextField txtAmount = new JTextField();
-
         panel.add(new JLabel("Από Λογαριασμό: " + selectedAccount.getIban()));
-        panel.add(new JLabel("Προς Λογαριασμό:"));
-        panel.add(targetBox);
-        panel.add(new JLabel("Ποσό (€):"));
-        panel.add(txtAmount);
-
+        panel.add(new JLabel("Προς Λογαριασμό:")); panel.add(targetBox);
+        panel.add(new JLabel("Ποσό (€):")); panel.add(txtAmount);
         int result = JOptionPane.showConfirmDialog(this, panel, "Εκτέλεση Ίδιας Μεταφοράς", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
         if (result == JOptionPane.OK_OPTION) {
             try {
                 double amount = Double.parseDouble(txtAmount.getText());
-                
-                // Βρίσκουμε τον Target Account από το String που επιλέχθηκε
                 String selectedTargetStr = (String) targetBox.getSelectedItem();
                 BankAccount targetAccount = null;
-                
-                // Απλή αναζήτηση βάσει IBAN string
                 for (BankAccount acc : accounts) {
-                    if (selectedTargetStr.contains(acc.getIban())) {
-                        targetAccount = acc;
-                        break;
-                    }
+                    if (selectedTargetStr.contains(acc.getIban())) { targetAccount = acc; break; }
                 }
-
                 if (targetAccount != null) {
                     SelfTransfer st = new SelfTransfer();
                     boolean success = st.sendMoney(selectedCustomer, selectedAccount, targetAccount, cfm, amount);
-                    
-                    if (success) {
-                        updateBalance(); // Ανανέωση UI
-                        JOptionPane.showMessageDialog(this, "Η μεταφορά ολοκληρώθηκε επιτυχώς!");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Η μεταφορά απέτυχε (π.χ. ανεπαρκές υπόλοιπο).");
-                    }
+                    if (success) { updateBalance(); JOptionPane.showMessageDialog(this, "Η μεταφορά ολοκληρώθηκε επιτυχώς!"); } 
+                    else { JOptionPane.showMessageDialog(this, "Η μεταφορά απέτυχε (π.χ. ανεπαρκές υπόλοιπο)."); }
                 }
-
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Μη έγκυρο ποσό.");
-            }
+            } catch (NumberFormatException e) { JOptionPane.showMessageDialog(this, "Μη έγκυρο ποσό."); }
         }
     }
 
-    // 2. INTERBANK TRANSFER
     private void performInterBankTransfer() {
         if (!validateSelection()) return;
-
         JPanel panel = new JPanel(new GridLayout(0, 1, 5, 5));
-        JTextField txtAmount = new JTextField();
-        JTextField txtIban = new JTextField();
-        JTextField txtName = new JTextField();
-        JTextField txtBic = new JTextField("DIAS");
-
+        JTextField txtAmount = new JTextField(); JTextField txtIban = new JTextField();
+        JTextField txtName = new JTextField(); JTextField txtBic = new JTextField("DIAS");
         panel.add(new JLabel("Από: " + selectedAccount.getIban()));
         panel.add(new JLabel("Ποσό (€):")); panel.add(txtAmount);
         panel.add(new JLabel("IBAN Παραλήπτη:")); panel.add(txtIban);
         panel.add(new JLabel("Όνομα Παραλήπτη:")); panel.add(txtName);
         panel.add(new JLabel("BIC / Σύστημα:")); panel.add(txtBic);
-
         int result = JOptionPane.showConfirmDialog(this, panel, "InterBank Transfer", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             try {
                 double amount = Double.parseDouble(txtAmount.getText());
-                String iban = txtIban.getText();
-                String name = txtName.getText();
-                String bic = txtBic.getText();
-
-                // Βρίσκουμε το index του λογαριασμού που επιλέχθηκε για να το περάσουμε στην InterBank
                 int accIndex = selectedCustomer.getBankAccounts().indexOf(selectedAccount);
-
                 InterBank ib = new InterBank();
-                // Περνάμε το σωστό index λογαριασμού
-                int status = ib.sendMoney(selectedCustomer, accIndex, bic, iban, name, cfm, amount, "Admin Action", 1);
-                
-                handleInterBankStatus(status);
-                updateBalance(); // Ανανέωση υπολοίπου
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Σφάλμα στα στοιχεία εισόδου.");
-            }
+                int status = ib.sendMoney(selectedCustomer, accIndex, txtBic.getText(), txtIban.getText(), txtName.getText(), cfm, amount, "Admin Action", 1);
+                handleInterBankStatus(status); updateBalance();
+            } catch (Exception e) { JOptionPane.showMessageDialog(this, "Σφάλμα στα στοιχεία εισόδου."); }
         }
     }
 
-    // 3. SWIFT TRANSFER
     private void performSwiftTransfer() {
         if (!validateSelection()) return;
-
         JPanel panel = new JPanel(new GridLayout(0, 1, 5, 5));
-        JTextField txtAmount = new JTextField();
-        JTextField txtName = new JTextField();
-        JTextField txtAccNum = new JTextField();
-        JTextField txtSwiftCode = new JTextField();
+        JTextField txtAmount = new JTextField(); JTextField txtName = new JTextField();
+        JTextField txtAccNum = new JTextField(); JTextField txtSwiftCode = new JTextField();
         JTextField txtCountry = new JTextField();
-
         panel.add(new JLabel("Από: " + selectedAccount.getIban()));
         panel.add(new JLabel("Ποσό (€):")); panel.add(txtAmount);
         panel.add(new JLabel("Όνομα Παραλήπτη:")); panel.add(txtName);
         panel.add(new JLabel("IBAN / Λογαριασμός:")); panel.add(txtAccNum);
         panel.add(new JLabel("Swift Code (BIC):")); panel.add(txtSwiftCode);
         panel.add(new JLabel("Χώρα:")); panel.add(txtCountry);
-
         int result = JOptionPane.showConfirmDialog(this, panel, "SWIFT Transfer", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             try {
                 double amount = Double.parseDouble(txtAmount.getText());
-                
-                if (selectedAccount.getBalance() < amount) {
-                    JOptionPane.showMessageDialog(this, "Ανεπαρκές υπόλοιπο.");
-                    return;
-                }
-
+                if (selectedAccount.getBalance() < amount) { JOptionPane.showMessageDialog(this, "Ανεπαρκές υπόλοιπο."); return; }
                 SwiftTransferService swift = new SwiftTransferService();
                 String date = TimeService.getInstance().today().toString();
-
-                boolean apiSuccess = swift.sendSwiftTransferRequest(
-                    amount, 
-                    txtName.getText(), 
-                    txtAccNum.getText(), 
-                    txtSwiftCode.getText(), 
-                    date, 
-                    "SHARED"
-                );
-
+                boolean apiSuccess = swift.sendSwiftTransferRequest(amount, txtName.getText(), txtAccNum.getText(), txtSwiftCode.getText(), date, "SHARED");
                 if (apiSuccess) {
                     selectedAccount.reduceBalance(amount);
                     finishAndLog("SWIFT", selectedAccount.getIban(), txtAccNum.getText(), txtName.getText(), "-", txtSwiftCode.getText(), amount, selectedAccount.getBalance(), 0, "Country: " + txtCountry.getText());
                     JOptionPane.showMessageDialog(this, "Το έμβασμα SWIFT εστάλη επιτυχώς!");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Το αίτημα SWIFT απέτυχε (API Error).");
-                }
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Σφάλμα: " + e.getMessage());
-            }
+                } else { JOptionPane.showMessageDialog(this, "Το αίτημα SWIFT απέτυχε (API Error)."); }
+            } catch (Exception e) { JOptionPane.showMessageDialog(this, "Σφάλμα: " + e.getMessage()); }
         }
     }
 
-    // 4. SEPA TRANSFER
     private void performSepaTransfer() {
         if (!validateSelection()) return;
-
         JPanel panel = new JPanel(new GridLayout(0, 1, 5, 5));
-        JTextField txtAmount = new JTextField();
-        JTextField txtName = new JTextField();
-        JTextField txtIban = new JTextField();
-        JTextField txtBic = new JTextField();
+        JTextField txtAmount = new JTextField(); JTextField txtName = new JTextField();
+        JTextField txtIban = new JTextField(); JTextField txtBic = new JTextField();
         JTextField txtCountry = new JTextField();
-
         panel.add(new JLabel("Από: " + selectedAccount.getIban()));
         panel.add(new JLabel("Ποσό (€):")); panel.add(txtAmount);
         panel.add(new JLabel("Όνομα Παραλήπτη:")); panel.add(txtName);
         panel.add(new JLabel("IBAN Παραλήπτη:")); panel.add(txtIban);
         panel.add(new JLabel("BIC Τράπεζας:")); panel.add(txtBic);
         panel.add(new JLabel("Χώρα:")); panel.add(txtCountry);
-
         int result = JOptionPane.showConfirmDialog(this, panel, "SEPA Transfer", JOptionPane.OK_CANCEL_OPTION);
         if (result == JOptionPane.OK_OPTION) {
             try {
                 double amount = Double.parseDouble(txtAmount.getText());
-                
-                if (selectedAccount.getBalance() < amount) {
-                    JOptionPane.showMessageDialog(this, "Ανεπαρκές υπόλοιπο.");
-                    return;
-                }
-
+                if (selectedAccount.getBalance() < amount) { JOptionPane.showMessageDialog(this, "Ανεπαρκές υπόλοιπο."); return; }
                 SepaTransferService sepa = new SepaTransferService();
                 String date = TimeService.getInstance().today().toString();
-
-                boolean apiSuccess = sepa.sendSepaTransferRequest(
-                    amount, 
-                    txtName.getText(), 
-                    txtIban.getText(), 
-                    txtBic.getText(), 
-                    date, 
-                    "SHARED"
-                );
-
+                boolean apiSuccess = sepa.sendSepaTransferRequest(amount, txtName.getText(), txtIban.getText(), txtBic.getText(), date, "SHARED");
                 if (apiSuccess) {
                     selectedAccount.reduceBalance(amount);
                     finishAndLog("SEPA", selectedAccount.getIban(), txtIban.getText(), txtName.getText(), "-", txtBic.getText(), amount, selectedAccount.getBalance(), 0, "SEPA Transfer");
                     JOptionPane.showMessageDialog(this, "Το έμβασμα SEPA εστάλη επιτυχώς!");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Το αίτημα SEPA απέτυχε (API Error).");
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Σφάλμα: " + e.getMessage());
-            }
+                } else { JOptionPane.showMessageDialog(this, "Το αίτημα SEPA απέτυχε (API Error)."); }
+            } catch (Exception e) { JOptionPane.showMessageDialog(this, "Σφάλμα: " + e.getMessage()); }
         }
     }
-
-    // --- HELPERS ---
 
     private void handleInterBankStatus(int status) {
         switch (status) {
@@ -357,24 +252,22 @@ public class AdminTransfersPanel extends JPanel {
     }
 
     private void finishAndLog(String transferType, String fromAccount, String toAccount, String recipientName, String receiverVatId, String bankCode, double amount, double fromBalance, double toBalance, String details) {
-        cfm.updateCustomer(selectedCustomer);
-        updateBalance(); // Update UI
+        cfm.updateCustomer(selectedCustomer); updateBalance();
         TransferLogger.logTransfer(selectedCustomer.getVatID(), fromAccount, transferType, receiverVatId, recipientName, bankCode, toAccount, amount, true, fromBalance, toBalance, details);
     }
 
     private boolean validateSelection() {
         if (selectedCustomer == null || selectedAccount == null) {
-            JOptionPane.showMessageDialog(this, "Παρακαλώ επιλέξτε Πελάτη και Λογαριασμό.");
-            return false;
-        }
-        return true;
+            JOptionPane.showMessageDialog(this, "Παρακαλώ επιλέξτε Πελάτη και Λογαριασμό."); return false;
+        } return true;
     }
 
     private JButton createBtn(String text, java.awt.event.ActionListener al) {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btn.setBackground(BRAND_COLOR);
-        btn.setForeground(Color.WHITE);
+        // Αλλαγή: Λευκό κουμπί, Κόκκινα γράμματα
+        btn.setBackground(Color.WHITE);
+        btn.setForeground(Color.BLACK);
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.addActionListener(al);

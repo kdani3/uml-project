@@ -26,17 +26,17 @@ public class AdminPaymentsPanel extends JPanel {
 
     public AdminPaymentsPanel(CustomerFileManager cfm) {
         this.cfm = cfm;
-        // Layout
-        setLayout(new MigLayout("fill, insets 30", "[grow]", "[][grow]"));
-        setBackground(Color.WHITE);
+        // Layout: 3 rows (Top Bar, Table, Button)
+        setLayout(new MigLayout("fill, insets 30", "[grow]", "[][grow][]"));
+        setBackground(BRAND_COLOR); 
 
-        // --- Top Bar (Φίλτρα & Actions) ---
-        JPanel topBar = new JPanel(new MigLayout("insets 0", "[][grow][]"));
-        topBar.setBackground(Color.WHITE);
+        // --- Top Bar (Φίλτρα) ---
+        JPanel topBar = new JPanel(new MigLayout("insets 0", "[][grow]"));
+        topBar.setOpaque(false); 
 
         JLabel lblCust = new JLabel("Επιλογή Πελάτη:");
         lblCust.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblCust.setForeground(BRAND_COLOR);
+        lblCust.setForeground(Color.WHITE); 
         topBar.add(lblCust);
         
         customerSelector = new JComboBox<>();
@@ -46,12 +46,6 @@ public class AdminPaymentsPanel extends JPanel {
            .forEach(c -> customerSelector.addItem(c.getUsername()));
         customerSelector.addActionListener(e -> loadCustomerBills());
         topBar.add(customerSelector, "w 250!");
-
-        JButton btnPay = new JButton("Εξόφληση Λογαριασμού");
-        styleButton(btnPay);
-        btnPay.setBackground(new Color(39, 174, 96)); // Πράσινο για την πληρωμή
-        btnPay.addActionListener(e -> paySelectedBill());
-        topBar.add(btnPay, "pushx, align right");
 
         add(topBar, "growx, wrap");
 
@@ -63,7 +57,20 @@ public class AdminPaymentsPanel extends JPanel {
         billsTable = new JTable(billsModel);
         styleTable(billsTable);
         
-        add(new JScrollPane(billsTable), "grow, push");
+        add(new JScrollPane(billsTable), "grow, wrap");
+
+        // --- Button (Bottom Right) ---
+        JButton btnPay = new JButton("Εξόφληση Λογαριασμού");
+        styleButton(btnPay);
+        
+        // Αλλαγή στυλ όπως ζητήθηκε: Λευκό φόντο, Μαύρα γράμματα
+        btnPay.setBackground(Color.WHITE); 
+        btnPay.setForeground(Color.BLACK);
+        
+        btnPay.addActionListener(e -> paySelectedBill());
+        
+        // Προσθήκη κάτω δεξιά
+        add(btnPay, "right");
     }
 
     private void loadCustomerBills() {
@@ -81,35 +88,25 @@ public class AdminPaymentsPanel extends JPanel {
 
     private void paySelectedBill() {
         int row = billsTable.getSelectedRow();
-        if (row == -1) {
-             JOptionPane.showMessageDialog(this, "Παρακαλώ επιλέξτε έναν λογαριασμό."); return;
-        }
+        if (row == -1) { JOptionPane.showMessageDialog(this, "Παρακαλώ επιλέξτε έναν λογαριασμό."); return; }
         try {
             String id = (String) billsModel.getValueAt(row, 0);
             Bill bill = BillFileStore.findById(id);
-            if (bill.getStatus() == BillStatus.PAID) {
-                JOptionPane.showMessageDialog(this, "Ο λογαριασμός είναι ήδη εξοφλημένος!"); return;
-            }
+            if (bill.getStatus() == BillStatus.PAID) { JOptionPane.showMessageDialog(this, "Ο λογαριασμός είναι ήδη εξοφλημένος!"); return; }
             if (!selectedCustomer.getBankAccounts().isEmpty()) {
                 BankAccount acc = selectedCustomer.getBankAccounts().get(0);
                 if (acc.getBalance() >= bill.getAmount()) {
                     acc.reduceBalance(bill.getAmount());
-                    bill.setStatus(BillStatus.PAID);
-                    bill.setPaid(true);
-                    cfm.updateCustomer(selectedCustomer);
-                    BillFileStore.updateBill(bill);
-                    loadCustomerBills();
-                    JOptionPane.showMessageDialog(this, "Η πληρωμή ολοκληρώθηκε επιτυχώς!");
+                    bill.setStatus(BillStatus.PAID); bill.setPaid(true);
+                    cfm.updateCustomer(selectedCustomer); BillFileStore.updateBill(bill);
+                    loadCustomerBills(); JOptionPane.showMessageDialog(this, "Η πληρωμή ολοκληρώθηκε επιτυχώς!");
                 } else JOptionPane.showMessageDialog(this, "Ανεπαρκές υπόλοιπο.");
-            } else {
-                JOptionPane.showMessageDialog(this, "Ο πελάτης δεν διαθέτει τραπεζικό λογαριασμό.");
-            }
+            } else { JOptionPane.showMessageDialog(this, "Ο πελάτης δεν διαθέτει τραπεζικό λογαριασμό."); }
         } catch (Exception e) { e.printStackTrace(); }
     }
 
     private void styleButton(JButton btn) {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btn.setForeground(Color.WHITE);
         btn.setFocusPainted(false);
         btn.setBorderPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -122,8 +119,8 @@ public class AdminPaymentsPanel extends JPanel {
         table.setSelectionForeground(Color.BLACK);
         
         JTableHeader header = table.getTableHeader();
-        header.setBackground(BRAND_COLOR);
-        header.setForeground(Color.WHITE);
+        header.setBackground(Color.WHITE); // Λευκό Header
+        header.setForeground(BRAND_COLOR); // Κόκκινα Γράμματα
         header.setFont(new Font("Segoe UI", Font.BOLD, 14));
     }
 }

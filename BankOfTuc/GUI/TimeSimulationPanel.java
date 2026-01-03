@@ -15,19 +15,20 @@ public class TimeSimulationPanel extends JPanel {
     private final TimeService timeService = TimeService.getInstance();
     private JLabel lblCurrentDate;
     
+    // Branding
     private final Color BRAND_COLOR = new Color(159, 13, 64);
 
     public TimeSimulationPanel(CustomerFileManager cfm) {
         this.cfm = cfm;
-        // Layout
+        // Layout: Center
         setLayout(new MigLayout("fill, insets 50", "[center]", "[center]"));
-        setBackground(Color.WHITE);
+        setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR Background
         
         initComponents();
     }
 
     private void initComponents() {
-        // Κάρτα Προσομοίωσης
+        // Κάρτα Προσομοίωσης (Λευκό κουτί)
         JPanel card = new JPanel(new MigLayout("wrap 1, insets 30, fillx", "[350!]", "[]20[]10[]20[]"));
         card.setBackground(Color.WHITE);
         card.setBorder(BorderFactory.createLineBorder(BRAND_COLOR, 2));
@@ -57,7 +58,7 @@ public class TimeSimulationPanel extends JPanel {
         JButton btnSimulate = new JButton("Έναρξη Προσομοίωσης");
         btnSimulate.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnSimulate.setBackground(BRAND_COLOR);
-        btnSimulate.setForeground(Color.WHITE);
+        btnSimulate.setForeground(Color.black);
         btnSimulate.setFocusPainted(false);
         btnSimulate.setCursor(new Cursor(Cursor.HAND_CURSOR));
         card.add(btnSimulate, "growx, h 45!");
