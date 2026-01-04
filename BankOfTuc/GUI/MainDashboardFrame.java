@@ -38,7 +38,7 @@ public class MainDashboardFrame extends JFrame {
 
         // --- TABS ---
         
-        // 0. Αρχική
+
         tabbedPane.addTab("Επισκόπηση", createHomePanel());
 
         if (user.getRole().toString().equals("ADMIN")) {
@@ -51,16 +51,15 @@ public class MainDashboardFrame extends JFrame {
             tabbedPane.addTab("Οι Λογαριασμοί μου", createPlaceholderPanel("Οι Λογαριασμοί μου")); 
         }
 
-        // 5. Ρυθμίσεις
+
         tabbedPane.addTab("Ρυθμίσεις", new SettingsPanel(currentUser, ufm));
 
-        // 6. Έξοδος
         JPanel logoutPanel = new JPanel(new MigLayout("fill, insets 0", "[center]", "[center]"));
         logoutPanel.setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR Background
         
         JButton btnLogout = new JButton("Αποσύνδεση");
         styleButton(btnLogout);
-        // Αντιστροφή χρωμάτων κουμπιού για να φαίνεται στο κόκκινο
+  
         btnLogout.setBackground(Color.WHITE); 
         btnLogout.setForeground(Color.BLACK);
         
@@ -78,27 +77,25 @@ public class MainDashboardFrame extends JFrame {
     }
 
     private JPanel createHomePanel() {
-        // Layout: 3 Στήλες (33% η καθεμία) για τα πάνω κουτιά
+     
         JPanel home = new JPanel(new MigLayout("fill, insets 40, wrap 3", "[33%][33%][33%]", "[]30[]30[grow]"));
-        home.setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR Background
+        home.setBackground(BRAND_COLOR); 
 
         // Header
         JLabel lblWelcome = new JLabel("Πίνακας Διαχείρισης");
         lblWelcome.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        lblWelcome.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκά γράμματα
+        lblWelcome.setForeground(Color.WHITE); 
         home.add(lblWelcome, "span 3, wrap");
 
         // --- TOP CARDS ---
 
-        // 1. Συνολικοί Χρήστες (Από users.json)
+ 
         int userCount = ufm.getAllUsers().size();
         home.add(createStatCard("ΣΥΝΟΛΙΚΟΙ ΧΡΗΣΤΕΣ", String.valueOf(userCount), "users_icon.png"), "grow");
 
-        // 2. Ενεργές Συναλλαγές (Από recurring_payments.csv)
         int recurringCount = countLines("data/recurring_payments.csv");
         home.add(createStatCard("ΕΝΕΡΓΕΣ ΣΥΝΑΛΛΑΓΕΣ", String.valueOf(recurringCount), "sync_icon.png"), "grow");
 
-        // 3. Audits (Από payments.csv + transfers.csv)
         int auditsCount = countLines("logs/payments.csv") + countLines("logs/transfers.csv");
         home.add(createStatCard("AUDITS / LOGS", String.valueOf(auditsCount), "log_icon.png"), "grow");
 
@@ -113,13 +110,13 @@ public class MainDashboardFrame extends JFrame {
         lblAdminTitle.setForeground(Color.GRAY);
         adminPanel.add(lblAdminTitle, "span 2, wrap");
 
-        // Buttons που σε πηγαίνουν στα Tabs
+  
         JButton btnCust = createNavButton("Διαχείριση Πελατών", "Επεξεργασία, Διαγραφή, Reset Password", 1);
         JButton btnPay = createNavButton("Διαχείριση Πληρωμών", "Εξόφληση λογαριασμών πελατών", 2);
         JButton btnTrans = createNavButton("Εκτέλεση Μεταφορών", "Εμβάσματα SWIFT, SEPA, InterBank", 3);
         JButton btnTime = createNavButton("Προσομοίωση Χρόνου", "Μετάβαση σε μελλοντική ημερομηνία", 4);
         
-        // ΝΕΟ ΚΟΥΜΠΙ: Ρυθμίσεις (Index 5)
+
         JButton btnSettings = createNavButton("Ρυθμίσεις Ασφαλείας", "Αλλαγή Κωδικού, 2FA", 5);
 
         adminPanel.add(btnCust, "grow, h 80!");
@@ -127,7 +124,7 @@ public class MainDashboardFrame extends JFrame {
         adminPanel.add(btnTrans, "grow, h 80!");
         adminPanel.add(btnTime, "grow, h 80!, wrap");
         
-        // Το κουμπί ρυθμίσεων πιάνει όλο το πλάτος κάτω (span 2)
+
         adminPanel.add(btnSettings, "span 2, grow, h 80!"); 
 
         home.add(adminPanel, "span 3, grow, push");
@@ -140,7 +137,7 @@ public class MainDashboardFrame extends JFrame {
     private JPanel createStatCard(String title, String value, String iconStub) {
         JPanel card = new JPanel(new MigLayout("fill, insets 25", "[grow]", "[]5[]"));
         card.setBackground(Color.WHITE);
-        // Κόκκινη μπάρα αριστερά
+ 
         card.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
             BorderFactory.createMatteBorder(0, 6, 0, 0, Color.black) 
@@ -187,7 +184,7 @@ public class MainDashboardFrame extends JFrame {
         return btn;
     }
 
-    // Helper για μέτρηση γραμμών σε αρχεία (CSV logs)
+
     private int countLines(String filePath) {
         File f = new File(filePath);
         if (!f.exists()) return 0;

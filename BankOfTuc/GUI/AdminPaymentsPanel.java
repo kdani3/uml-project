@@ -30,7 +30,7 @@ public class AdminPaymentsPanel extends JPanel {
         setLayout(new MigLayout("fill, insets 30", "[grow]", "[][grow][]"));
         setBackground(BRAND_COLOR); 
 
-        // --- Top Bar (Φίλτρα) ---
+
         JPanel topBar = new JPanel(new MigLayout("insets 0", "[][grow]"));
         topBar.setOpaque(false); 
 
@@ -63,13 +63,13 @@ public class AdminPaymentsPanel extends JPanel {
         JButton btnPay = new JButton("Εξόφληση Λογαριασμού");
         styleButton(btnPay);
         
-        // Αλλαγή στυλ όπως ζητήθηκε: Λευκό φόντο, Μαύρα γράμματα
+
         btnPay.setBackground(Color.WHITE); 
         btnPay.setForeground(Color.BLACK);
         
         btnPay.addActionListener(e -> paySelectedBill());
         
-        // Προσθήκη κάτω δεξιά
+
         add(btnPay, "right");
     }
 
@@ -119,8 +119,8 @@ public class AdminPaymentsPanel extends JPanel {
         table.setSelectionForeground(Color.BLACK);
         
         JTableHeader header = table.getTableHeader();
-        header.setBackground(Color.WHITE); // Λευκό Header
-        header.setForeground(BRAND_COLOR); // Κόκκινα Γράμματα
+        header.setBackground(Color.WHITE); 
+        header.setForeground(BRAND_COLOR);
         header.setFont(new Font("Segoe UI", Font.BOLD, 14));
     }
 }

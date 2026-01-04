@@ -45,11 +45,11 @@ public class CustomerPaymentsPanel extends JPanel {
     // --- TAB 1: ONE-TIME BILL PAYMENTS ---
     private JPanel createBillsPanel() {
         JPanel panel = new JPanel(new MigLayout("fill, insets 20", "[grow]", "[][grow][]"));
-        panel.setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ
+        panel.setBackground(BRAND_COLOR); 
 
         JLabel lblTitle = new JLabel("Οι Λογαριασμοί μου (Απλήρωτοι)");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblTitle.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ
+        lblTitle.setForeground(Color.WHITE); 
         panel.add(lblTitle, "wrap");
 
         String[] cols = {"RF Code", "Εκδότης", "Ποσό (€)", "Ημ. Λήξης"};
@@ -62,7 +62,7 @@ public class CustomerPaymentsPanel extends JPanel {
 
         // Action Buttons
         JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        actions.setOpaque(false); // Διαφανές
+        actions.setOpaque(false); 
         
         JButton btnPay = new JButton("Πληρωμή Επιλεγμένου");
         styleButton(btnPay);
@@ -116,11 +116,9 @@ public class CustomerPaymentsPanel extends JPanel {
 
             if (customer.getBankAccounts().isEmpty()) { JOptionPane.showMessageDialog(this, "Δεν έχετε λογαριασμούς."); return; }
 
-            // Επιλογή λογαριασμού χρέωσης
+           
             BankAccount acc = customer.getBankAccounts().get(0); // Default first
-            if (customer.getBankAccounts().size() > 1) {
-                // ... (Logic for selecting account dialog could be added here similar to transfers)
-            }
+            
 
             if (acc.getBalance() >= bill.getAmount()) {
                 acc.reduceBalance(bill.getAmount());
@@ -139,11 +137,11 @@ public class CustomerPaymentsPanel extends JPanel {
     // --- TAB 2: RECURRING PAYMENTS ---
     private JPanel createRecurringPanel() {
         JPanel panel = new JPanel(new MigLayout("fill, insets 20", "[grow]", "[][grow][]"));
-        panel.setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ
+        panel.setBackground(BRAND_COLOR); 
 
         JLabel lblTitle = new JLabel("Διαχείριση Πάγιων Εντολών");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblTitle.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ
+        lblTitle.setForeground(Color.WHITE); 
         panel.add(lblTitle, "wrap");
 
         String[] cols = {"RF Code", "Επόμενη Πληρωμή", "Κατάσταση", "Προσπάθειες"};

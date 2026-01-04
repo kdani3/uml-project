@@ -29,7 +29,7 @@ public class Bill {
     public Bill(String Billid, double amount, LocalDate issueDate, LocalDate dueDate, int installments, String issuerUsername, String payeeString) {
         this.Billid = Billid;
         this.rfcode = BillUtils.generateRFNumeric();
-        this.totalAmount = round(amount); 
+        this.totalAmount = round(amount);
         this.issueDate = issueDate;
         this.dueDate = dueDate;
         this.installments = installments;
@@ -37,15 +37,72 @@ public class Bill {
         this.status = BillStatus.ACTIVE;
         this.issuerUsername = issuerUsername;
         this.payerID = payeeString;
-        this.monthlyAmount = round(this.totalAmount / (double)installments);
+        if (installments > 0) {
+            this.monthlyAmount = round(this.totalAmount / (double) installments);
+        } else {
+            this.monthlyAmount = this.totalAmount;
+        }
     }
 
+    // --- BUILDER PATTERN ---
+    public static class Builder {
+        private String billId;
+        private double amount;
+        private LocalDate issueDate;
+        private LocalDate dueDate;
+        private int installments = 0; // Default
+        private String issuerUsername;
+        private String payerID;
+
+        // Setter methods that return 'this' for chaining
+        public Builder setBillId(String billId) {
+            this.billId = billId;
+            return this;
+        }
+
+        public Builder setAmount(double amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        public Builder setIssueDate(LocalDate issueDate) {
+            this.issueDate = issueDate;
+            return this;
+        }
+
+        public Builder setDueDate(LocalDate dueDate) {
+            this.dueDate = dueDate;
+            return this;
+        }
+
+        public Builder setInstallments(int installments) {
+            this.installments = installments;
+            return this;
+        }
+
+        public Builder setIssuerUsername(String issuerUsername) {
+            this.issuerUsername = issuerUsername;
+            return this;
+        }
+
+        public Builder setPayerID(String payerID) {
+            this.payerID = payerID;
+            return this;
+        }
+
+        // Build method to create the Bill instance
+        public Bill build() {
+            return new Bill(billId, amount, issueDate, dueDate, installments, issuerUsername, payerID);
+        }
+    }
+    // -----------------------------
+
     public void setAmount(double amount) {
-        this.totalAmount = round(amount); 
+        this.totalAmount = round(amount);
     }
 
     public void setPaidAmount(double paidAmount) {
-        this.paidAmount = round(paidAmount); 
+        this.paidAmount = round(paidAmount);
         if (Math.abs(this.totalAmount - this.paidAmount) < 0.005) {
             this.paidAmount = this.totalAmount;
             this.isPaid = true;

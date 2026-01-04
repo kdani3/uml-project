@@ -53,11 +53,11 @@ public class CustomerDashboardFrame extends JFrame {
 
     private JPanel createLogoutPanel() {
         JPanel logoutPanel = new JPanel(new MigLayout("fill, insets 0", "[center]", "[center]"));
-        logoutPanel.setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR
+        logoutPanel.setBackground(BRAND_COLOR); 
 
         JButton btnLogout = new JButton("Αποσύνδεση");
         btnLogout.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        // Αντιστροφή χρωμάτων (Λευκό κουμπί)
+  
         btnLogout.setForeground(Color.BLACK);
         btnLogout.setBackground(Color.WHITE);
         btnLogout.setFocusPainted(false);

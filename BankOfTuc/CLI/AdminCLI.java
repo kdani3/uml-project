@@ -304,7 +304,7 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         }
     }
 
-    private static void simulateToTargetDate(LocalDate targetDate, CustomerFileManager cfm) { // <-- Προσθήκη cfm
+    private static void simulateToTargetDate(LocalDate targetDate, CustomerFileManager cfm) {
         LocalDate currentDate = timeService.today();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 

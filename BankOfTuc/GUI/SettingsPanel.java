@@ -21,9 +21,9 @@ public class SettingsPanel extends JPanel {
         this.ufm = ufm;
         // Layout: Center
         setLayout(new MigLayout("fill, insets 50", "[center]", "[center]"));
-        setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR Background
+        setBackground(BRAND_COLOR); //
 
-        // Card Panel (Λευκό κουτί στη μέση)
+        // Card Panel 
         JPanel card = new JPanel(new MigLayout("wrap 1, insets 30, fillx", "[fill, 350!]", "[]30[]15[]"));
         card.setBackground(Color.WHITE);
         card.setBorder(BorderFactory.createTitledBorder(
@@ -75,12 +75,12 @@ public class SettingsPanel extends JPanel {
 
     private void setup2FA() {
         try {
-            // 1. Δημιουργία του QR Code και του Secret
+        
             String[] qr = QrUtils.createQr(currentUser.getUsername());
             String dataUri = qr[0];
             String secretKey = qr[1];
             
-            // 2. Δημιουργία Panel για το Popup
+      
             JPanel qrPanel = new JPanel(new BorderLayout(10, 10));
             qrPanel.setBackground(Color.WHITE);
 
@@ -89,7 +89,7 @@ public class SettingsPanel extends JPanel {
             lblInst.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             qrPanel.add(lblInst, BorderLayout.NORTH);
 
-            // 3. Αποκωδικοποίηση εικόνας
+         
             try {
                 String base64Image = dataUri.split(",")[1];
                 byte[] imageBytes = Base64.getDecoder().decode(base64Image);
@@ -103,7 +103,7 @@ public class SettingsPanel extends JPanel {
                 e.printStackTrace();
             }
 
-            // 4. Εμφάνιση κλειδιού
+            
             JTextField txtSecret = new JTextField(secretKey);
             txtSecret.setEditable(false);
             txtSecret.setHorizontalAlignment(SwingConstants.CENTER);
@@ -111,10 +111,10 @@ public class SettingsPanel extends JPanel {
             txtSecret.setBorder(BorderFactory.createTitledBorder("Ή εισάγετε αυτό το κλειδί:"));
             qrPanel.add(txtSecret, BorderLayout.SOUTH);
             
-            // 5. Εμφάνιση
+      
             JOptionPane.showMessageDialog(this, qrPanel, "Ενεργοποίηση 2FA", JOptionPane.PLAIN_MESSAGE);
             
-            // 6. Αποθήκευση
+
             currentUser.setQrCode(secretKey);
             ufm.updateUser(currentUser);
             

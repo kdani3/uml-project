@@ -78,10 +78,16 @@ public class UserFileManagement {
         return store.users.get(id);
     }
 
-    public User addUser(User user)  {
-    //check if user already exists by username
+    public User addUser(User user) {
+        //check if user already exists by username
         for (User u : store.users) {
-            if (u.getUsername().equals(user.getUsername()) || u.getFullname().equals(user.getFullname()) || u.getEmail().equals(user.getEmail())) {
+            boolean usernameMatch = u.getUsername().equals(user.getUsername());
+            boolean fullnameMatch = u.getFullname().equals(user.getFullname());
+            
+            boolean emailMatch = (u.getEmail() != null && user.getEmail() != null) 
+                                 && u.getEmail().equals(user.getEmail());
+
+            if (usernameMatch || fullnameMatch || emailMatch) {
                 return u; 
             }
         }
@@ -144,6 +150,21 @@ public class UserFileManagement {
         }
         return null; 
     }
-    
+
+    public User getUserByUsernameOrEmail(String identifier) {
+        if (identifier == null || identifier.trim().isEmpty()) return null;
+
+        for (User user : store.users) {
+         
+            if (user.getUsername().equalsIgnoreCase(identifier)) {
+                return user;
+            }
+          
+            if (user.getEmail() != null && !user.getEmail().isEmpty() && user.getEmail().equalsIgnoreCase(identifier)) {
+                return user;
+            }
+        }
+        return null;
+    }
 
 }

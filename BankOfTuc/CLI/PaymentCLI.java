@@ -25,8 +25,7 @@ public class PaymentCLI {
             
             switch (sc.nextLine().trim()) {
                 case "1" -> oneTimePayment(sc, customer, cfm);
-               // case "2" -> recurringPaymentMenu(sc, customer, cfm);
-               case "2" -> manageRecurringPayments(sc,customer,cfm);
+                case "2" -> manageRecurringPayments(sc,customer,cfm);
                 case "3" -> { return; }
                 default -> System.out.println("Invalid choice.");
             }

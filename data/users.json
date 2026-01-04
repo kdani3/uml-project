@@ -18,8 +18,8 @@
       "email": "co.kontos@gmail.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "J/uJ/lKWFzb9bq5zo1d/9A\u003d\u003d",
-      "hashedPassword": "5eneT+vFCin5XXdlvEhvmrj8v5pU8yniZRN4u/s0Wq0\u003d",
+      "saltBase64": "vQe6BJy28+C2xtN7MskRbg\u003d\u003d",
+      "hashedPassword": "7bdXpLe30G237vGyeH/yDYgR9FfiGXp32kn7Rn2xwZY\u003d",
       "qrSecret": null
     },
     {
@@ -29,8 +29,8 @@
       "email": "contact@acme.com",
       "isActive": true,
       "role": "COMPANY",
-      "saltBase64": "d/BjMLdZAtcN8aHz5YDzNQ\u003d\u003d",
-      "hashedPassword": "ubO8gBx/6J4XtjTR8ykWU0/6DKwVAvHZ+wuk7PbiqjA\u003d",
+      "saltBase64": "XjKND4cnpE+qJ12FQk6EHg\u003d\u003d",
+      "hashedPassword": "9CntOZpCedmkK9ig/2PSKIv429l8YNy4/iXHio3LWEc\u003d",
       "qrSecret": null
     },
     {
@@ -86,6 +86,28 @@
       "role": "ADMIN",
       "saltBase64": "IE8FB8bu4yDttnatVPja8Q\u003d\u003d",
       "hashedPassword": "CXhpKGDWRaIoJdxwSSFN3k3Qy99e5uH3L4TP0sY+fFY\u003d",
+      "qrSecret": null
+    },
+    {
+      "id": 8,
+      "username": "kontos117",
+      "fullname": "kostas kontos",
+      "email": "coo.kontos@gmail.com",
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "8kEJ4iGg89eDwxL51T2WQw\u003d\u003d",
+      "hashedPassword": "2xWrriej6ImK+xpJS1T9OCCiBNYUSgCgv398h7R4p+E\u003d",
+      "qrSecret": null
+    },
+    {
+      "id": 9,
+      "username": "pi123",
+      "fullname": "Pi",
+      "email": null,
+      "isActive": true,
+      "role": "INDIVIDUAL",
+      "saltBase64": "W6CgztGJmIHukItIE/vA3Q\u003d\u003d",
+      "hashedPassword": "n6abeM+KYWvRli7M6xROsamkLkQoIsqufW6dJY/i+RI\u003d",
       "qrSecret": null
     }
   ]

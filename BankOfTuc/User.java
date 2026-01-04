@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import BankOfTuc.Auth.PasswordUtils;
 
-//The User must have a username,password, fullname, email(optional), isActive boolean and an ENUM for the Role(extends in each role appropriately)
+// The User must have a username, password, fullname, email (optional), isActive boolean and a Role
 public abstract class User {
     private int id;
     private String username;
@@ -18,8 +18,6 @@ public abstract class User {
     private String hashedPassword;
     private String qrSecret;
 
-    //private byte[] salt;
-    
     public void setid(int id){
         this.id = id;
     }
@@ -51,7 +49,7 @@ public abstract class User {
         if (saltBase64 != null) {
             salt = Base64.getDecoder().decode(saltBase64);
         }
-        return salt.clone();
+        return salt != null ? salt.clone() : null;
     }
 
     public String getSaltBase64(){
@@ -105,25 +103,25 @@ public abstract class User {
         return !(qrSecret == null || qrSecret.trim().isEmpty() || qrSecret.trim().equalsIgnoreCase("null"));
     }
 
+    // --- Constructor ---
     public User(String username, String password, String fullname, String email, Role role, boolean isActive) {
-        this.username = Objects.requireNonNull(username);
-        this.fullname = Objects.requireNonNull(fullname);
-        this.email = Objects.requireNonNull(email);
-        this.role = Objects.requireNonNull(role);
-        this.isActive = Objects.requireNonNull(isActive);
+        this.username = Objects.requireNonNull(username, "Username cannot be null");
+        this.fullname = Objects.requireNonNull(fullname, "Fullname cannot be null");
+        
+        // ΔΙΟΡΘΩΣΗ: Αφαιρέθηκε το Objects.requireNonNull(email)
+        this.email = email; 
+        
+        this.role = Objects.requireNonNull(role, "Role cannot be null");
+        this.isActive = isActive;
         
         byte[] salt = PasswordUtils.generateSalt();
         this.saltBase64 = Base64.getEncoder().encodeToString(salt);
         this.qrSecret = null;
-        //password hashing
-        this.hashedPassword = PasswordUtils.hashPassword(password.toCharArray(),salt);
+        // password hashing
+        this.hashedPassword = PasswordUtils.hashPassword(password.toCharArray(), salt);
     }
 
-
     public User() {} // for deserialization
-
-   
-
 
    public String toJSON() {
         StringBuilder sb = new StringBuilder();
@@ -139,7 +137,4 @@ public abstract class User {
         .append("}");
         return sb.toString();
     }
-
-
-    
 }

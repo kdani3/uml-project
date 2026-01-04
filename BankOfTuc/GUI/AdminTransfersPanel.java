@@ -32,18 +32,18 @@ public class AdminTransfersPanel extends JPanel {
     public AdminTransfersPanel(CustomerFileManager cfm, UserFileManagement ufm) {
         this.cfm = cfm;
         setLayout(new MigLayout("fillx, insets 40", "[][grow]", "[]15[]15[]20[]30[]"));
-        setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR
+        setBackground(BRAND_COLOR); 
 
-        // Τίτλος
+
         JLabel title = new JLabel("Εκτέλεση Μεταφοράς");
         title.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        title.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό
+        title.setForeground(Color.WHITE); 
         add(title, "span 2, wrap");
 
-        // 1. Επιλογή Πελάτη
+    
         JLabel lblSelCust = new JLabel("Επιλογή Πελάτη:");
         lblSelCust.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblSelCust.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό
+        lblSelCust.setForeground(Color.WHITE); 
         add(lblSelCust);
         
         customerSelector = new JComboBox<>();
@@ -53,10 +53,10 @@ public class AdminTransfersPanel extends JPanel {
         customerSelector.addActionListener(e -> loadCustomerAccounts());
         add(customerSelector, "growx, wrap");
 
-        // 2. Επιλογή Λογαριασμού (IBAN)
+
         JLabel lblSelAcc = new JLabel("Επιλογή Λογαριασμού:");
         lblSelAcc.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblSelAcc.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό
+        lblSelAcc.setForeground(Color.WHITE); 
         add(lblSelAcc);
 
         accountSelector = new JComboBox<>();
@@ -64,13 +64,12 @@ public class AdminTransfersPanel extends JPanel {
         accountSelector.addActionListener(e -> updateBalance());
         add(accountSelector, "growx, wrap");
 
-        // 3. Υπόλοιπο Επιλεγμένου Λογαριασμού
+      
         lblBalance = new JLabel("Διαθέσιμο Υπόλοιπο: -");
         lblBalance.setFont(new Font("Consolas", Font.BOLD, 18));
-        lblBalance.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό για να φαίνεται
+        lblBalance.setForeground(Color.WHITE); 
         add(lblBalance, "span 2, center, wrap");
 
-        // 4. Κουμπιά Ενεργειών (Grid 2x2)
         JPanel btnPanel = new JPanel(new MigLayout("fill, insets 0", "[grow][grow]", "[50!][50!]"));
         btnPanel.setOpaque(false);
         
@@ -114,9 +113,6 @@ public class AdminTransfersPanel extends JPanel {
             lblBalance.setText("Υπόλοιπο: " + String.format("%.2f", selectedAccount.getBalance()) + " €");
         }
     }
-
-    // ... (Λογική μεταφορών παραμένει ίδια: performSelfTransfer, performInterBankTransfer, performSwiftTransfer, performSepaTransfer) ...
-    // Θα συμπεριλάβω μόνο τις μεθόδους, ο κώδικας λογικής δεν αλλάζει.
 
     private void performSelfTransfer() {
          if (!validateSelection()) return;
@@ -259,7 +255,6 @@ public class AdminTransfersPanel extends JPanel {
     private JButton createBtn(String text, java.awt.event.ActionListener al) {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        // Αλλαγή: Λευκό κουμπί, Κόκκινα γράμματα
         btn.setBackground(Color.WHITE);
         btn.setForeground(Color.BLACK);
         btn.setFocusPainted(false);

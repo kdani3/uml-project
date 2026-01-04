@@ -39,6 +39,7 @@ public class TestRunner {
 
 
     public static void main(String[] args) throws Exception {
+        Locale.setDefault(Locale.US);
         System.out.println("Starting automated tests...");
 
         // Ensure data folder exists

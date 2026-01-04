@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import BankOfTuc.CompanyCustomer;
 import BankOfTuc.Accounting.BankAccount;
+import BankOfTuc.Accounting.BankAccountFactory;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 
 public final class BankAccountCLI {
@@ -16,7 +17,8 @@ public final class BankAccountCLI {
             return;
         }
 
-        BankAccount newAcc = new BankAccount(customer.getVatID(), BankAccount.AccountType.COMPANY);
+        //BankAccount newAcc = new BankAccount(customer.getVatID(), BankAccount.AccountType.COMPANY);
+        BankAccount newAcc = BankAccountFactory.createAccount(customer.getVatID(), BankAccount.AccountType.COMPANY);
         customer.addBankAccount(newAcc);
         boolean ok = cfm.updateCustomer(customer);
         if (ok) {

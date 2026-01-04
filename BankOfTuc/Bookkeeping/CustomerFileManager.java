@@ -114,10 +114,17 @@ public class CustomerFileManager {
         }
     }
 
-    public Customer addCustomer(Customer c)  {
-    //check if user already exists by username
+    public Customer addCustomer(Customer c) {
+        //check if user already exists by username
         for (Customer customer : store.customers) {
-            if (c.getUsername().equals(customer.getUsername()) || c.getFullname().equals(customer.getFullname()) || c.getEmail().equals(customer.getEmail())) {
+            boolean usernameMatch = c.getUsername().equals(customer.getUsername());
+            boolean fullnameMatch = c.getFullname().equals(customer.getFullname());
+            
+            // Ασφαλής έλεγχος email (null-safe)
+            boolean emailMatch = (c.getEmail() != null && customer.getEmail() != null) 
+                                 && c.getEmail().equals(customer.getEmail());
+
+            if (usernameMatch || fullnameMatch || emailMatch) {
                 return c; 
             }
         }

@@ -31,18 +31,18 @@ public class CustomerTransfersPanel extends JPanel {
         this.cfm = cfm;
         
         setLayout(new MigLayout("fillx, insets 40", "[][grow]", "[]15[]15[]30[]"));
-        setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR
+        setBackground(BRAND_COLOR); 
 
-        // Τίτλος
+        
         JLabel title = new JLabel("Εκτέλεση Μεταφοράς");
         title.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        title.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό
+        title.setForeground(Color.WHITE); 
         add(title, "span 2, wrap");
 
-        // 1. Επιλογή Λογαριασμού
+      
         JLabel lblSelAcc = new JLabel("Από Λογαριασμό:");
         lblSelAcc.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblSelAcc.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό
+        lblSelAcc.setForeground(Color.WHITE); 
         add(lblSelAcc);
 
         accountSelector = new JComboBox<>();
@@ -50,13 +50,12 @@ public class CustomerTransfersPanel extends JPanel {
         accountSelector.addActionListener(e -> updateBalance());
         add(accountSelector, "growx, wrap");
 
-        // 2. Υπόλοιπο
+ 
         lblBalance = new JLabel("Διαθέσιμο Υπόλοιπο: -");
         lblBalance.setFont(new Font("Consolas", Font.BOLD, 18));
-        lblBalance.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό
+        lblBalance.setForeground(Color.WHITE); 
         add(lblBalance, "span 2, center, wrap");
 
-        // 3. Κουμπιά Ενεργειών
         JPanel btnPanel = new JPanel(new MigLayout("fill, insets 0", "[grow][grow]", "[50!][50!]"));
         btnPanel.setOpaque(false);
         

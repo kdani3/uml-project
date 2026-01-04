@@ -38,22 +38,17 @@ public class CompanyDashboardFrame extends JFrame {
         tabbedPane.setBackground(Color.WHITE);
         tabbedPane.setForeground(TEXT_PRIMARY);
 
-        // 1. Επισκόπηση
         tabbedPane.addTab("Επισκόπηση", new CompanyHomePanel(company, cfm));
 
-        // 2. Λογαριασμός
         tabbedPane.addTab("Λογαριασμός", new CustomerAccountsPanel(company, cfm));
 
-        // 3. Έκδοση Λογαριασμών
         tabbedPane.addTab("Έκδοση Λογαριασμών", new CompanyIssuingPanel(company, cfm));
 
-        // 4. Ιστορικό
         tabbedPane.addTab("Ιστορικό", new CustomerHistoryPanel(company, cfm));
 
-        // 5. Ρυθμίσεις
+
         tabbedPane.addTab("Ρυθμίσεις", new SettingsPanel(currentUser, ufm));
 
-        // 6. Έξοδος
         tabbedPane.addTab("Έξοδος", createLogoutPanel());
 
         add(tabbedPane);
@@ -61,11 +56,10 @@ public class CompanyDashboardFrame extends JFrame {
 
     private JPanel createLogoutPanel() {
         JPanel logoutPanel = new JPanel(new MigLayout("fill, insets 0", "[center]", "[center]"));
-        logoutPanel.setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR
+        logoutPanel.setBackground(BRAND_COLOR); 
 
         JButton btnLogout = new JButton("Αποσύνδεση");
         btnLogout.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        // Στυλ: Λευκό κουμπί, Μαύρα γράμματα
         btnLogout.setForeground(Color.BLACK);
         btnLogout.setBackground(Color.WHITE);
         btnLogout.setFocusPainted(false);

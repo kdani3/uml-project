@@ -5,13 +5,26 @@ import BankOfTuc.Bookkeeping.CustomerFileManager;
 
 public abstract class Transfer {
 
-/*     private String senderIBAN;
-    private */ String receiverIBAN;
+    // --- BRIDGE PATTERN START ---
+  
+    protected TransferProcessor processor;
+
+  
+    public Transfer(TransferProcessor processor) {
+        this.processor = processor;
+    }
+    // --- BRIDGE PATTERN END ---
+
+
+    /* private String senderIBAN;
+       private */ String receiverIBAN;
     private Customer receiverCustomer;
-    public Transfer(){
+
+    // Κρατάμε τον default constructor για συμβατότητα με τις παλιές κλάσεις (InterBank, SelfTransfer)
+    public Transfer() {
     }
 
-    public String getReceivingFullname(){
+    public String getReceivingFullname() {
         return receiverCustomer.getFullname();
     }
 

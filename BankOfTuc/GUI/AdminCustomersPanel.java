@@ -28,12 +28,12 @@ public class AdminCustomersPanel extends JPanel {
         
         // Layout & Styling
         setLayout(new MigLayout("fill, insets 20", "[grow]", "[][grow][]"));
-        setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR
+        setBackground(BRAND_COLOR); 
 
         // Header
         JLabel lblTitle = new JLabel("Διαχείριση Πελατών");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        lblTitle.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό κείμενο
+        lblTitle.setForeground(Color.WHITE); 
         add(lblTitle, "wrap");
 
         // Table Setup
@@ -50,10 +50,9 @@ public class AdminCustomersPanel extends JPanel {
 
         // Buttons Panel
         JPanel btnPanel = new JPanel(new MigLayout("insets 0", "[][][][]"));
-        btnPanel.setOpaque(false); // Διαφανές για να φαίνεται το κόκκινο από πίσω
+        btnPanel.setOpaque(false); 
 
-        // Κουμπιά (Κρατάμε το στυλ τους, αλλά μπορεί να χρειαστεί να είναι λευκά με κόκκινα γράμματα)
-        // Θα τα κάνουμε Λευκά με BRAND_COLOR γράμματα για αντίθεση
+
         btnPanel.add(createBtn("Ανανέωση", e -> loadUsersData()));
         btnPanel.add(createBtn("Επεξεργασία Στοιχείων", e -> editSelectedUser()));
         btnPanel.add(createBtn("Reset Password", e -> resetPassword()));
@@ -63,7 +62,6 @@ public class AdminCustomersPanel extends JPanel {
         add(btnPanel, "right");
     }
 
-    // ... (Οι μέθοδοι loadUsersData, editSelectedUser, saveChanges, resetPassword, deleteSelectedUser παραμένουν ίδιες) ...
     private void loadUsersData() {
         model.setRowCount(0);
         for (User u : ufm.getAllUsers()) {
@@ -170,7 +168,7 @@ public class AdminCustomersPanel extends JPanel {
     private JButton createBtn(String text, java.awt.event.ActionListener al) {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        // Αλλαγή: Λευκό κουμπί με κόκκινα γράμματα
+
         btn.setBackground(Color.WHITE);
         btn.setForeground(Color.BLACK);
         btn.setFocusPainted(false);
@@ -186,8 +184,8 @@ public class AdminCustomersPanel extends JPanel {
         table.setSelectionForeground(Color.BLACK);
         
         JTableHeader header = table.getTableHeader();
-        header.setBackground(Color.WHITE); // Λευκό Header για αντίθεση
-        header.setForeground(BRAND_COLOR); // Κόκκινα γράμματα
+        header.setBackground(Color.WHITE); 
+        header.setForeground(BRAND_COLOR); 
         header.setFont(new Font("Segoe UI", Font.BOLD, 14));
     }
 }

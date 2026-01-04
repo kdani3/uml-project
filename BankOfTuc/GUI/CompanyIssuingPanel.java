@@ -17,11 +17,11 @@ public class CompanyIssuingPanel extends JPanel {
 
     public CompanyIssuingPanel(CompanyCustomer company, CustomerFileManager cfm) {
         setLayout(new MigLayout("fillx, insets 40", "[right][grow]", "[]15[]15[]15[]30[]"));
-        setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR
+        setBackground(BRAND_COLOR); 
 
         JLabel title = new JLabel("Έκδοση Νέου Λογαριασμού (Χρέωση Πελάτη)");
         title.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        title.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό
+        title.setForeground(Color.WHITE); 
         add(title, "span 2, center, wrap");
 
         // Form Fields
@@ -38,7 +38,7 @@ public class CompanyIssuingPanel extends JPanel {
         add(txtInstallments, "growx, wrap");
 
         JButton btnIssue = new JButton("Έκδοση Λογαριασμού");
-        styleButton(btnIssue); // Εφαρμογή του White/Black style
+        styleButton(btnIssue); 
         
         btnIssue.addActionListener(e -> {
             try {
@@ -50,7 +50,16 @@ public class CompanyIssuingPanel extends JPanel {
                 LocalDate issueDate = TimeService.getInstance().today();
                 LocalDate dueDate = issueDate.plusDays(30);
 
-                Bill newBill = new Bill(billId, amount, issueDate, dueDate, installments, company.getUsername(), payer);
+                //Bill newBill = new Bill(billId, amount, issueDate, dueDate, installments, company.getUsername(), payer);
+                Bill newBill = new Bill.Builder()
+                    .setBillId(billId)
+                    .setAmount(amount)
+                    .setIssueDate(issueDate)
+                    .setDueDate(dueDate)
+                    .setInstallments(installments)
+                    .setIssuerUsername(company.getUsername())
+                    .setPayerID(payer)
+                    .build();
                 BillFileStore.saveBill(newBill);
                 
                 JOptionPane.showMessageDialog(this, "Ο λογαριασμός εκδόθηκε επιτυχώς!\nRF Code: " + newBill.getRfcode());
@@ -66,14 +75,14 @@ public class CompanyIssuingPanel extends JPanel {
     private JLabel createLabel(String text) {
         JLabel lbl = new JLabel(text);
         lbl.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lbl.setForeground(Color.WHITE); // Λευκά γράμματα
+        lbl.setForeground(Color.WHITE); 
         return lbl;
     }
     
     private void styleButton(JButton btn) {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btn.setBackground(Color.WHITE); // Λευκό Φόντο
-        btn.setForeground(Color.BLACK); // Μαύρα Γράμματα
+        btn.setBackground(Color.WHITE); 
+        btn.setForeground(Color.BLACK); 
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }

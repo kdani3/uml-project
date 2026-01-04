@@ -14,7 +14,6 @@ import BankOfTuc.CompanyCustomer;
 import BankOfTuc.IndividualCustomer;
 import BankOfTuc.User;
 import BankOfTuc.User.Role;
-//import BankOfTuc.bookkeeping.UsersCustomersBridge;
 import dev.samstevens.totp.exceptions.QrGenerationException;
 
 public class Main {
@@ -142,25 +141,27 @@ public class Main {
         }
 
         String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        String email;
+        String email = null; 
 
         while(true) {
             System.out.println("Enter Email (optional)");
             System.out.print(">");
-            email = sc.nextLine().trim();
+            String inputEmail = sc.nextLine().trim();
         
-            if (email.isEmpty()) {
+            if (inputEmail.isEmpty()) {
                 System.out.println("Without an email you will not be able to reset password\n or receive updates.\nContinue without an email?\n(Y)es or (N)o");
                 String ch = sc.nextLine();
                 if (ch.equalsIgnoreCase("y")) {
+                    email = null;
                     break; 
                 }
             } 
-            else if (!email.matches(emailRegex)) {
-                System.out.println("Error: '" + email + "' is not a valid email format. Please try again.");
+            else if (!inputEmail.matches(emailRegex)) {
+                System.out.println("Error: '" + inputEmail + "' is not a valid email format. Please try again.");
             } 
             else {
                 System.out.println("Email accepted.");
+                email = inputEmail;
                 break;
             }
         }

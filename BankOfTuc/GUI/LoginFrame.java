@@ -41,31 +41,25 @@ public class LoginFrame extends JFrame {
         leftPanel.setBackground(BRAND_COLOR);
 
         // --- 0. ASCII Logo ---
-        // Χρησιμοποιούμε JTextArea για να φαίνεται σωστά το ASCII art
-        // Τοποθετούμε το λογότυπο σε ένα Text Block
         String logo ="""    
                       
         ###################################                                
        #################################                                
                             ######                                      
-           **************** ###### ***                                  
-             ************* ######   **                                  
-                           ###### ********                  ##              
+           **************** ###### *** ************* ######   ** ###### ******** ##              
                 ********* ####### ** ****** #####   #####  ##  ##           
                    ****** ######       **** ##  ##  ## ##  #####            
                           ######  ** ****** #### #  ##  #  ##  ## #####           
-                         ######   """;
+                          ######   """;
 
         JTextArea asciiLogo = new JTextArea(logo);
-        asciiLogo.setFont(new Font("Monospaced", Font.BOLD, 10)); // Monospaced font για ευθυγράμμιση
-        asciiLogo.setForeground(new Color(255, 255, 255, 180));   // Ελαφρώς διάφανο λευκό
-        asciiLogo.setOpaque(false);                               // Διαφανές φόντο
+        asciiLogo.setFont(new Font("Monospaced", Font.BOLD, 10)); 
+        asciiLogo.setForeground(new Color(255, 255, 255, 180));   
+        asciiLogo.setOpaque(false);                               
         asciiLogo.setEditable(false);
         asciiLogo.setFocusable(false);
         
-        // Προσθήκη πριν τον τίτλο
         leftPanel.add(asciiLogo, "gapbottom 20"); 
-
 
         // 1. Brand Name
         JLabel lblBrand = new JLabel("TUC Bank");
@@ -79,10 +73,9 @@ public class LoginFrame extends JFrame {
         lblSlogan.setForeground(new Color(255, 255, 255, 220));
         leftPanel.add(lblSlogan, "gapbottom 40");
 
-        // 3. Λίστα με Bullets
+        // 3. List
         JPanel listPanel = new JPanel(new MigLayout("wrap 1, insets 0", "[left]"));
         listPanel.setOpaque(false);
-
         addBulletPoint(listPanel, "24/7 Πρόσβαση στους λογαριασμούς σας");
         addBulletPoint(listPanel, "Ασφαλείς συναλλαγές");
         addBulletPoint(listPanel, "Άμεσες ειδοποιήσεις");
@@ -94,13 +87,13 @@ public class LoginFrame extends JFrame {
         JPanel rightPanel = new JPanel(new MigLayout("fill, wrap 1, insets 50 80 50 80", "[fill]", "[center]"));
         rightPanel.setBackground(Color.WHITE);
 
-        // Header: Καλώς Ήρθατε
-        JLabel lblLoginTitle = new JLabel("Καλώς Ήρθατε");
+        // Header
+        JLabel lblLoginTitle = new JLabel("Καλωσήρθατε");
         lblLoginTitle.setFont(new Font("Segoe UI", Font.PLAIN, 28));
         lblLoginTitle.setForeground(Color.GRAY);
         rightPanel.add(lblLoginTitle, "gapbottom 5");
 
-        // Subheader: Συνδεθείτε στον λογαριασμό σας            
+        // Subheader
         JLabel lblLoginSub = new JLabel("Συνδεθείτε στον λογαριασμό σας");
         lblLoginSub.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         lblLoginSub.setForeground(Color.GRAY);
@@ -119,7 +112,7 @@ public class LoginFrame extends JFrame {
             BorderFactory.createEmptyBorder(8, 10, 8, 10)));
         rightPanel.add(txtInput, "h 40!, gapbottom 15");
 
-        // Field 2: Κωδικός
+        // Field 2: Password
         JLabel lblPass = new JLabel("Κωδικός");
         lblPass.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblPass.setForeground(TEXT_COLOR);
@@ -132,14 +125,9 @@ public class LoginFrame extends JFrame {
             BorderFactory.createEmptyBorder(8, 10, 8, 10)));
         rightPanel.add(txtPassword, "h 40!, gapbottom 20");
 
-        // Button: Σύνδεση
+        // Button: LOGIN
         JButton btnLogin = new JButton("Σύνδεση");
-        btnLogin.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        btnLogin.setBackground(BRAND_COLOR);
-        btnLogin.setForeground(Color.WHITE);
-        btnLogin.setFocusPainted(false);
-        btnLogin.setBorderPainted(false);
-        btnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        stylePrimaryButton(btnLogin);
 
         btnLogin.addActionListener(e -> {
             String input = txtInput.getText();
@@ -151,18 +139,46 @@ public class LoginFrame extends JFrame {
                 e1.printStackTrace();
             }
         });
+        rightPanel.add(btnLogin, "h 45!, gapbottom 10");
 
-        rightPanel.add(btnLogin, "h 45!");
+        // --- NEW BUTTON: REGISTER ---
+        JButton btnRegister = new JButton("Δημιουργία Λογαριασμού");
+        styleSecondaryButton(btnRegister);
+        
+        btnRegister.addActionListener(e -> {
+            // Άνοιγμα του παραθύρου εγγραφής
+            new RegisterFrame(ufm, cfm).setVisible(true);
+        });
+        rightPanel.add(btnRegister, "h 40!, gapbottom 10");
 
-        // Link: Ξεχάσατε τον κωδικό;
+        // Link: Forgot Password
         JLabel lblHelp = new JLabel("<html><u>Ξεχάσατε τον κωδικό;</u></html>");
         lblHelp.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         lblHelp.setForeground(Color.GRAY);
         lblHelp.setCursor(new Cursor(Cursor.HAND_CURSOR));
         lblHelp.setHorizontalAlignment(SwingConstants.CENTER);
-        rightPanel.add(lblHelp, "gaptop 15, center");
+        rightPanel.add(lblHelp, "center");
 
         add(rightPanel, "grow");
+    }
+
+    // --- Styling Helpers ---
+    private void stylePrimaryButton(JButton btn) {
+        btn.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        btn.setBackground(BRAND_COLOR);
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+
+    private void styleSecondaryButton(JButton btn) {
+        btn.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        btn.setBackground(Color.WHITE);
+        btn.setForeground(BRAND_COLOR);
+        btn.setBorder(BorderFactory.createLineBorder(BRAND_COLOR));
+        btn.setFocusPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
     private void addBulletPoint(JPanel panel, String text) {
@@ -172,34 +188,42 @@ public class LoginFrame extends JFrame {
         panel.add(lbl, "gapbottom 12");
     }
 
-    private void handleLogin(int status, String username) throws IOException {
+    private void handleLogin(int status, String inputIdentifier) throws IOException {
         switch (status) {
-            case 1 -> proceed(username);
+            case 1 -> proceed(inputIdentifier);
             case 2 -> {
                 String qr = JOptionPane.showInputDialog(this, "Enter 2FA Code:");
-                if (qr != null && loginManager.qrCodeLogin(username, qr)) proceed(username);
+    
+                if (qr != null && loginManager.qrCodeLogin(inputIdentifier, qr)) proceed(inputIdentifier);
                 else JOptionPane.showMessageDialog(this, "Invalid Code", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            case 3 -> JOptionPane.showMessageDialog(this, "User is already logged in!", "Warning", JOptionPane.WARNING_MESSAGE);
+            case 3 -> proceed(inputIdentifier); // Already logged in -> Proceed
             case 4 -> JOptionPane.showMessageDialog(this, "This account is inactive.", "Account Locked", JOptionPane.ERROR_MESSAGE);
+            case 6 -> JOptionPane.showMessageDialog(this, "Account temporarily locked due to failed attempts.", "Locked", JOptionPane.ERROR_MESSAGE);
             default -> JOptionPane.showMessageDialog(this, "Λάθος Username ή Κωδικός.", "Αποτυχία Σύνδεσης", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void proceed(String username) throws IOException {
-        User user = ufm.getUserByUsername(username); 
+    private void proceed(String identifier) throws IOException {
 
-        if (user.getRole() == User.Role.ADMIN) {
+        User user = ufm.getUserByUsernameOrEmail(identifier); 
+
+        if (user == null) {
+            JOptionPane.showMessageDialog(this, "Critical Error: User found during login but null during retrieval.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+      
+        if (user.getRole().toString().equals("ADMIN")) {
             new MainDashboardFrame(user, ufm, cfm).setVisible(true);
         } 
-        else if (user.getRole() == User.Role.INDIVIDUAL) {
-            new CustomerDashboardFrame(user, ufm, cfm).setVisible(true);
-        }
-        else if (user.getRole() == User.Role.COMPANY) {
-            // ΝΕΟ: Ανοίγουμε το Company Dashboard
+        else if (user.getRole().toString().equals("COMPANY")) {
             new CompanyDashboardFrame(user, ufm, cfm).setVisible(true);
         }
+        else {
+            new CustomerDashboardFrame(user, ufm, cfm).setVisible(true);
+        }
 
-        this.dispose();
+        this.dispose(); 
     }
 }

@@ -21,7 +21,7 @@ public class CustomerHistoryPanel extends JPanel {
         this.cfm = cfm;
 
         setLayout(new MigLayout("fill, insets 30", "[grow]", "[][grow]"));
-        setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR
+        setBackground(BRAND_COLOR); 
 
         initComponents();
     }
@@ -29,7 +29,7 @@ public class CustomerHistoryPanel extends JPanel {
     private void initComponents() {
         JLabel lblTitle = new JLabel("Ιστορικό Συναλλαγών");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        lblTitle.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό
+        lblTitle.setForeground(Color.WHITE);
         add(lblTitle, "wrap");
 
         String[] columns = {"", "Ημερομηνία", "Ποσό", "IBAN/RF", "Αντισυμβαλλόμενος", "Τύπος"};
@@ -68,8 +68,8 @@ public class CustomerHistoryPanel extends JPanel {
         table.setShowVerticalLines(false);
         
         JTableHeader header = table.getTableHeader();
-        header.setBackground(Color.WHITE); // Λευκό
-        header.setForeground(BRAND_COLOR); // Κόκκινο Κείμενο
+        header.setBackground(Color.WHITE); 
+        header.setForeground(BRAND_COLOR); 
         header.setFont(new Font("Segoe UI", Font.BOLD, 14));
         header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
     }

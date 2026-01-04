@@ -3,6 +3,7 @@ package BankOfTuc.GUI;
 import BankOfTuc.Customer;
 import BankOfTuc.User;
 import BankOfTuc.Accounting.BankAccount;
+import BankOfTuc.Accounting.BankAccountFactory;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import net.miginfocom.swing.MigLayout;
 
@@ -21,7 +22,7 @@ public class CustomerAccountsPanel extends JPanel {
         this.cfm = cfm;
         
         setLayout(new MigLayout("fill, insets 30", "[grow]", "[][grow][]"));
-        setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR
+        setBackground(BRAND_COLOR);
 
         initComponents();
     }
@@ -29,7 +30,7 @@ public class CustomerAccountsPanel extends JPanel {
     private void initComponents() {
         JLabel lblTitle = new JLabel("Κατάσταση Λογαριασμών");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        lblTitle.setForeground(Color.WHITE); // <--- ΑΛΛΑΓΗ: Λευκό
+        lblTitle.setForeground(Color.WHITE);
         add(lblTitle, "wrap");
 
         // Table Setup
@@ -75,7 +76,9 @@ public class CustomerAccountsPanel extends JPanel {
 
         if (choice >= 0) {
             BankAccount.AccountType type = (choice == 0) ? BankAccount.AccountType.CHECKING : BankAccount.AccountType.SAVINGS;
-            BankAccount newAcc = new BankAccount(customer.getVatID(), type);
+            //BankAccount newAcc = new BankAccount(customer.getVatID(), type);
+            BankAccount newAcc = BankAccountFactory.createAccount(customer.getVatID(), type);
+            
             customer.addBankAccount(newAcc);
 
             if (cfm.updateCustomer(customer)) {
@@ -102,15 +105,15 @@ public class CustomerAccountsPanel extends JPanel {
         table.setSelectionForeground(Color.BLACK);
         
         JTableHeader header = table.getTableHeader();
-        header.setBackground(Color.WHITE); // Λευκό Header
-        header.setForeground(BRAND_COLOR); // Κόκκινα Γράμματα
+        header.setBackground(Color.WHITE); 
+        header.setForeground(BRAND_COLOR); 
         header.setFont(new Font("Segoe UI", Font.BOLD, 14));
     }
 
     private void styleButton(JButton btn) {
         btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btn.setBackground(Color.WHITE); // Λευκό κουμπί
-        btn.setForeground(Color.BLACK); // Κόκκινα γράμματα
+        btn.setBackground(Color.WHITE); 
+        btn.setForeground(Color.BLACK); 
         btn.setFocusPainted(false);
         btn.setBorderPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));

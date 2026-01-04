@@ -9,7 +9,7 @@
       "bankAccounts": [
         {
           "iban": "GR7734679808311712878942",
-          "balance": 999863.0200000003,
+          "balance": 99765.52,
           "type": "CHECKING"
         },
         {
@@ -33,7 +33,7 @@
       "bankAccounts": [
         {
           "iban": "GR1749044394464082555747",
-          "balance": 17010.570000000054,
+          "balance": 17234.57,
           "type": "COMPANY"
         }
       ]

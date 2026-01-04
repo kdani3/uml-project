@@ -110,7 +110,6 @@ public static boolean verifyUserIdentity(User user, Scanner sc){
     }
 
 
-    // Πρόσθεσε στον ορισμό το: UserFileManagement ufm
     public static boolean createQr(User user, Scanner sc, UserFileManagement ufm) {
         String[] qrResult = null;
         try {

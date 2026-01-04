@@ -40,11 +40,15 @@ public class CustomerSerialiser implements JsonSerializer<Customer> ,  JsonDeser
     public Customer deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext ctx) {
         JsonObject obj = json.getAsJsonObject();
 
-        String username = obj.get("username").getAsString();
-        String fullname = obj.get("fullname").getAsString();
-        String email = obj.get("email").getAsString();
-        String vatID = obj.get("vatID").getAsString();
-        Role role = Role.valueOf(obj.get("role").getAsString());
+        // Safe extraction of fields (handle nulls)
+        String username = obj.has("username") ? obj.get("username").getAsString() : null;
+        String fullname = obj.has("fullname") ? obj.get("fullname").getAsString() : null;
+        
+
+        String email = (obj.has("email") && !obj.get("email").isJsonNull()) ? obj.get("email").getAsString() : null;
+        
+        String vatID = obj.has("vatID") ? obj.get("vatID").getAsString() : null;
+        Role role = obj.has("role") ? Role.valueOf(obj.get("role").getAsString()) : Role.INDIVIDUAL; // Default fallback
 
         Customer customer;
 

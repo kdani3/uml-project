@@ -14,6 +14,7 @@ import BankOfTuc.FileIO.EnvReader;
 import BankOfTuc.Services.TimeService;
 import BankOfTuc.Accounting.BankAccount;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
+import BankOfTuc.Bookkeeping.BankRevenue; 
 import BankOfTuc.Logging.PaymentLogger;
 import BankOfTuc.Payments.Bill.BillStatus;
 
@@ -92,7 +93,6 @@ public class RecurringPayment {
             double billPaid = round(bill.getPaidAmount());
             double remainingTotal = round(billTotal - billPaid);
 
-            // CRITICAL DOUBLE GUARD: Check if money is owed AND if installments are left
             if (bill.isPaid() || bill.getStatus() == BillStatus.PAID || 
                 remainingTotal < 0.01 || bill.getPaidInstallments() >= bill.getInstallments()) {
                 
@@ -112,7 +112,10 @@ public class RecurringPayment {
             if (payer == null || company == null) return false;
 
             double paymentAmount = round(Math.min(this.monthlyAmount, remainingTotal));
-            double totalCharge = round(paymentAmount + ((currentAttempts <= maxAttempts) ? standardFee : maxFee));
+            
+         
+            double fee = (currentAttempts <= maxAttempts) ? standardFee : maxFee;
+            double totalCharge = round(paymentAmount + fee);
 
             if (payerAccount.getBalance() < totalCharge) {
                 sendFailedPaymentEmail(payer, rfCode, totalCharge);
@@ -123,12 +126,13 @@ public class RecurringPayment {
             var compAccount = company.getBankAccounts().get(0);
             compAccount.addBalance(paymentAmount);
 
+            BankRevenue.addFee(fee); 
+
             double updatedPaidTotal = round(billPaid + paymentAmount);
             bill.setPaidAmount(updatedPaidTotal);
             bill.setPayDate(TimeService.getInstance().today());
             bill.setPaidInstallments(bill.getPaidInstallments() + 1);
 
-            // Finalize if balance is zero or installments are complete
             if (round(billTotal - updatedPaidTotal) < 0.01 || bill.getPaidInstallments() >= bill.getInstallments()) {
                 bill.setPaidAmount(billTotal);
                 bill.setStatus(BillStatus.PAID);
