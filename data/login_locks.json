@@ -1,10 +1,1 @@
-{
-  "amdin1" : {
-    "attempts" : 1,
-    "until" : null
-  },
-  "john_doe" : {
-    "attempts" : 1,
-    "until" : null
-  }
-}
+{ }

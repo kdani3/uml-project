@@ -1,3 +1,4 @@
+// File: BankOfTuc/Payments/RecurringPayment.java
 package BankOfTuc.Payments;
 
 import java.io.IOException;
@@ -9,13 +10,13 @@ import java.util.Map;
 import java.util.Objects;
 
 import BankOfTuc.Customer;
-import BankOfTuc.Accounting.BankAccount;
-import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.FileIO.EmailUtils;
 import BankOfTuc.FileIO.EnvReader;
+import BankOfTuc.Services.TimeService;
+import BankOfTuc.Accounting.BankAccount;
+import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Logging.PaymentLogger;
 import BankOfTuc.Payments.Bill.BillStatus;
-import BankOfTuc.Services.TimeService;
 
 public class RecurringPayment {
     
@@ -28,7 +29,6 @@ public class RecurringPayment {
     private LocalDate nextDueDate;
     private int maxAttempts = 3;
     private int currentAttempts = 0;
-    private int failedAttempts = 0;
     private double standardFee = 2.5;
     private double maxFee = 3.5;
     // New: support for pause/resume
@@ -141,7 +141,7 @@ public class RecurringPayment {
 
             double newPaid = bill.getPaidAmount() + monthlyAmount;
             bill.setPaidAmount(newPaid);
-            bill.setPayDate(TimeService.getInstance().today());
+            bill.setPayDate(BankOfTuc.Services.TimeService.getInstance().today());
             bill.setPaidInstallments(bill.getPaidInstallments()+1);
 
             if (newPaid == bill.getAmount()&& bill.getInstallments()==bill.getPaidInstallments()) {
@@ -182,7 +182,6 @@ public class RecurringPayment {
     public double getmonthlyAmount() { return monthlyAmount; }
     public LocalDate getNextDueDate() { return nextDueDate; }
     public int getCurrentAttempts() { return currentAttempts; }
-    public int getFailedAttempts() { return failedAttempts; }
     public boolean isPaused() { return paused; }
     public String getPayerIban() {
         return payerIban;

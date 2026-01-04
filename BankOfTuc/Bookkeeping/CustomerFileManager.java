@@ -95,6 +95,10 @@ public class CustomerFileManager {
         }
     }
 
+    public void reloadCustomers() {
+        load();
+    }
+
     private  void save()  {
         File f = new File(filePath);
         File parentDir = f .getParentFile();

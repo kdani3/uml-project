@@ -14,7 +14,7 @@ public class RecurringPaymentScheduler {
 
     public RecurringPaymentScheduler(CustomerFileManager cfm) throws IOException {
         this.cfm = cfm;
-        this.allPayments = RecurringPaymentCsvStore.load(); // ✅ No cfm needed here
+        this.allPayments = RecurringPaymentCsvStore.load();
     }
 
     // Save all payments back to CSV

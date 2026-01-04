@@ -16,6 +16,9 @@ import BankOfTuc.Auth.LoginListener;
 import BankOfTuc.Auth.LoginManager;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Bookkeeping.UserFileManagement;
+import BankOfTuc.Services.TimeService;
+import BankOfTuc.Payments.RecurringPayment;
+import BankOfTuc.Payments.RecurringPaymentScheduler;
 
 public class TestRunner {
 
@@ -528,6 +531,123 @@ public class TestRunner {
             }
         }
 
+
+        // --- Recurring Payment Tests ---
+        record.ok("starting recurring payment tests");
+        try {
+            BankOfTuc.Services.TimeService timeService = BankOfTuc.Services.TimeService.getInstance();
+            timeService.startSimulation();
+
+            // Find payer and company
+            Customer recPayer = allCustomers.stream().filter(c -> c instanceof IndividualCustomer).findFirst().orElse(null);
+            CompanyCustomer recComp = (CompanyCustomer) allCustomers.stream().filter(c -> c instanceof CompanyCustomer).findFirst().orElse(null);
+
+            if (recPayer != null && recComp != null) {
+                // Scenario 1: Successful Payment
+                record.ok("recurring payment: testing successful payment");
+                BankAccount payerAccount = recPayer.getBankAccounts().get(0);
+                BankAccount compAccount = recComp.getBankAccounts().get(0);
+
+                double initialPayerBalance = 1000;
+                double initialCompBalance = 2000;
+                double paymentAmount = 150;
+
+                payerAccount.setBalance(initialPayerBalance);
+                compAccount.setBalance(initialCompBalance);
+                cfm.updateCustomer(recPayer);
+                cfm.updateCustomer(recComp);
+
+                // Issue a bill for the recurring payment
+                recComp.issueBill(paymentAmount, java.time.LocalDate.now().plusMonths(2), 1, recPayer.getVatID());
+                List<BankOfTuc.Payments.Bill> compBills = BankOfTuc.Payments.BillFileStore.getCompanyBills(recComp.getVatID());
+                BankOfTuc.Payments.Bill recBill = compBills.get(compBills.size() - 1);
+
+                BankOfTuc.Payments.RecurringPaymentScheduler scheduler = new BankOfTuc.Payments.RecurringPaymentScheduler(cfm);
+                BankOfTuc.Payments.RecurringPayment rp = new BankOfTuc.Payments.RecurringPayment(recBill.getRfcode(), payerAccount, paymentAmount, timeService.today());
+                scheduler.addRecurringPayment(rp);
+                
+                java.time.LocalDate firstDueDate = timeService.today().with(java.time.temporal.TemporalAdjusters.firstDayOfNextMonth());
+                long daysUntilDue = java.time.temporal.ChronoUnit.DAYS.between(timeService.today(), firstDueDate);
+
+                timeService.advanceDays(daysUntilDue); // Advance to due date
+
+                scheduler.dailyCheck();
+
+                // Refresh data
+                cfm.reloadCustomers();
+                recPayer = cfm.getCustomerByUsername(recPayer.getUsername());
+                recComp = (CompanyCustomer) cfm.getCustomerByUsername(recComp.getUsername());
+                payerAccount = recPayer.getBankAccounts().get(0);
+                compAccount = recComp.getBankAccounts().get(0);
+                
+                BankOfTuc.Payments.RecurringPayment reloadedRp = scheduler.getPaymentsForCustomer(recPayer.getVatID()).get(0);
+
+                if (payerAccount.getBalance() < initialPayerBalance && compAccount.getBalance() > initialCompBalance) {
+                    record.ok("recurring payment: balances updated correctly");
+                    passed++;
+                } else {
+                    record.fail("recurring payment: balance update failed", "Payer: " + payerAccount.getBalance() + ", Comp: " + compAccount.getBalance());
+                    failed++;
+                }
+                if (reloadedRp.getNextDueDate().isAfter(firstDueDate)) {
+                    record.ok("recurring payment: next due date advanced");
+                    passed++;
+                } else {
+                    record.fail("recurring payment: next due date did not advance", "Next due: " + reloadedRp.getNextDueDate());
+                    failed++;
+                }
+
+                // Scenario 2: Insufficient funds & email notification
+                record.ok("recurring payment: testing insufficient funds and email trigger");
+                
+                // Create a new bill and payment for isolation
+                recComp.issueBill(100, java.time.LocalDate.now().plusMonths(2), 1, recPayer.getVatID());
+                compBills = BankOfTuc.Payments.BillFileStore.getCompanyBills(recComp.getVatID());
+                BankOfTuc.Payments.Bill failBill = compBills.get(compBills.size() - 1);
+                
+                BankOfTuc.Payments.RecurringPayment failRp = new BankOfTuc.Payments.RecurringPayment(failBill.getRfcode(), payerAccount, 100, timeService.today());
+                scheduler.addRecurringPayment(failRp);
+                
+                payerAccount.setBalance(50); // Insufficient funds
+                cfm.updateCustomer(recPayer);
+
+                firstDueDate = timeService.today().with(java.time.temporal.TemporalAdjusters.firstDayOfNextMonth());
+                daysUntilDue = java.time.temporal.ChronoUnit.DAYS.between(timeService.today(), firstDueDate);
+                timeService.advanceDays(daysUntilDue); // Advance to due date
+
+                scheduler.dailyCheck(); // 1st fail
+                reloadedRp = scheduler.getPaymentsForCustomer(recPayer.getVatID()).get(1);
+                 if (reloadedRp.getCurrentAttempts() == 1) { record.ok("recurring payment: 1st failure recorded"); passed++; }
+                else { record.fail("recurring payment: 1st failure not recorded", "attempts: " + reloadedRp.getCurrentAttempts()); failed++; }
+
+                timeService.advanceDays(1);
+                scheduler.dailyCheck(); // 2nd fail
+                reloadedRp = scheduler.getPaymentsForCustomer(recPayer.getVatID()).get(1);
+                if (reloadedRp.getCurrentAttempts() == 2) { record.ok("recurring payment: 2nd failure recorded"); passed++; }
+                else { record.fail("recurring payment: 2nd failure not recorded", "attempts: " + reloadedRp.getCurrentAttempts()); failed++; }
+
+                timeService.advanceDays(1);
+                scheduler.dailyCheck(); // 3rd fail
+                reloadedRp = scheduler.getPaymentsForCustomer(recPayer.getVatID()).get(1);
+                if (reloadedRp.getCurrentAttempts() == 3) {
+                    record.ok("recurring payment: 3rd failure recorded (email should be sent)");
+                    passed++;
+                } else {
+                    record.fail("recurring payment: 3rd failure not recorded", "attempts: " + reloadedRp.getCurrentAttempts());
+                    failed++;
+                }
+
+            } else {
+                record.skip("recurring payment tests", "not enough customers for tests");
+                skipped++;
+            }
+
+            timeService.stopSimulation();
+        } catch (Exception e) {
+            record.fail("recurring payment tests", "Exception occurred: " + e.getMessage());
+            failed++;
+            e.printStackTrace();
+        }
 
         // write a simple results file
         try (FileWriter fw = new FileWriter(new File("data/tests/test_results.txt"))) {
