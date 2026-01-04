@@ -29,6 +29,7 @@ public class RecurringPayment {
     private LocalDate nextDueDate;
     private int maxAttempts = 3;
     private int currentAttempts = 0;
+    private int failedAttempts = 0;
     private double standardFee = 2.5;
     private double maxFee = 3.5;
     // New: support for pause/resume
@@ -182,6 +183,7 @@ public class RecurringPayment {
     public double getmonthlyAmount() { return monthlyAmount; }
     public LocalDate getNextDueDate() { return nextDueDate; }
     public int getCurrentAttempts() { return currentAttempts; }
+    public int getFailedAttempts() { return failedAttempts; }
     public boolean isPaused() { return paused; }
     public String getPayerIban() {
         return payerIban;

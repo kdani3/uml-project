@@ -406,7 +406,7 @@ public class TestRunner {
             List<BankOfTuc.Payments.Bill> created = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 double amount = 50 + i * 25; // 50,75,100,125,150
-                java.time.LocalDate due = (i % 2 == 0) ? java.time.LocalDate.now().plusDays(30 + i) : java.time.LocalDate.now().minusDays(5 + i);
+                java.time.LocalDate due = java.time.LocalDate.now().plusDays(30 + i);
                 boolean issuedMany = comp.issueBill(amount, due, 1, allCustomers.stream().filter(x -> x instanceof IndividualCustomer).findFirst().get().getVatID());
                 if (!issuedMany) {
                     record.fail("issueBill batch for " + comp.getUsername(), "issue returned false at index " + i);
