@@ -11,11 +11,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
 import BankOfTuc.Customer;
-import BankOfTuc.EmailUtils;
-import BankOfTuc.EnvReader;
-import BankOfTuc.TransactionPdfGenerator;
 import BankOfTuc.Accounting.BankAccount;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
+import BankOfTuc.FileIO.EmailUtils;
+import BankOfTuc.FileIO.EnvReader;
+import BankOfTuc.FileIO.TransactionPdfGenerator;
 import BankOfTuc.Logging.TransactionHistoryService;
 import BankOfTuc.Transfers.InterBank;
 import BankOfTuc.Transfers.SelfTransfer;
@@ -88,6 +88,10 @@ public static void showTransactionHistory(Scanner sc, Customer customer,List<Tra
             System.out.println("Amount Received:   " + e.getAmountDisplay() + " €");
         }
         
+        if(e.details!=null&&!e.details.isEmpty()){
+            System.out.println("Details:           " + e.details);
+        }   
+
         System.out.println("\n\n1. Export Statement");
         System.out.println("2. Send Statement to Email");
         if(e.isOutgoing&&!e.type.equalsIgnoreCase("PAYMENT"))
@@ -98,6 +102,14 @@ public static void showTransactionHistory(Scanner sc, Customer customer,List<Tra
             case "1": 
                 JFrame parentComponent = new JFrame();
                 JFileChooser fileChooser= new JFileChooser();
+                fileChooser.setDialogTitle("Specify a file location to save");
+                fileChooser.setAcceptAllFileFilterUsed(false);
+                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                fileChooser.setMultiSelectionEnabled(false);
+                fileChooser.setApproveButtonText("Save");
+                fileChooser.setApproveButtonToolTipText("Save");
+                fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")+File.separator+"Downloads"));
+                fileChooser.setSelectedFile(new File("Transaction_Report.pdf"));
                 // Some init code, if you need one, like setting title
                 int returnVal = fileChooser.showOpenDialog(parentComponent);
                 if ( returnVal == JFileChooser.APPROVE_OPTION) {

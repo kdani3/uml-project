@@ -1,5 +1,5 @@
 // File: BankOfTuc.Pdf.TransactionPdfGenerator.java
-package BankOfTuc;
+package BankOfTuc.FileIO;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -9,6 +9,8 @@ import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.lowagie.text.pdf.BaseFont;
+
+import BankOfTuc.Customer;
 import BankOfTuc.Logging.TransactionHistoryService;
 
 public class TransactionPdfGenerator {

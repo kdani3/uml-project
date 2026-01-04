@@ -4,7 +4,7 @@ import BankOfTuc.CompanyCustomer;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Payments.Bill;
 import BankOfTuc.Payments.BillFileStore;
-import BankOfTuc.TimeService;
+import BankOfTuc.Services.TimeService;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -13,15 +13,9 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class CompanyIssuingPanel extends JPanel {
-    private final CompanyCustomer company;
-    private final CustomerFileManager cfm;
-    
     private final Color BRAND_COLOR = new Color(159, 13, 64);
 
     public CompanyIssuingPanel(CompanyCustomer company, CustomerFileManager cfm) {
-        this.company = company;
-        this.cfm = cfm;
-        
         setLayout(new MigLayout("fillx, insets 40", "[right][grow]", "[]15[]15[]15[]30[]"));
         setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR
 

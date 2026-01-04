@@ -1,14 +1,13 @@
 package BankOfTuc.Transfers;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import BankOfTuc.Customer;
-import BankOfTuc.SwiftTransferService;
-import BankOfTuc.TimeService;
 import BankOfTuc.Accounting.BankAccount;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Logging.TransferLogger;
+import BankOfTuc.Services.SwiftTransferService;
+import BankOfTuc.Services.TimeService;
 
 public class swiftTransfer extends Transfer{
  static final double fee = 2.50;

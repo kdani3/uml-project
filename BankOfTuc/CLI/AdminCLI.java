@@ -3,25 +3,19 @@ package BankOfTuc.CLI;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Consumer;
-
 import BankOfTuc.Admin;
 import BankOfTuc.Customer;
-import BankOfTuc.IndividualCustomer;
-import BankOfTuc.TimeService;
 import BankOfTuc.User;
-import BankOfTuc.Accounting.BankAccount;
 import BankOfTuc.Auth.LoginManager;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Bookkeeping.UserFileManagement;
 import BankOfTuc.Logging.TransactionHistoryService;
 import BankOfTuc.Logging.TransactionHistoryService.TransactionEntry;
 import BankOfTuc.Payments.CustomerPaymentService;
+import BankOfTuc.Services.TimeService;
 import dev.samstevens.totp.exceptions.QrGenerationException;
 
 public class AdminCLI {
@@ -152,7 +146,12 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         System.out.println("4. Customer's Transfers ");
         System.out.println("5. Remove Customer's QR Code");
         System.out.println("6. Show expected TOTP codes");
-        System.out.println("7. Return");
+        if(cust.getActive()){
+            System.out.println("7. Freeze Customer Account");
+        }else{
+            System.out.println("7. Unfreeze Customer Account");
+        }
+        System.out.println("8. Return");
 
         System.out.print("> ");
         String select = sc.nextLine();
@@ -201,6 +200,20 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
                 break;
             case "6":
                 break;
+            case "7":
+                if(cust.getActive()){
+                    cust.setActive(false);
+                    cfm.updateCustomer(cust);
+                    System.out.println("Customer account has been frozen.");
+                }else{
+                    cust.setActive(true);
+                    cfm.updateCustomer(cust);
+                    System.out.println("Customer account has been unfrozen.");
+                }
+                break;
+            case "8":
+                // Return
+                break;
             default:
                 System.out.println("Invalid selection");
                 break;
@@ -218,7 +231,6 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         System.out.println("4. Return");
 
         System.out.print("> ");
-        User user  = (User) customer;
         String select = sc.nextLine();
 
         User linkedUser = ufm.getUserByUsername(customer.getUsername());
@@ -232,7 +244,6 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             case "1" -> {
                 // Username Change
                 String newVal = getNewValue(sc, "Username", customer.getUsername());
-                // Ενημέρωση μνήμης και στα δύο αντικείμενα
                 customer.setUsername(newVal);
                 linkedUser.setUsername(newVal);
                 // Αποθήκευση
@@ -259,7 +270,6 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         }
     }
 
-    // Βοηθητική μέθοδος για την ανάγνωση της νέας τιμής (αντικαθιστά την updateField για πιο καθαρό έλεγχο)
     private static String getNewValue(Scanner sc, String fieldName, String currentVal) {
         System.out.println("Current " + fieldName + ": " + currentVal);
         System.out.println("Enter new " + fieldName + ": ");
@@ -267,16 +277,13 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         return sc.nextLine();
     }
 
-    // Βοηθητική μέθοδος για την αποθήκευση και στα δύο αρχεία
     private static void saveChanges(Customer customer, User linkedUser, CustomerFileManager cfm, UserFileManagement ufm) {
-        // 1. Αποθήκευση στο customers.json
         cfm.updateCustomer(customer);
         
-        // 2. Αποθήκευση στο users.json (χρησιμοποιώντας το linkedUser που έχει το σωστό ID)
         ufm.updateUser(linkedUser);
     }
 
-    private static void setTargetDate(Scanner sc, CustomerFileManager cfm) { // <-- Προσθήκη cfm
+    private static void setTargetDate(Scanner sc, CustomerFileManager cfm) { 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         System.out.println("Enter the target date for simulation (dd-MM-yyyy): ");
@@ -297,7 +304,7 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
 
         if (targetDate.isAfter(currentDate)) {
             System.out.println("Target date is after the current date, simulating time...");
-            simulateToTargetDate(targetDate, cfm); // <-- Πέρασμα του cfm
+            simulateToTargetDate(targetDate, cfm);
         } else {
             System.out.println("Target date is in the past or today. No simulation needed.");
         }
@@ -311,10 +318,8 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             timeService.startSimulation();
         }
 
-        // Αρχικοποίηση του Service για έλεγχο πληρωμών
         CustomerPaymentService payService;
         try {
-            // Χρησιμοποιούμε ένα dummy ID γιατί ο scheduler φορτώνει ΟΛΕΣ τις πληρωμές
             payService = new CustomerPaymentService("ADMIN_SIM", cfm);
         } catch (IOException e) {
             System.out.println("Error initializing payment service: " + e.getMessage());

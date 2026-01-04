@@ -3,7 +3,6 @@ package BankOfTuc.CLI;
 import java.util.Scanner;
 
 import BankOfTuc.CompanyCustomer;
-import BankOfTuc.IndividualCustomer;
 import BankOfTuc.Accounting.BankAccount;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 

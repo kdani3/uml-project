@@ -4,7 +4,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 
-import BankOfTuc.TimeService;
+import BankOfTuc.Services.TimeService;
 
 public class BillFileStore {
 

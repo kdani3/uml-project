@@ -6,6 +6,7 @@ import java.util.List;
 
 import BankOfTuc.Payments.Bill;
 import BankOfTuc.Payments.BillFileStore;
+import BankOfTuc.Services.TimeService;
 
 public class CompanyCustomer extends Customer{
    public CompanyCustomer( String username, String passwordToHash, String fullname,String vatID, String email, boolean isActive){

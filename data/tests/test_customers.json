@@ -8,12 +8,12 @@
       "role": "INDIVIDUAL",
       "bankAccounts": [
         {
-          "iban": "GR0428877809791699413056",
+          "iban": "GR1575295230235689280647",
           "balance": 0.0,
           "type": "CHECKING"
         },
         {
-          "iban": "GR2391818277597658814896",
+          "iban": "GR5357153796458742340367",
           "balance": 500.0,
           "type": "SAVINGS"
         }
@@ -27,12 +27,12 @@
       "role": "INDIVIDUAL",
       "bankAccounts": [
         {
-          "iban": "GR0428877809791699413056",
+          "iban": "GR1575295230235689280647",
           "balance": 0.0,
           "type": "CHECKING"
         },
         {
-          "iban": "GR2391818277597658814896",
+          "iban": "GR5357153796458742340367",
           "balance": 500.0,
           "type": "SAVINGS"
         }
@@ -46,12 +46,12 @@
       "role": "INDIVIDUAL",
       "bankAccounts": [
         {
-          "iban": "GR4821384181809548748036",
+          "iban": "GR1833618072375050889843",
           "balance": 1000.0,
           "type": "CHECKING"
         },
         {
-          "iban": "GR2861397099370508094087",
+          "iban": "GR6505619499161281476149",
           "balance": 500.0,
           "type": "SAVINGS"
         }
@@ -65,12 +65,12 @@
       "role": "INDIVIDUAL",
       "bankAccounts": [
         {
-          "iban": "GR4845587817580852524220",
+          "iban": "GR0249362312012219968174",
           "balance": 1000.0,
           "type": "CHECKING"
         },
         {
-          "iban": "GR5497828201702502011047",
+          "iban": "GR6912052782367577029697",
           "balance": 500.0,
           "type": "SAVINGS"
         }
@@ -84,12 +84,12 @@
       "role": "INDIVIDUAL",
       "bankAccounts": [
         {
-          "iban": "GR7632781071671353279515",
+          "iban": "GR1295235671309168860397",
           "balance": 1000.0,
           "type": "CHECKING"
         },
         {
-          "iban": "GR3790265361926223337882",
+          "iban": "GR2481022146249539935651",
           "balance": 500.0,
           "type": "SAVINGS"
         }
@@ -103,12 +103,12 @@
       "role": "INDIVIDUAL",
       "bankAccounts": [
         {
-          "iban": "GR3581142723590962903214",
+          "iban": "GR9512407339292688815322",
           "balance": 1000.0,
           "type": "CHECKING"
         },
         {
-          "iban": "GR3032655390472582634687",
+          "iban": "GR5324398267322797231694",
           "balance": 500.0,
           "type": "SAVINGS"
         }
@@ -122,12 +122,12 @@
       "role": "INDIVIDUAL",
       "bankAccounts": [
         {
-          "iban": "GR1331652749632538220359",
+          "iban": "GR6714991927383678727171",
           "balance": 1000.0,
           "type": "CHECKING"
         },
         {
-          "iban": "GR0209671009485937262682",
+          "iban": "GR1938016908472232779643",
           "balance": 500.0,
           "type": "SAVINGS"
         }
@@ -141,12 +141,12 @@
       "role": "INDIVIDUAL",
       "bankAccounts": [
         {
-          "iban": "GR6628020403697803292325",
+          "iban": "GR7443930739096625141839",
           "balance": 1000.0,
           "type": "CHECKING"
         },
         {
-          "iban": "GR8622417791724046454884",
+          "iban": "GR6408562526436108911749",
           "balance": 500.0,
           "type": "SAVINGS"
         }
@@ -160,12 +160,12 @@
       "role": "INDIVIDUAL",
       "bankAccounts": [
         {
-          "iban": "GR1048020364561312345819",
+          "iban": "GR1649417721930574745993",
           "balance": 1000.0,
           "type": "CHECKING"
         },
         {
-          "iban": "GR9372300458332275110574",
+          "iban": "GR4542093630980310909750",
           "balance": 500.0,
           "type": "SAVINGS"
         }
@@ -179,12 +179,12 @@
       "role": "INDIVIDUAL",
       "bankAccounts": [
         {
-          "iban": "GR4618631151528809208895",
+          "iban": "GR9084181990364215225714",
           "balance": 1000.0,
           "type": "CHECKING"
         },
         {
-          "iban": "GR7440021072649253181219",
+          "iban": "GR0369318832471711610147",
           "balance": 500.0,
           "type": "SAVINGS"
         }
@@ -198,8 +198,8 @@
       "role": "COMPANY",
       "bankAccounts": [
         {
-          "iban": "GR6418123352299853641102",
-          "balance": 4500.0,
+          "iban": "GR7360970373450732423607",
+          "balance": 5700.0,
           "type": "COMPANY"
         }
       ]
@@ -212,8 +212,8 @@
       "role": "COMPANY",
       "bankAccounts": [
         {
-          "iban": "GR6755549203603995123276",
-          "balance": 4000.0,
+          "iban": "GR3175071894170494547178",
+          "balance": 5000.0,
           "type": "COMPANY"
         }
       ]
@@ -226,8 +226,8 @@
       "role": "COMPANY",
       "bankAccounts": [
         {
-          "iban": "GR4914755659992195153799",
-          "balance": 4000.0,
+          "iban": "GR5641199702765097779502",
+          "balance": 5000.0,
           "type": "COMPANY"
         }
       ]
@@ -240,8 +240,8 @@
       "role": "COMPANY",
       "bankAccounts": [
         {
-          "iban": "GR0238925967612490374101",
-          "balance": 4000.0,
+          "iban": "GR0519586300172918768120",
+          "balance": 5000.0,
           "type": "COMPANY"
         }
       ]
@@ -254,8 +254,8 @@
       "role": "COMPANY",
       "bankAccounts": [
         {
-          "iban": "GR4869159370054588910067",
-          "balance": 4000.0,
+          "iban": "GR2010858097614804997208",
+          "balance": 5000.0,
           "type": "COMPANY"
         }
       ]
@@ -268,8 +268,8 @@
       "role": "COMPANY",
       "bankAccounts": [
         {
-          "iban": "GR5205775137100841141804",
-          "balance": 4000.0,
+          "iban": "GR9061152455451875273450",
+          "balance": 5000.0,
           "type": "COMPANY"
         }
       ]
@@ -282,8 +282,8 @@
       "role": "COMPANY",
       "bankAccounts": [
         {
-          "iban": "GR1226012050396758318957",
-          "balance": 4000.0,
+          "iban": "GR0804052939203971304066",
+          "balance": 5000.0,
           "type": "COMPANY"
         }
       ]
@@ -296,8 +296,8 @@
       "role": "COMPANY",
       "bankAccounts": [
         {
-          "iban": "GR6502314329004655049039",
-          "balance": 4000.0,
+          "iban": "GR8268882142503648299611",
+          "balance": 5000.0,
           "type": "COMPANY"
         }
       ]
@@ -310,8 +310,8 @@
       "role": "COMPANY",
       "bankAccounts": [
         {
-          "iban": "GR5270976009630696240713",
-          "balance": 4000.0,
+          "iban": "GR1662078635133531851626",
+          "balance": 5000.0,
           "type": "COMPANY"
         }
       ]
@@ -324,8 +324,8 @@
       "role": "COMPANY",
       "bankAccounts": [
         {
-          "iban": "GR8212146525935071636937",
-          "balance": 4000.0,
+          "iban": "GR6250275530708950163608",
+          "balance": 5000.0,
           "type": "COMPANY"
         }
       ]

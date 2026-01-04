@@ -1,4 +1,4 @@
-package BankOfTuc;
+package BankOfTuc.FileIO;
 
 import java.io.IOException;
 import java.net.URI;

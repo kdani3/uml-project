@@ -1,82 +1,10 @@
 {
-  "comuser10" : {
-    "attempts" : null,
-    "until" : 1767499654474
+  "amdin1" : {
+    "attempts" : 1,
+    "until" : null
   },
-  "comuser8" : {
-    "attempts" : null,
-    "until" : 1767499654317
-  },
-  "comuser9" : {
-    "attempts" : null,
-    "until" : 1767499654396
-  },
-  "induser10" : {
-    "attempts" : null,
-    "until" : 1767499653677
-  },
-  "comuser6" : {
-    "attempts" : null,
-    "until" : 1767499654159
-  },
-  "comuser7" : {
-    "attempts" : null,
-    "until" : 1767499654238
-  },
-  "comuser4" : {
-    "attempts" : null,
-    "until" : 1767499654005
-  },
-  "comuser5" : {
-    "attempts" : null,
-    "until" : 1767499654081
-  },
-  "comuser2" : {
-    "attempts" : null,
-    "until" : 1767499653840
-  },
-  "comuser3" : {
-    "attempts" : null,
-    "until" : 1767499653924
-  },
-  "comuser1" : {
-    "attempts" : null,
-    "until" : 1767499653759
-  },
-  "induser1" : {
-    "attempts" : null,
-    "until" : 1767499652967
-  },
-  "induser6" : {
-    "attempts" : null,
-    "until" : 1767499653368
-  },
-  "induser7" : {
-    "attempts" : null,
-    "until" : 1767499653441
-  },
-  "induser8" : {
-    "attempts" : null,
-    "until" : 1767499653516
-  },
-  "induser9" : {
-    "attempts" : null,
-    "until" : 1767499653596
-  },
-  "induser2" : {
-    "attempts" : null,
-    "until" : 1767499653056
-  },
-  "induser3" : {
-    "attempts" : null,
-    "until" : 1767499653137
-  },
-  "induser4" : {
-    "attempts" : null,
-    "until" : 1767499653218
-  },
-  "induser5" : {
-    "attempts" : null,
-    "until" : 1767499653292
+  "john_doe" : {
+    "attempts" : 1,
+    "until" : null
   }
 }

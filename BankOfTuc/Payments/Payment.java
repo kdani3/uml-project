@@ -6,11 +6,11 @@ import java.util.List;
 
 import BankOfTuc.CompanyCustomer;
 import BankOfTuc.IndividualCustomer;
-import BankOfTuc.TimeService;
 import BankOfTuc.Accounting.BankAccount;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Logging.PaymentLogger;
 import BankOfTuc.Payments.Bill.BillStatus;
+import BankOfTuc.Services.TimeService;
 
 public class Payment {
     double totalAmount;

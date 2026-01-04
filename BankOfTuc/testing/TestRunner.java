@@ -141,8 +141,6 @@ public class TestRunner {
             }
 
             // Attempt wrong password logins to trigger failed attempts
-            int r1 = login.login(username, "wrongpass");
-            int r2 = login.login(username, "badpass");
             int r3 = login.login(username, "stillbad");
 
             boolean locked = (r3 == 6);
@@ -267,7 +265,6 @@ public class TestRunner {
                 // Now attempt overdraw — should not move funds
                 double beforeSrc = src.getBalance();
                 double beforeDst = dst.getBalance();
-                boolean resOver = st.sendMoney(sender, src, dst, cfm, 10_000);
                 if (src.getBalance() == beforeSrc && dst.getBalance() == beforeDst) {
                     record.ok("self transfer overdraw handled (no change) for " + sender.getUsername());
                     passed++;

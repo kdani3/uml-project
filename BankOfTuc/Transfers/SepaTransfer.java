@@ -3,10 +3,10 @@ package BankOfTuc.Transfers;
 import java.util.List;
 
 import BankOfTuc.Customer;
-import BankOfTuc.TimeService;
 import BankOfTuc.Accounting.BankAccount;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Logging.TransferLogger;
+import BankOfTuc.Services.TimeService;
 
 /**
  * Abstraction for SEPA transfers. Uses a TransferGateway (bridge) to perform the actual transfer.
@@ -19,7 +19,7 @@ public class SepaTransfer extends Transfer {
      * Default constructor — uses the real SepaTransferGateway backed by SepaTransferService.
      */
     public SepaTransfer() {
-        this.gateway = new SepaTransferGateway(new BankOfTuc.SepaTransferService());
+        this.gateway = new SepaTransferGateway(new BankOfTuc.Services.SepaTransferService());
     }
 
     /**

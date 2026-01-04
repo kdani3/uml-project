@@ -5,23 +5,19 @@ import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Bookkeeping.UserFileManagement;
 import BankOfTuc.Customer;
 import BankOfTuc.Logging.TransferLogger;
-import BankOfTuc.SepaTransferService;
-import BankOfTuc.SwiftTransferService;
-import BankOfTuc.TimeService;
+import BankOfTuc.Services.SepaTransferService;
+import BankOfTuc.Services.SwiftTransferService;
+import BankOfTuc.Services.TimeService;
 import BankOfTuc.Transfers.InterBank;
 import BankOfTuc.Transfers.SelfTransfer;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AdminTransfersPanel extends JPanel {
     private final CustomerFileManager cfm;
-    private final UserFileManagement ufm;
-    
     // UI Components
     private JComboBox<String> customerSelector;
     private JComboBox<String> accountSelector;
@@ -35,8 +31,6 @@ public class AdminTransfersPanel extends JPanel {
 
     public AdminTransfersPanel(CustomerFileManager cfm, UserFileManagement ufm) {
         this.cfm = cfm;
-        this.ufm = ufm;
-        
         setLayout(new MigLayout("fillx, insets 40", "[][grow]", "[]15[]15[]20[]30[]"));
         setBackground(BRAND_COLOR); // <--- ΑΛΛΑΓΗ: BRAND_COLOR
 

@@ -18,8 +18,8 @@
       "email": "co.kontos@gmail.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "yNpXLMGMeoplBCD9fYxESw\u003d\u003d",
-      "hashedPassword": "hwTUL9g7PeRQYn963hW9Up0xyU0fiPv9XgfVcGaiezM\u003d",
+      "saltBase64": "ZS1gmWyV2m5gaoF4AFXFzg\u003d\u003d",
+      "hashedPassword": "3thvMzStZX4CaDnWQv0NKhVKUwYqpv/r1lSbHyftWw4\u003d",
       "qrSecret": null
     },
     {
@@ -42,6 +42,50 @@
       "role": "INDIVIDUAL",
       "saltBase64": "UjAS1iqqnhpJs+FbgAm2LA\u003d\u003d",
       "hashedPassword": "UeIOATR3vAiZ3cwRK8LPS+nCXoar/c169NvsbZpoMd8\u003d",
+      "qrSecret": null
+    },
+    {
+      "id": 4,
+      "username": "admin0",
+      "fullname": "Super Admin 0",
+      "email": "admin0@example.com",
+      "isActive": true,
+      "role": "ADMIN",
+      "saltBase64": "6fsJBDgzBa5qOY38TR6gzA\u003d\u003d",
+      "hashedPassword": "0iWvWQt2hUZV+IUJNAx+46iGtL8f7jFF8qpeO2ylZ8Y\u003d",
+      "qrSecret": null
+    },
+    {
+      "id": 5,
+      "username": "admin2",
+      "fullname": "Super Admin 2",
+      "email": "admin2@example.com",
+      "isActive": true,
+      "role": "ADMIN",
+      "saltBase64": "8cHucZMZjxv7wgVCf3jm8A\u003d\u003d",
+      "hashedPassword": "u1zKZLX4XbCz8L3MLNxpN9pKmi5sNXMm/BwNkmByF2c\u003d",
+      "qrSecret": null
+    },
+    {
+      "id": 6,
+      "username": "admin3",
+      "fullname": "Super Admin 3",
+      "email": "admin3@example.com",
+      "isActive": true,
+      "role": "ADMIN",
+      "saltBase64": "OzDLC5SGLkdqjFE8XTA/7Q\u003d\u003d",
+      "hashedPassword": "zj5ZRwGuuDSad9sLpTEzSGy8sZgPU1sB51hU68Bs6UI\u003d",
+      "qrSecret": null
+    },
+    {
+      "id": 7,
+      "username": "admin4",
+      "fullname": "Super Admin 4",
+      "email": "admin4@example.com",
+      "isActive": true,
+      "role": "ADMIN",
+      "saltBase64": "IE8FB8bu4yDttnatVPja8Q\u003d\u003d",
+      "hashedPassword": "CXhpKGDWRaIoJdxwSSFN3k3Qy99e5uH3L4TP0sY+fFY\u003d",
       "qrSecret": null
     }
   ]

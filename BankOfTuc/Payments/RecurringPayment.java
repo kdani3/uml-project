@@ -1,4 +1,3 @@
-// File: BankOfTuc/Payments/RecurringPayment.java
 package BankOfTuc.Payments;
 
 import java.io.IOException;
@@ -10,13 +9,13 @@ import java.util.Map;
 import java.util.Objects;
 
 import BankOfTuc.Customer;
-import BankOfTuc.EmailUtils;
-import BankOfTuc.EnvReader;
-import BankOfTuc.TimeService;
 import BankOfTuc.Accounting.BankAccount;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
+import BankOfTuc.FileIO.EmailUtils;
+import BankOfTuc.FileIO.EnvReader;
 import BankOfTuc.Logging.PaymentLogger;
 import BankOfTuc.Payments.Bill.BillStatus;
+import BankOfTuc.Services.TimeService;
 
 public class RecurringPayment {
     

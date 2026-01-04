@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Scanner;
 
 import BankOfTuc.CompanyCustomer;
-import BankOfTuc.TimeService;
 import BankOfTuc.Payments.Bill;
 import BankOfTuc.Payments.Bill.BillStatus;
+import BankOfTuc.Services.TimeService;
 import BankOfTuc.Payments.BillFileStore;
 
 public class BillCLI {

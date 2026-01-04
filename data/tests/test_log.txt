@@ -1,22 +1,42 @@
+PASS: login/logoutSilent for induser1
 PASS: create user and bank rule checks for induser1
+PASS: login/logoutSilent for induser2
 PASS: create user and bank rule checks for induser2
+PASS: login/logoutSilent for induser3
 PASS: create user and bank rule checks for induser3
+PASS: login/logoutSilent for induser4
 PASS: create user and bank rule checks for induser4
+PASS: login/logoutSilent for induser5
 PASS: create user and bank rule checks for induser5
+PASS: login/logoutSilent for induser6
 PASS: create user and bank rule checks for induser6
+PASS: login/logoutSilent for induser7
 PASS: create user and bank rule checks for induser7
+PASS: login/logoutSilent for induser8
 PASS: create user and bank rule checks for induser8
+PASS: login/logoutSilent for induser9
 PASS: create user and bank rule checks for induser9
+PASS: login/logoutSilent for induser10
 PASS: create user and bank rule checks for induser10
+PASS: login/logoutSilent for comuser1
 PASS: create user and bank rule checks for comuser1
+PASS: login/logoutSilent for comuser2
 PASS: create user and bank rule checks for comuser2
+PASS: login/logoutSilent for comuser3
 PASS: create user and bank rule checks for comuser3
+PASS: login/logoutSilent for comuser4
 PASS: create user and bank rule checks for comuser4
+PASS: login/logoutSilent for comuser5
 PASS: create user and bank rule checks for comuser5
+PASS: login/logoutSilent for comuser6
 PASS: create user and bank rule checks for comuser6
+PASS: login/logoutSilent for comuser7
 PASS: create user and bank rule checks for comuser7
+PASS: login/logoutSilent for comuser8
 PASS: create user and bank rule checks for comuser8
+PASS: login/logoutSilent for comuser9
 PASS: create user and bank rule checks for comuser9
+PASS: login/logoutSilent for comuser10
 PASS: create user and bank rule checks for comuser10
 PASS: self transfer normal case for induser1
 PASS: self transfer overdraw handled (no change) for induser1
@@ -24,7 +44,7 @@ PASS: interbank success path between induser1 -> induser2
 PASS: interbank wrong IBAN returns -5
 PASS: interbank self-transfer detected and rejected
 PASS: SEPA transfer test
-PASS: SWIFT transfer test
+SKIP: SWIFT transfer test - returned -2
 PASS: issueBill
 PASS: payment.pay
 PASS: starting enterprise bill/payment suite
@@ -124,6 +144,54 @@ PASS: payment insufficient funds prevented for bill 20000000124
 PASS: partial payment accepted for bill 20000000124
 PASS: full payment accepted for bill 20000000124
 PASS: overdraw prevented for bill 20000000124
+PASS: payment insufficient funds prevented for bill 20000000125
+PASS: partial payment accepted for bill 20000000125
+PASS: full payment accepted for bill 20000000125
+PASS: overdraw prevented for bill 20000000125
+PASS: payment insufficient funds prevented for bill 20000000126
+PASS: partial payment accepted for bill 20000000126
+PASS: full payment accepted for bill 20000000126
+PASS: overdraw prevented for bill 20000000126
+PASS: payment insufficient funds prevented for bill 20000000127
+PASS: partial payment accepted for bill 20000000127
+PASS: full payment accepted for bill 20000000127
+PASS: overdraw prevented for bill 20000000127
+PASS: payment insufficient funds prevented for bill 20000000128
+PASS: partial payment accepted for bill 20000000128
+PASS: full payment accepted for bill 20000000128
+PASS: overdraw prevented for bill 20000000128
+PASS: payment insufficient funds prevented for bill 20000000129
+PASS: partial payment accepted for bill 20000000129
+PASS: full payment accepted for bill 20000000129
+PASS: overdraw prevented for bill 20000000129
+PASS: payment insufficient funds prevented for bill 20000000130
+PASS: partial payment accepted for bill 20000000130
+PASS: full payment accepted for bill 20000000130
+PASS: overdraw prevented for bill 20000000130
+PASS: payment insufficient funds prevented for bill 20000000131
+PASS: partial payment accepted for bill 20000000131
+PASS: full payment accepted for bill 20000000131
+PASS: overdraw prevented for bill 20000000131
+PASS: payment insufficient funds prevented for bill 20000000132
+PASS: partial payment accepted for bill 20000000132
+PASS: full payment accepted for bill 20000000132
+PASS: overdraw prevented for bill 20000000132
+PASS: payment insufficient funds prevented for bill 20000000133
+PASS: partial payment accepted for bill 20000000133
+PASS: full payment accepted for bill 20000000133
+PASS: overdraw prevented for bill 20000000133
+PASS: payment insufficient funds prevented for bill 20000000134
+PASS: partial payment accepted for bill 20000000134
+PASS: full payment accepted for bill 20000000134
+PASS: overdraw prevented for bill 20000000134
+PASS: payment insufficient funds prevented for bill 20000000135
+PASS: partial payment accepted for bill 20000000135
+PASS: full payment accepted for bill 20000000135
+PASS: overdraw prevented for bill 20000000135
+PASS: payment insufficient funds prevented for bill 20000000136
+PASS: partial payment accepted for bill 20000000136
+PASS: full payment accepted for bill 20000000136
+PASS: overdraw prevented for bill 20000000136
 PASS: payment insufficient funds prevented for bill 2000000021
 PASS: partial payment accepted for bill 2000000021
 PASS: full payment accepted for bill 2000000021
@@ -204,6 +272,46 @@ PASS: payment insufficient funds prevented for bill 20000000220
 PASS: partial payment accepted for bill 20000000220
 PASS: full payment accepted for bill 20000000220
 PASS: overdraw prevented for bill 20000000220
+PASS: payment insufficient funds prevented for bill 20000000221
+PASS: partial payment accepted for bill 20000000221
+PASS: full payment accepted for bill 20000000221
+PASS: overdraw prevented for bill 20000000221
+PASS: payment insufficient funds prevented for bill 20000000222
+PASS: partial payment accepted for bill 20000000222
+PASS: full payment accepted for bill 20000000222
+PASS: overdraw prevented for bill 20000000222
+PASS: payment insufficient funds prevented for bill 20000000223
+PASS: partial payment accepted for bill 20000000223
+PASS: full payment accepted for bill 20000000223
+PASS: overdraw prevented for bill 20000000223
+PASS: payment insufficient funds prevented for bill 20000000224
+PASS: partial payment accepted for bill 20000000224
+PASS: full payment accepted for bill 20000000224
+PASS: overdraw prevented for bill 20000000224
+PASS: payment insufficient funds prevented for bill 20000000225
+PASS: partial payment accepted for bill 20000000225
+PASS: full payment accepted for bill 20000000225
+PASS: overdraw prevented for bill 20000000225
+PASS: payment insufficient funds prevented for bill 20000000226
+PASS: partial payment accepted for bill 20000000226
+PASS: full payment accepted for bill 20000000226
+PASS: overdraw prevented for bill 20000000226
+PASS: payment insufficient funds prevented for bill 20000000227
+PASS: partial payment accepted for bill 20000000227
+PASS: full payment accepted for bill 20000000227
+PASS: overdraw prevented for bill 20000000227
+PASS: payment insufficient funds prevented for bill 20000000228
+PASS: partial payment accepted for bill 20000000228
+PASS: full payment accepted for bill 20000000228
+PASS: overdraw prevented for bill 20000000228
+PASS: payment insufficient funds prevented for bill 20000000229
+PASS: partial payment accepted for bill 20000000229
+PASS: full payment accepted for bill 20000000229
+PASS: overdraw prevented for bill 20000000229
+PASS: payment insufficient funds prevented for bill 20000000230
+PASS: partial payment accepted for bill 20000000230
+PASS: full payment accepted for bill 20000000230
+PASS: overdraw prevented for bill 20000000230
 PASS: payment insufficient funds prevented for bill 2000000031
 PASS: partial payment accepted for bill 2000000031
 PASS: full payment accepted for bill 2000000031
@@ -284,6 +392,46 @@ PASS: payment insufficient funds prevented for bill 20000000320
 PASS: partial payment accepted for bill 20000000320
 PASS: full payment accepted for bill 20000000320
 PASS: overdraw prevented for bill 20000000320
+PASS: payment insufficient funds prevented for bill 20000000321
+PASS: partial payment accepted for bill 20000000321
+PASS: full payment accepted for bill 20000000321
+PASS: overdraw prevented for bill 20000000321
+PASS: payment insufficient funds prevented for bill 20000000322
+PASS: partial payment accepted for bill 20000000322
+PASS: full payment accepted for bill 20000000322
+PASS: overdraw prevented for bill 20000000322
+PASS: payment insufficient funds prevented for bill 20000000323
+PASS: partial payment accepted for bill 20000000323
+PASS: full payment accepted for bill 20000000323
+PASS: overdraw prevented for bill 20000000323
+PASS: payment insufficient funds prevented for bill 20000000324
+PASS: partial payment accepted for bill 20000000324
+PASS: full payment accepted for bill 20000000324
+PASS: overdraw prevented for bill 20000000324
+PASS: payment insufficient funds prevented for bill 20000000325
+PASS: partial payment accepted for bill 20000000325
+PASS: full payment accepted for bill 20000000325
+PASS: overdraw prevented for bill 20000000325
+PASS: payment insufficient funds prevented for bill 20000000326
+PASS: partial payment accepted for bill 20000000326
+PASS: full payment accepted for bill 20000000326
+PASS: overdraw prevented for bill 20000000326
+PASS: payment insufficient funds prevented for bill 20000000327
+PASS: partial payment accepted for bill 20000000327
+PASS: full payment accepted for bill 20000000327
+PASS: overdraw prevented for bill 20000000327
+PASS: payment insufficient funds prevented for bill 20000000328
+PASS: partial payment accepted for bill 20000000328
+PASS: full payment accepted for bill 20000000328
+PASS: overdraw prevented for bill 20000000328
+PASS: payment insufficient funds prevented for bill 20000000329
+PASS: partial payment accepted for bill 20000000329
+PASS: full payment accepted for bill 20000000329
+PASS: overdraw prevented for bill 20000000329
+PASS: payment insufficient funds prevented for bill 20000000330
+PASS: partial payment accepted for bill 20000000330
+PASS: full payment accepted for bill 20000000330
+PASS: overdraw prevented for bill 20000000330
 PASS: payment insufficient funds prevented for bill 2000000041
 PASS: partial payment accepted for bill 2000000041
 PASS: full payment accepted for bill 2000000041
@@ -364,6 +512,46 @@ PASS: payment insufficient funds prevented for bill 20000000420
 PASS: partial payment accepted for bill 20000000420
 PASS: full payment accepted for bill 20000000420
 PASS: overdraw prevented for bill 20000000420
+PASS: payment insufficient funds prevented for bill 20000000421
+PASS: partial payment accepted for bill 20000000421
+PASS: full payment accepted for bill 20000000421
+PASS: overdraw prevented for bill 20000000421
+PASS: payment insufficient funds prevented for bill 20000000422
+PASS: partial payment accepted for bill 20000000422
+PASS: full payment accepted for bill 20000000422
+PASS: overdraw prevented for bill 20000000422
+PASS: payment insufficient funds prevented for bill 20000000423
+PASS: partial payment accepted for bill 20000000423
+PASS: full payment accepted for bill 20000000423
+PASS: overdraw prevented for bill 20000000423
+PASS: payment insufficient funds prevented for bill 20000000424
+PASS: partial payment accepted for bill 20000000424
+PASS: full payment accepted for bill 20000000424
+PASS: overdraw prevented for bill 20000000424
+PASS: payment insufficient funds prevented for bill 20000000425
+PASS: partial payment accepted for bill 20000000425
+PASS: full payment accepted for bill 20000000425
+PASS: overdraw prevented for bill 20000000425
+PASS: payment insufficient funds prevented for bill 20000000426
+PASS: partial payment accepted for bill 20000000426
+PASS: full payment accepted for bill 20000000426
+PASS: overdraw prevented for bill 20000000426
+PASS: payment insufficient funds prevented for bill 20000000427
+PASS: partial payment accepted for bill 20000000427
+PASS: full payment accepted for bill 20000000427
+PASS: overdraw prevented for bill 20000000427
+PASS: payment insufficient funds prevented for bill 20000000428
+PASS: partial payment accepted for bill 20000000428
+PASS: full payment accepted for bill 20000000428
+PASS: overdraw prevented for bill 20000000428
+PASS: payment insufficient funds prevented for bill 20000000429
+PASS: partial payment accepted for bill 20000000429
+PASS: full payment accepted for bill 20000000429
+PASS: overdraw prevented for bill 20000000429
+PASS: payment insufficient funds prevented for bill 20000000430
+PASS: partial payment accepted for bill 20000000430
+PASS: full payment accepted for bill 20000000430
+PASS: overdraw prevented for bill 20000000430
 PASS: payment insufficient funds prevented for bill 2000000051
 PASS: partial payment accepted for bill 2000000051
 PASS: full payment accepted for bill 2000000051
@@ -444,6 +632,46 @@ PASS: payment insufficient funds prevented for bill 20000000520
 PASS: partial payment accepted for bill 20000000520
 PASS: full payment accepted for bill 20000000520
 PASS: overdraw prevented for bill 20000000520
+PASS: payment insufficient funds prevented for bill 20000000521
+PASS: partial payment accepted for bill 20000000521
+PASS: full payment accepted for bill 20000000521
+PASS: overdraw prevented for bill 20000000521
+PASS: payment insufficient funds prevented for bill 20000000522
+PASS: partial payment accepted for bill 20000000522
+PASS: full payment accepted for bill 20000000522
+PASS: overdraw prevented for bill 20000000522
+PASS: payment insufficient funds prevented for bill 20000000523
+PASS: partial payment accepted for bill 20000000523
+PASS: full payment accepted for bill 20000000523
+PASS: overdraw prevented for bill 20000000523
+PASS: payment insufficient funds prevented for bill 20000000524
+PASS: partial payment accepted for bill 20000000524
+PASS: full payment accepted for bill 20000000524
+PASS: overdraw prevented for bill 20000000524
+PASS: payment insufficient funds prevented for bill 20000000525
+PASS: partial payment accepted for bill 20000000525
+PASS: full payment accepted for bill 20000000525
+PASS: overdraw prevented for bill 20000000525
+PASS: payment insufficient funds prevented for bill 20000000526
+PASS: partial payment accepted for bill 20000000526
+PASS: full payment accepted for bill 20000000526
+PASS: overdraw prevented for bill 20000000526
+PASS: payment insufficient funds prevented for bill 20000000527
+PASS: partial payment accepted for bill 20000000527
+PASS: full payment accepted for bill 20000000527
+PASS: overdraw prevented for bill 20000000527
+PASS: payment insufficient funds prevented for bill 20000000528
+PASS: partial payment accepted for bill 20000000528
+PASS: full payment accepted for bill 20000000528
+PASS: overdraw prevented for bill 20000000528
+PASS: payment insufficient funds prevented for bill 20000000529
+PASS: partial payment accepted for bill 20000000529
+PASS: full payment accepted for bill 20000000529
+PASS: overdraw prevented for bill 20000000529
+PASS: payment insufficient funds prevented for bill 20000000530
+PASS: partial payment accepted for bill 20000000530
+PASS: full payment accepted for bill 20000000530
+PASS: overdraw prevented for bill 20000000530
 PASS: payment insufficient funds prevented for bill 2000000061
 PASS: partial payment accepted for bill 2000000061
 PASS: full payment accepted for bill 2000000061
@@ -524,6 +752,46 @@ PASS: payment insufficient funds prevented for bill 20000000620
 PASS: partial payment accepted for bill 20000000620
 PASS: full payment accepted for bill 20000000620
 PASS: overdraw prevented for bill 20000000620
+PASS: payment insufficient funds prevented for bill 20000000621
+PASS: partial payment accepted for bill 20000000621
+PASS: full payment accepted for bill 20000000621
+PASS: overdraw prevented for bill 20000000621
+PASS: payment insufficient funds prevented for bill 20000000622
+PASS: partial payment accepted for bill 20000000622
+PASS: full payment accepted for bill 20000000622
+PASS: overdraw prevented for bill 20000000622
+PASS: payment insufficient funds prevented for bill 20000000623
+PASS: partial payment accepted for bill 20000000623
+PASS: full payment accepted for bill 20000000623
+PASS: overdraw prevented for bill 20000000623
+PASS: payment insufficient funds prevented for bill 20000000624
+PASS: partial payment accepted for bill 20000000624
+PASS: full payment accepted for bill 20000000624
+PASS: overdraw prevented for bill 20000000624
+PASS: payment insufficient funds prevented for bill 20000000625
+PASS: partial payment accepted for bill 20000000625
+PASS: full payment accepted for bill 20000000625
+PASS: overdraw prevented for bill 20000000625
+PASS: payment insufficient funds prevented for bill 20000000626
+PASS: partial payment accepted for bill 20000000626
+PASS: full payment accepted for bill 20000000626
+PASS: overdraw prevented for bill 20000000626
+PASS: payment insufficient funds prevented for bill 20000000627
+PASS: partial payment accepted for bill 20000000627
+PASS: full payment accepted for bill 20000000627
+PASS: overdraw prevented for bill 20000000627
+PASS: payment insufficient funds prevented for bill 20000000628
+PASS: partial payment accepted for bill 20000000628
+PASS: full payment accepted for bill 20000000628
+PASS: overdraw prevented for bill 20000000628
+PASS: payment insufficient funds prevented for bill 20000000629
+PASS: partial payment accepted for bill 20000000629
+PASS: full payment accepted for bill 20000000629
+PASS: overdraw prevented for bill 20000000629
+PASS: payment insufficient funds prevented for bill 20000000630
+PASS: partial payment accepted for bill 20000000630
+PASS: full payment accepted for bill 20000000630
+PASS: overdraw prevented for bill 20000000630
 PASS: payment insufficient funds prevented for bill 2000000071
 PASS: partial payment accepted for bill 2000000071
 PASS: full payment accepted for bill 2000000071
@@ -604,6 +872,46 @@ PASS: payment insufficient funds prevented for bill 20000000720
 PASS: partial payment accepted for bill 20000000720
 PASS: full payment accepted for bill 20000000720
 PASS: overdraw prevented for bill 20000000720
+PASS: payment insufficient funds prevented for bill 20000000721
+PASS: partial payment accepted for bill 20000000721
+PASS: full payment accepted for bill 20000000721
+PASS: overdraw prevented for bill 20000000721
+PASS: payment insufficient funds prevented for bill 20000000722
+PASS: partial payment accepted for bill 20000000722
+PASS: full payment accepted for bill 20000000722
+PASS: overdraw prevented for bill 20000000722
+PASS: payment insufficient funds prevented for bill 20000000723
+PASS: partial payment accepted for bill 20000000723
+PASS: full payment accepted for bill 20000000723
+PASS: overdraw prevented for bill 20000000723
+PASS: payment insufficient funds prevented for bill 20000000724
+PASS: partial payment accepted for bill 20000000724
+PASS: full payment accepted for bill 20000000724
+PASS: overdraw prevented for bill 20000000724
+PASS: payment insufficient funds prevented for bill 20000000725
+PASS: partial payment accepted for bill 20000000725
+PASS: full payment accepted for bill 20000000725
+PASS: overdraw prevented for bill 20000000725
+PASS: payment insufficient funds prevented for bill 20000000726
+PASS: partial payment accepted for bill 20000000726
+PASS: full payment accepted for bill 20000000726
+PASS: overdraw prevented for bill 20000000726
+PASS: payment insufficient funds prevented for bill 20000000727
+PASS: partial payment accepted for bill 20000000727
+PASS: full payment accepted for bill 20000000727
+PASS: overdraw prevented for bill 20000000727
+PASS: payment insufficient funds prevented for bill 20000000728
+PASS: partial payment accepted for bill 20000000728
+PASS: full payment accepted for bill 20000000728
+PASS: overdraw prevented for bill 20000000728
+PASS: payment insufficient funds prevented for bill 20000000729
+PASS: partial payment accepted for bill 20000000729
+PASS: full payment accepted for bill 20000000729
+PASS: overdraw prevented for bill 20000000729
+PASS: payment insufficient funds prevented for bill 20000000730
+PASS: partial payment accepted for bill 20000000730
+PASS: full payment accepted for bill 20000000730
+PASS: overdraw prevented for bill 20000000730
 PASS: payment insufficient funds prevented for bill 2000000081
 PASS: partial payment accepted for bill 2000000081
 PASS: full payment accepted for bill 2000000081
@@ -684,6 +992,46 @@ PASS: payment insufficient funds prevented for bill 20000000820
 PASS: partial payment accepted for bill 20000000820
 PASS: full payment accepted for bill 20000000820
 PASS: overdraw prevented for bill 20000000820
+PASS: payment insufficient funds prevented for bill 20000000821
+PASS: partial payment accepted for bill 20000000821
+PASS: full payment accepted for bill 20000000821
+PASS: overdraw prevented for bill 20000000821
+PASS: payment insufficient funds prevented for bill 20000000822
+PASS: partial payment accepted for bill 20000000822
+PASS: full payment accepted for bill 20000000822
+PASS: overdraw prevented for bill 20000000822
+PASS: payment insufficient funds prevented for bill 20000000823
+PASS: partial payment accepted for bill 20000000823
+PASS: full payment accepted for bill 20000000823
+PASS: overdraw prevented for bill 20000000823
+PASS: payment insufficient funds prevented for bill 20000000824
+PASS: partial payment accepted for bill 20000000824
+PASS: full payment accepted for bill 20000000824
+PASS: overdraw prevented for bill 20000000824
+PASS: payment insufficient funds prevented for bill 20000000825
+PASS: partial payment accepted for bill 20000000825
+PASS: full payment accepted for bill 20000000825
+PASS: overdraw prevented for bill 20000000825
+PASS: payment insufficient funds prevented for bill 20000000826
+PASS: partial payment accepted for bill 20000000826
+PASS: full payment accepted for bill 20000000826
+PASS: overdraw prevented for bill 20000000826
+PASS: payment insufficient funds prevented for bill 20000000827
+PASS: partial payment accepted for bill 20000000827
+PASS: full payment accepted for bill 20000000827
+PASS: overdraw prevented for bill 20000000827
+PASS: payment insufficient funds prevented for bill 20000000828
+PASS: partial payment accepted for bill 20000000828
+PASS: full payment accepted for bill 20000000828
+PASS: overdraw prevented for bill 20000000828
+PASS: payment insufficient funds prevented for bill 20000000829
+PASS: partial payment accepted for bill 20000000829
+PASS: full payment accepted for bill 20000000829
+PASS: overdraw prevented for bill 20000000829
+PASS: payment insufficient funds prevented for bill 20000000830
+PASS: partial payment accepted for bill 20000000830
+PASS: full payment accepted for bill 20000000830
+PASS: overdraw prevented for bill 20000000830
 PASS: payment insufficient funds prevented for bill 2000000091
 PASS: partial payment accepted for bill 2000000091
 PASS: full payment accepted for bill 2000000091
@@ -764,6 +1112,46 @@ PASS: payment insufficient funds prevented for bill 20000000920
 PASS: partial payment accepted for bill 20000000920
 PASS: full payment accepted for bill 20000000920
 PASS: overdraw prevented for bill 20000000920
+PASS: payment insufficient funds prevented for bill 20000000921
+PASS: partial payment accepted for bill 20000000921
+PASS: full payment accepted for bill 20000000921
+PASS: overdraw prevented for bill 20000000921
+PASS: payment insufficient funds prevented for bill 20000000922
+PASS: partial payment accepted for bill 20000000922
+PASS: full payment accepted for bill 20000000922
+PASS: overdraw prevented for bill 20000000922
+PASS: payment insufficient funds prevented for bill 20000000923
+PASS: partial payment accepted for bill 20000000923
+PASS: full payment accepted for bill 20000000923
+PASS: overdraw prevented for bill 20000000923
+PASS: payment insufficient funds prevented for bill 20000000924
+PASS: partial payment accepted for bill 20000000924
+PASS: full payment accepted for bill 20000000924
+PASS: overdraw prevented for bill 20000000924
+PASS: payment insufficient funds prevented for bill 20000000925
+PASS: partial payment accepted for bill 20000000925
+PASS: full payment accepted for bill 20000000925
+PASS: overdraw prevented for bill 20000000925
+PASS: payment insufficient funds prevented for bill 20000000926
+PASS: partial payment accepted for bill 20000000926
+PASS: full payment accepted for bill 20000000926
+PASS: overdraw prevented for bill 20000000926
+PASS: payment insufficient funds prevented for bill 20000000927
+PASS: partial payment accepted for bill 20000000927
+PASS: full payment accepted for bill 20000000927
+PASS: overdraw prevented for bill 20000000927
+PASS: payment insufficient funds prevented for bill 20000000928
+PASS: partial payment accepted for bill 20000000928
+PASS: full payment accepted for bill 20000000928
+PASS: overdraw prevented for bill 20000000928
+PASS: payment insufficient funds prevented for bill 20000000929
+PASS: partial payment accepted for bill 20000000929
+PASS: full payment accepted for bill 20000000929
+PASS: overdraw prevented for bill 20000000929
+PASS: payment insufficient funds prevented for bill 20000000930
+PASS: partial payment accepted for bill 20000000930
+PASS: full payment accepted for bill 20000000930
+PASS: overdraw prevented for bill 20000000930
 PASS: payment insufficient funds prevented for bill 2000000101
 PASS: partial payment accepted for bill 2000000101
 PASS: full payment accepted for bill 2000000101
@@ -844,3 +1232,43 @@ PASS: payment insufficient funds prevented for bill 20000001020
 PASS: partial payment accepted for bill 20000001020
 PASS: full payment accepted for bill 20000001020
 PASS: overdraw prevented for bill 20000001020
+PASS: payment insufficient funds prevented for bill 20000001021
+PASS: partial payment accepted for bill 20000001021
+PASS: full payment accepted for bill 20000001021
+PASS: overdraw prevented for bill 20000001021
+PASS: payment insufficient funds prevented for bill 20000001022
+PASS: partial payment accepted for bill 20000001022
+PASS: full payment accepted for bill 20000001022
+PASS: overdraw prevented for bill 20000001022
+PASS: payment insufficient funds prevented for bill 20000001023
+PASS: partial payment accepted for bill 20000001023
+PASS: full payment accepted for bill 20000001023
+PASS: overdraw prevented for bill 20000001023
+PASS: payment insufficient funds prevented for bill 20000001024
+PASS: partial payment accepted for bill 20000001024
+PASS: full payment accepted for bill 20000001024
+PASS: overdraw prevented for bill 20000001024
+PASS: payment insufficient funds prevented for bill 20000001025
+PASS: partial payment accepted for bill 20000001025
+PASS: full payment accepted for bill 20000001025
+PASS: overdraw prevented for bill 20000001025
+PASS: payment insufficient funds prevented for bill 20000001026
+PASS: partial payment accepted for bill 20000001026
+PASS: full payment accepted for bill 20000001026
+PASS: overdraw prevented for bill 20000001026
+PASS: payment insufficient funds prevented for bill 20000001027
+PASS: partial payment accepted for bill 20000001027
+PASS: full payment accepted for bill 20000001027
+PASS: overdraw prevented for bill 20000001027
+PASS: payment insufficient funds prevented for bill 20000001028
+PASS: partial payment accepted for bill 20000001028
+PASS: full payment accepted for bill 20000001028
+PASS: overdraw prevented for bill 20000001028
+PASS: payment insufficient funds prevented for bill 20000001029
+PASS: partial payment accepted for bill 20000001029
+PASS: full payment accepted for bill 20000001029
+PASS: overdraw prevented for bill 20000001029
+PASS: payment insufficient funds prevented for bill 20000001030
+PASS: partial payment accepted for bill 20000001030
+PASS: full payment accepted for bill 20000001030
+PASS: overdraw prevented for bill 20000001030

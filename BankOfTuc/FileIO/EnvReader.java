@@ -1,4 +1,4 @@
-package BankOfTuc;
+package BankOfTuc.FileIO;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

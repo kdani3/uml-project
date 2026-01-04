@@ -7,7 +7,6 @@ import BankOfTuc.Bookkeeping.UserFileManagement;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,19 +16,15 @@ import java.io.IOException;
 public class MainDashboardFrame extends JFrame {
     private final User currentUser;
     private final UserFileManagement ufm;
-    private final CustomerFileManager cfm;
     private JTabbedPane tabbedPane;
     
     // Branding Colors
     private final Color BRAND_COLOR = new Color(159, 13, 64);
-    private final Color BG_COLOR = new Color(250, 250, 250);
     private final Color TEXT_PRIMARY = new Color(50, 50, 50);
 
     public MainDashboardFrame(User user, UserFileManagement ufm, CustomerFileManager cfm) {
         this.currentUser = user;
         this.ufm = ufm;
-        this.cfm = cfm;
-
         setTitle("TUC Bank - Dashboard");
         setSize(1200, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

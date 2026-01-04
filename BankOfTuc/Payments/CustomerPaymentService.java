@@ -4,8 +4,8 @@ package BankOfTuc.Payments;
 import java.io.IOException;
 import java.util.List;
 
-import BankOfTuc.TimeService;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
+import BankOfTuc.Services.TimeService;
 public class CustomerPaymentService {
     private final RecurringPaymentScheduler scheduler;
     private final String customerVatID;

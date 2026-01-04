@@ -1,6 +1,6 @@
 package BankOfTuc.Transfers;
 
-import BankOfTuc.SepaTransferService;
+import BankOfTuc.Services.SepaTransferService;
 
 /**
  * Concrete implementor that delegates SEPA transfer requests to SepaTransferService.

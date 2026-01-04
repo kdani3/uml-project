@@ -8,9 +8,9 @@ import BankOfTuc.Auth.LoginListener;
 import BankOfTuc.Auth.LoginManager;
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Bookkeeping.UserFileManagement;
+import BankOfTuc.FileIO.EmailUtils;
+import BankOfTuc.FileIO.EnvReader;
 import BankOfTuc.CompanyCustomer;
-import BankOfTuc.EmailUtils;
-import BankOfTuc.EnvReader;
 import BankOfTuc.IndividualCustomer;
 import BankOfTuc.User;
 import BankOfTuc.User.Role;
@@ -27,41 +27,7 @@ public class Main {
 
         CustomerFileManager cfm = CustomerFileManager.getInstance(customer_filePath);
         UserFileManagement ufm = UserFileManagement.getInstance(filePath);
-        //UsersCustomersBridge ucb = new UsersCustomersBridge(ufm, cfm);
-
-       /*  User admin = new Admin("admin1", "adminpass", "Super Admin", "admin@example.com", true);
-        Customer individual = new IndividualCustomer("john_doe", "password123", "John Doe","1234", "kntanakas@tuc.gr", true);
-        Customer company = new CompanyCustomer("acme_inc","secret456","ACME Inc.",  "21314", "contact@acme.com", true);
-
-        BankAccount indAccount = new BankAccount(individual.getVatID());
-        BankAccount companyAccount = new BankAccount(company.getVatID());
- */
-/*         indAccount.addBalance(400);
-
-        individual.addBankAccount(indAccount);
-        company.addBankAccount(companyAccount);
-
- 
-        cfm.addCustomer(individual);
-        cfm.addCustomer(company);
-
-        ufm.addUser(admin);
-        ufm.addUser(individual);
-        ufm.addUser(company);
- */
-        //ucb.bridge();
-
-       /*  User retrieved = ufm.getUserByUsername("john_doe");
-        if (retrieved!=null)
-            System.out.println("Found: " + retrieved.getUsername() + " | Role: " + retrieved.getRole());
-
-        List<User> allUsers = ufm.getAllUsers(); */
-/* 
-        for (User u : allUsers) {
-            System.out.println(u.getUsername() + " | " + u.getRole() + " | Active: " + u.getActive());
-        }
- */
-
+        
         Scanner sc = new Scanner(System.in);
         LoginManager login = new LoginManager(ufm);
 

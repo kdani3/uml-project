@@ -2,7 +2,7 @@ package BankOfTuc.GUI;
 
 import BankOfTuc.Bookkeeping.CustomerFileManager;
 import BankOfTuc.Payments.CustomerPaymentService;
-import BankOfTuc.TimeService;
+import BankOfTuc.Services.TimeService;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;

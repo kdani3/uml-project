@@ -8,7 +8,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.google.gson.JsonDeserializer;
 import BankOfTuc.Accounting.BankAccount;
 
 public class BankAccountSerializer 

@@ -1,4 +1,4 @@
-package BankOfTuc;
+package BankOfTuc.Services;
 
 import java.io.IOException;
 import java.net.URI;
@@ -6,20 +6,20 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class SepaTransferService {
+public class SwiftTransferService {
 
-    private static final String API_URL = "http://147.27.70.44:3020/transfer/sepa";
+    private static final String API_URL = "http://147.27.70.44:3020/transfer/swift";
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
-    public boolean sendSepaTransferRequest(
+    public boolean sendSwiftTransferRequest(
             double amount,
             String creditorName,
             String creditorIban,
-            String creditorBic,
+            String creditorSwiftCode,
             String requestedDate,
             String charges) {
         
-        String jsonPayload = buildJsonPayload(amount, creditorName, creditorIban, creditorBic, requestedDate, charges);
+        String jsonPayload = buildJsonPayload(amount, creditorName, creditorIban, creditorSwiftCode, requestedDate, charges);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(API_URL))
@@ -38,10 +38,7 @@ public class SepaTransferService {
 
         } catch (IOException | InterruptedException e) {
             System.err.println("Request failed: " + e.getMessage());
-            if (e instanceof InterruptedException) {
-                Thread.currentThread().interrupt();
-            }
-            return false;
+            return "Exception occurred: " + e.getMessage() != null;
         }
     }
 
@@ -49,25 +46,28 @@ public class SepaTransferService {
             double amount,
             String creditorName,
             String creditorIban,
-            String creditorBic,
+            String creditorSwiftCode,
             String requestedDate,
             String charges) {
 
         return String.format("""
             {
+              "currency": "EUR",
               "amount": %.1f,
-              "creditor": {
+              "beneficiary": {
                 "name": "%s",
-                "iban": "%s"
+                "account": "%s"
               },
-              "creditorBank": {
-                "bic": "%s"
+              "beneficiaryBank": {
+                "swiftCode": "%s"
               },
-              "execution": {
-                "requestedDate": "%s",
-                "charges": "%s"
-              }
+              "fees": {
+                "chargingModel": "%s"
+              },
+              "correspondentBank": {
+                "required": false
+                }
             }
-            """, amount, creditorName, creditorIban, creditorBic, requestedDate, charges);
+            """, amount, creditorName, creditorIban, creditorSwiftCode, requestedDate, charges);
     }
 }
