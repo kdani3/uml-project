@@ -38,11 +38,15 @@ public class TestRunner {
         System.out.println("Starting automated tests...");
 
         // Ensure data folder exists
-        File dataDir = new File("data");
+        File datapanDir = new File("data");
+        if (!datapanDir.exists()) datapanDir.mkdirs();
+
+        File dataDir = new File("data/tests");
         if (!dataDir.exists()) dataDir.mkdirs();
 
-        String usersPath = "data/test_users.json";
-        String customersPath = "data/test_customers.json";
+
+        String usersPath = "data/tests/test_users.json";
+        String customersPath = "data/tests/test_customers.json";
         String inputPath = "testing/test_users_input.json";
 
         // Initialize empty test stores (will be created by managers)
@@ -428,6 +432,23 @@ public class TestRunner {
                 // For each bill, run payment scenarios
                 for (int i = 0; i < bills.size(); i++) {
                     BankOfTuc.Payments.Bill bill = bills.get(i);
+                    
+                    if (bill.isPaid()) {
+                        bill.setPaidAmount(0);
+                        bill.setPaidInstallments(0);
+                        bill.setPaid(false);
+                        bill.setStatus(BankOfTuc.Payments.Bill.BillStatus.ACTIVE);
+                        bill.setPayDate(null);
+                        try {
+                            BankOfTuc.Payments.BillFileStore.updateBill(bill);
+                            bill = BankOfTuc.Payments.BillFileStore.findByRFCode(bill.getRfcode());
+                        } catch (java.io.IOException e) {
+                            record.fail("bill reset", "failed to update/reload bill for reset: " + e.getMessage());
+                            failed++;
+                            continue;
+                        }
+                    }
+
                     String rf = bill.getRfcode();
                     // pick a payer (first individual)
                     Customer payerC = allCustomers.stream().filter(x -> x instanceof IndividualCustomer).findFirst().orElse(null);
@@ -512,12 +533,12 @@ public class TestRunner {
 
 
         // write a simple results file
-        try (FileWriter fw = new FileWriter(new File("data/test_results.txt"))) {
+        try (FileWriter fw = new FileWriter(new File("data/tests/test_results.txt"))) {
             fw.write("passed="+passed+"\nfailed="+failed+"\n");
         }
 
         // write detailed test log
-        try (FileWriter fw = new FileWriter(new File("data/test_log.txt"))) {
+        try (FileWriter fw = new FileWriter(new File("data/tests/test_log.txt"))) {
             for (String line : testLog) fw.write(line + System.lineSeparator());
         } catch (Exception e) {
             System.err.println("Could not write test log: " + e.getMessage());
