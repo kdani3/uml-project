@@ -213,14 +213,14 @@ public class TransactionPdfGenerator {
             </body>
             </html>
         """.formatted(
-            LOGO_BASE64,              // Logo image
-            entry.datetime,           // Date of the transaction
-            entry.type,               // Transaction type (SEPA, SWIFT, etc.)
-            orderingCustomer,         // Ordering customer name
-            orderingAccount,          // Ordering account (IBAN)
-            recipientCustomer,        // Recipient customer name
-            (entry.type.equals("PAYMENT") ? "RF code" : "IBAN Παραλήπτη"), // IBAN or RF code label
-            (entry.type.equals("PAYMENT") ? entry.rfCode : entry.counterpartyIban), // IBAN or RF code value
+            LOGO_BASE64,              //logo 
+            entry.datetime,           //date of the transaction
+            entry.type,               //transaction type (SEPA, SWIFT, etc.)
+            orderingCustomer,         //ordering customer name
+            orderingAccount,          //ordering account (IBAN)
+            recipientCustomer,        //recipient customer name
+            (entry.type.equals("PAYMENT") ? "RF code" : "IBAN Παραλήπτη"), //IBAN or RF code label
+            (entry.type.equals("PAYMENT") ? entry.rfCode : entry.counterpartyIban), //IBAN or RF code value
             entry.isOutgoing ? "amount out" : "amount in", // Transaction type: out or in
             amountDisplay,             // Transaction amount
             bicLabel.isEmpty() ? "" : """
@@ -228,13 +228,13 @@ public class TransactionPdfGenerator {
                     <div class="detail-label">%s</div>
                     <div class="detail-value">%s</div>
                 </div>
-            """.formatted(bicLabel, bicValue), // BIC/SWIFT Code row (only for SEPA or SWIFT)
+            """.formatted(bicLabel, bicValue), //BIC/SWIFT Code row (only for SEPA or SWIFT)
             detailsLabel.isEmpty() ? "" : """
                 <div class="detail-row">
                     <div class="detail-label">%s</div>
                     <div class="detail-value">%s</div>
                 </div>
-            """.formatted(detailsLabel, detailsValue) // Additional details row if available
+            """.formatted(detailsLabel, detailsValue) 
         );
 
         if(emailFlag){

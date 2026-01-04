@@ -51,6 +51,10 @@ public static boolean verifyUserIdentity(User user, Scanner sc){
                         System.out.println("Enter new password:");
                         String p1 = sc.nextLine();
 
+                        if(p1.length()<8){
+                            System.out.println("Password must be at least 8 characters long.");
+                            continue;
+                        }
                         System.out.println("Enter again:");
                         String p2 = sc.nextLine();
 
@@ -121,7 +125,7 @@ public static boolean verifyUserIdentity(User user, Scanner sc){
         String qrSecret = qrResult[1];
 
         ConsoleImagePrinter.showQrImage(qrUriString, "Qr");
-        // Print secret as fallback if scanning fails
+
         System.out.println("Secret (manual entry): " + qrSecret);
         
         while(true){
@@ -129,10 +133,9 @@ public static boolean verifyUserIdentity(User user, Scanner sc){
             String qrString = sc.nextLine();
             
             if(QrUtils.verifyQrCode(qrSecret, qrString)){
-                // 1. Ενημέρωση του αντικειμένου στη μνήμη
                 user.setQrCode(qrSecret);
                 
-                // 2. ΑΠΟΘΗΚΕΥΣΗ ΣΤΟ ΑΡΧΕΙΟ (Αυτό έλειπε)
+
                 ufm.updateUser(user); 
                 
                 System.out.println("Qr Code Created and Saved!");

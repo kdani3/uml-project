@@ -114,50 +114,6 @@ public class PaymentCLI {
         payment.pay(account, amount, cfm);
     }
 
-/*     private static void recurringPaymentMenu(Scanner sc, Customer customer, CustomerFileManager cfm) {
-        while (true) {
-            System.out.println("\n--- Recurring Payments ---");
-            System.out.println("1. Create New");
-            System.out.println("2. View Active");
-            System.out.println("3. Pause");
-            System.out.println("4. Resume");
-            System.out.println("5. Cancel");
-            System.out.println("6. Back");
-            System.out.print("> ");
-
-            switch (sc.nextLine().trim()) {
-                case "1" -> createRecurring(sc, customer, cfm);
-                case "2" -> viewRecurring(customer, cfm);
-                case "3" -> pauseRecurring(sc, customer, cfm);
-                case "4" -> resumeRecurring(sc, customer, cfm);
-                case "5" -> cancelRecurring(sc, customer, cfm);
-                case "6" -> { return; }
-                default -> System.out.println("Invalid choice.");
-            }
-        }
-    }
-
-    // --- Helper methods (load/save via CSV) ---
-    private static List<RecurringPayment> loadPayments(CustomerFileManager cfm) {
-        try {
-            return RecurringPaymentCsvStore.load(cfm);
-        } catch (Exception e) {
-            System.err.println("Error loading payments.");
-            return List.of();
-        }
-    }
-
-    private static void savePayments(List<RecurringPayment> payments) {
-        try {
-            RecurringPaymentCsvStore.save(payments);
-        } catch (Exception e) {
-            System.err.println("Error saving payments.");
-        }
-    }
- */
-    // Implement create/view/pause/resume/cancel using loadPayments() and savePayments()
-    // (Full implementation available on request — follows same pattern as earlier example)
-
     public static void manageRecurringPayments(Scanner sc, Customer customer, CustomerFileManager cfm) {
         try {
             CustomerPaymentService paymentService = new CustomerPaymentService(customer.getVatID(), cfm);
@@ -241,7 +197,7 @@ public class PaymentCLI {
                 return;
             }
 
-            paymentService.addPayment(rfCode,iban,amount,customer.getVatID());
+            paymentService.addPayment(rfCode,iban,bill.getMonthlyAmount(),customer.getVatID());
             System.out.println("Recurring payment created!");
 
     }

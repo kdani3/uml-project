@@ -15,16 +15,16 @@ public class CustomerPaymentService {
         this.scheduler = new RecurringPaymentScheduler(cfm);
     }
 
-    // Get ONLY this customer's payments
+    //get ONLY this customer's payments
     public List<RecurringPayment> getPayments() {
         return scheduler.getPaymentsForCustomer(customerVatID);
     }
 
-    // Create a new recurring payment for this customer
+    //create a new recurring payment for this customer
     public void addPayment(String rfCode, String iban, double amount,String vatid) throws IOException {
         RecurringPayment rp = new RecurringPayment(
         rfCode,
-        vatid,   // ← stored in service
+        vatid,   
         iban,
         amount,
         TimeService.getInstance().today()
@@ -34,7 +34,6 @@ public class CustomerPaymentService {
     }
     
 
-    // Pause a payment
     public boolean pausePayment(String rfCode) throws IOException {
         RecurringPayment payment = findPayment(rfCode);
         if (payment != null && !payment.isPaused()) {
@@ -45,7 +44,6 @@ public class CustomerPaymentService {
         return false;
     }
 
-    // Resume a payment
     public boolean resumePayment(String rfCode) throws IOException {
         RecurringPayment payment = findPayment(rfCode);
         if (payment != null && payment.isPaused()) {
@@ -56,17 +54,15 @@ public class CustomerPaymentService {
         return false;
     }
 
-    // Cancel a payment
     public boolean cancelPayment(String rfCode) throws IOException {
         return scheduler.cancelPayment(rfCode, customerVatID);
     }
 
-    // Daily auto-check (optional: call at login)
+    //faily auto-check for due payments
     public void processDuePayments() throws IOException {
-        scheduler.dailyCheck(); // safe: only affects due payments
+        scheduler.dailyCheck(); 
     }
 
-    // Helper
     private RecurringPayment findPayment(String rfCode) {
         return getPayments().stream()
             .filter(p -> p.getRfCode().equals(rfCode))

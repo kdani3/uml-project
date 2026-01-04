@@ -17,25 +17,21 @@ public class RecurringPaymentScheduler {
         this.allPayments = RecurringPaymentCsvStore.load();
     }
 
-    // Save all payments back to CSV
     public void save() throws IOException {
         RecurringPaymentCsvStore.save(allPayments);
     }
 
-    // Add a new recurring payment
     public void addRecurringPayment(RecurringPayment payment) throws IOException {
         allPayments.add(payment);
         save();
     }
 
-    // Run daily check for ALL payments (e.g., at system startup or via background task)
     public void dailyCheck() throws IOException {
         boolean changed = false;
         for (RecurringPayment rp : allPayments) {
-            // Resolve BankAccount for this payment
+
             BankAccount account = RecurringPaymentCsvStore.resolveBankAccount(rp, cfm);
             if (account != null) {
-                // Temporarily attach account or use an overloaded method
                 boolean success = rp.attemptIfDue(cfm);
                 if (success) {
                     changed = true;
@@ -43,11 +39,10 @@ public class RecurringPaymentScheduler {
             }
         }
         if (changed) {
-            save(); // Only save if state changed (attempts, nextDueDate, etc.)
+            save(); 
         }
     }
 
-    // Get payments for a specific customer (e.g., for CLI display)
     public List<RecurringPayment> getPaymentsForCustomer(String vatId) {
         List<RecurringPayment> customerPayments = new ArrayList<>();
         for (RecurringPayment rp : allPayments) {
@@ -58,7 +53,6 @@ public class RecurringPaymentScheduler {
         return customerPayments;
     }
 
-    // Cancel a payment (e.g., from CLI)
     public boolean cancelPayment(String rfCode, String vatId) throws IOException {
         boolean removed = allPayments.removeIf(p -> 
             p.getRfCode().equals(rfCode) && p.getPayerVatID().equals(vatId)

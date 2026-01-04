@@ -1,6 +1,7 @@
 package BankOfTuc;
 
 import java.util.Base64;
+import java.util.Objects;
 
 import BankOfTuc.Auth.PasswordUtils;
 
@@ -105,11 +106,11 @@ public abstract class User {
     }
 
     public User(String username, String password, String fullname, String email, Role role, boolean isActive) {
-        this.username = username;
-        this.fullname = fullname;
-        this.email = email;
-        this.role = role;
-        this.isActive = isActive;
+        this.username = Objects.requireNonNull(username);
+        this.fullname = Objects.requireNonNull(fullname);
+        this.email = Objects.requireNonNull(email);
+        this.role = Objects.requireNonNull(role);
+        this.isActive = Objects.requireNonNull(isActive);
         
         byte[] salt = PasswordUtils.generateSalt();
         this.saltBase64 = Base64.getEncoder().encodeToString(salt);

@@ -70,7 +70,7 @@ public class TransferLogger {
             writer.write(row);
             writer.newLine();
         } catch (IOException e) {
-            e.printStackTrace(); // Replace with proper logging if needed
+            e.printStackTrace(); 
         }
     }
 

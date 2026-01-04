@@ -54,9 +54,7 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
 
             switch (input) {
                 case "1":
-                    //boolean transact = TransferCLI.TransferMenu(sc,login,customer,cfm);
-                    //if(transact)
-                     //   break;
+
                     CustomersManagement(sc, login, admin, ufm, cfm);
                     break;
  
@@ -65,7 +63,6 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
                     System.out.print("> ");
                     String payQuery = sc.nextLine();
                     
-                    // Αναζήτηση πελάτη (όπως και στο case 1)
                     boolean isNum = payQuery.matches("-?\\d+(\\.\\d+)?");
                     Customer payCust = isNum 
                         ? cfm.getCustomerbyVatid(payQuery) 
@@ -73,7 +70,7 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
 
                     if (payCust != null) {
                         System.out.println("Managing payments for: " + payCust.getFullname());
-                        // Τώρα μπορούμε να καλέσουμε τη μέθοδο
+
                         PaymentCLI.managePayments(sc, payCust, cfm);
                     } else 
                         System.out.println("Customer not found.");
@@ -84,7 +81,6 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
                     System.out.print("> ");
                     String transQuery = sc.nextLine();
                     
-                    // Αναζήτηση πελάτη
                     boolean isNumTrans = transQuery.matches("-?\\d+(\\.\\d+)?");
                     Customer transCust = isNumTrans 
                         ? cfm.getCustomerbyVatid(transQuery) 
@@ -93,8 +89,7 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
                     if (transCust != null) {
                         System.out.println("Initiating Transfer Menu for: " + transCust.getFullname());
                         
-                        // Κλήση του υπάρχοντος TransferCLI
-                        // Περνάμε το login του admin (τυπικά), αλλά το transCust είναι αυτό που μετράει
+
                         TransferCLI.TransferMenu(sc, login, transCust, cfm);
                     } else 
                         System.out.println("Customer not found.");
@@ -212,7 +207,6 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
                 }
                 break;
             case "8":
-                // Return
                 break;
             default:
                 System.out.println("Invalid selection");
@@ -242,22 +236,22 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
 
         switch (select) {
             case "1" -> {
-                // Username Change
+
                 String newVal = getNewValue(sc, "Username", customer.getUsername());
                 customer.setUsername(newVal);
                 linkedUser.setUsername(newVal);
-                // Αποθήκευση
+
                 saveChanges(customer, linkedUser, cfm, ufm);
             }
             case "2" -> {
-                // Fullname Change
+
                 String newVal = getNewValue(sc, "Fullname", customer.getFullname());
                 customer.setFullname(newVal);
                 linkedUser.setFullname(newVal);
                 saveChanges(customer, linkedUser, cfm, ufm);
             }
             case "3" -> {
-                // Email Change
+
                 String newVal = getNewValue(sc, "Email", customer.getEmail());
                 customer.setEmail(newVal);
                 linkedUser.setEmail(newVal);
@@ -331,13 +325,12 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         while (currentDate.isBefore(targetDate)) {
             timeService.advanceHours(1);
             
-            // Κάθε μέρα στις 08:00 το πρωί εκτελούμε τις πάγιες εντολές
             if (timeService.now().getHour() == 8) {
                 currentDate = timeService.today();
                 System.out.println("New Day: " + currentDate + " - Checking recurring payments...");
                 
                 try {
-                    // Αυτή η μέθοδος καλεί το scheduler.dailyCheck() που ελέγχει ΟΛΕΣ τις πληρωμές
+                    //call the payment processing method 
                     payService.processDuePayments();
                 } catch (IOException e) {
                     System.out.println("Error processing payments: " + e.getMessage());
@@ -351,30 +344,21 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         System.out.println("Current Simulated Time: " + timeService.now().format(formatter));
     }
 
-    /**
-     * View Customer's Transfers/History
-     * Uses TransactionHistoryService to fetch data.
-     */
     private static void viewCustomerTransfers(Customer cust, CustomerFileManager cfm) {
         System.out.println("\n--- Transfer History for " + cust.getFullname() + " (" + cust.getVatID() + ") ---");
         
         try {
-            // Fetch history using the existing service
             List<TransactionEntry> history = TransactionHistoryService.getHistoryForCustomer(cust.getVatID(), cfm);
 
             if (history.isEmpty()) {
                 System.out.println("No transfers found for this customer.");
             } else {
-                // Print Table Header
+
                 System.out.printf("%-20s %-15s %-25s %-15s %-30s%n", 
                     "DATE", "TYPE", "COUNTERPARTY", "AMOUNT", "DETAILS");
                 System.out.println("-------------------------------------------------------------------------------------------------------------");
                 
-                // Print Rows
                 for (TransactionEntry entry : history) {
-                    // Filter: Get ONLY transfers (and not bill payments):
-                    // if (entry.type.equals("PAYMENT")) continue; 
-                    // However, usually 'Transfers' in a broad sense includes payments too.
 
                     System.out.printf("%-20s %-15s %-25s %-15s %-30s%n",
                         entry.datetime,
@@ -395,7 +379,6 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         System.out.print("> ");
         String usernameDel = sc.nextLine().trim();
 
-        // Αποτροπή διαγραφής του εαυτού του
         if (usernameDel.equals(currentUsername)) {
             System.out.println("Error: You cannot delete your own account while logged in.");
             return;
@@ -414,7 +397,6 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             return;
         }
 
-        // 1. Διαγραφή από customers.json (αν υπάρχει)
         Customer custDel = cfm.getCustomerByUsername(usernameDel);
         if (custDel != null) {
             try {
@@ -425,7 +407,6 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             }
         }
 
-        // 2. Διαγραφή από users.json
         try {
             boolean deleted = ufm.deleteUser(userDel.getid());
             if (deleted) {

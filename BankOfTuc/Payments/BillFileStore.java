@@ -119,9 +119,9 @@ public class BillFileStore {
 
     private static Bill fromCSV(String line) {
 
-        String[] data = line.split(",", -1); // keep trailing empty fields
+        String[] data = line.split(",", -1); 
 
-        // helper to safely get field value
+        //helper to safely get field value
         java.util.function.IntFunction<String> g = (i) -> (i >= 0 && i < data.length) ? data[i] : "";
 
         String billid = g.apply(0);
@@ -248,15 +248,13 @@ public class BillFileStore {
         return null;
     }
 
-    // --- ΝΕΕΣ ΜΕΘΟΔΟΙ ΓΙΑ ΤΟ GUI ---
 
-    // Βρίσκει λογαριασμούς με βάση το ID του πληρωτή (Payee/Customer VAT)
     public static List<Bill> findByPayee(String payeeVatID) throws IOException {
         List<Bill> allBills = loadBills();
         List<Bill> result = new ArrayList<>();
         
         for (Bill b : allBills) {
-            // Το getpayerID() αντιστοιχεί στο Payee Username/VatID στο CSV
+
             if (b.getpayerID().equals(payeeVatID)) {
                 result.add(b);
             }
@@ -264,7 +262,6 @@ public class BillFileStore {
         return result;
     }
 
-    // Βρίσκει έναν λογαριασμό με βάση το Bill ID (φορτώνει αυτόματα)
     public static Bill findById(String billId) throws IOException {
         List<Bill> bills = loadBills();
         return getBillbyID(billId, bills);

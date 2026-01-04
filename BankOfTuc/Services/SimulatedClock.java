@@ -8,28 +8,25 @@ public class SimulatedClock extends Clock {
 
     public SimulatedClock() {}
 
-    // Start the simulation from now
     public void startSimulation() {
         this.currentInstant = Instant.now();
         this.simulated = true;
     }
 
-    // Advance time by hours
     public void advanceHours(long hours) {
         ensureSimulated();
         currentInstant = currentInstant.plus(Duration.ofHours(hours));
     }
 
-    // Advance time by days
     public void advanceDays(long days) {
         ensureSimulated();
         currentInstant = currentInstant.plus(Duration.ofDays(days));
     }
 
-    // Stop the simulation and return to real time
+    //stop the simulation and return to real time
     public void stopSimulation() {
         this.simulated = false;
-        this.currentInstant = null; // Reset
+        this.currentInstant = null; //reset
     }
 
     @Override
@@ -49,7 +46,7 @@ public class SimulatedClock extends Clock {
                 : Clock.system(zone);
     }
 
-    // Ensure simulation is started before using
+    //ensure simulation is started before using
     private void ensureSimulated() {
         if (!simulated) {
             throw new IllegalStateException("Simulation has not been started yet");

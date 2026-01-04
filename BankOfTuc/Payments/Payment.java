@@ -50,7 +50,7 @@ public class Payment {
         List<BankAccount> compaccs = company.getBankAccounts();
         if (compaccs == null || compaccs.isEmpty()) return false;
 
-        // Enforce that only the designated payer can pay this bill
+        //enforce that only the designated payer can pay this bill
         String designatedPayerVat = bill.getpayerID();
         if (designatedPayerVat != null && !designatedPayerVat.isEmpty()) {
             if (!designatedPayerVat.equals(customer.getVatID())) {
@@ -59,27 +59,25 @@ public class Payment {
         }
 
         // Reject frozen, already paid, or expired bills
-        if (bill.getStatus() == BillStatus.FROZEN || bill.getStatus() == BillStatus.PAID || bill.getStatus() == BillStatus.EXPIRED) {
+        if (bill.getStatus() == BillStatus.FROZEN || bill.getStatus() == BillStatus.PAID) {
             return false;
         }
 
-        // Prevent paying more than remaining amount
+        //prevent paying more than remaining amount
         double remaining = bill.getAmount() - bill.getPaidAmount();
         if (amount <= 0 || amount > remaining) return false;
 
-        // Check available funds before mutating
+        //check available funds before mutating
         if (account.getBalance() < amount) return false;
 
-        // Perform transfer: debit payer, credit company
         account.reduceBalance(amount);
         BankAccount compacc = compaccs.get(0);
         compacc.addBalance(amount);
 
-        // Update bill state
         double newPaid = bill.getPaidAmount() + amount;
         bill.setPaidAmount(newPaid);
 
-        // Recompute paidInstallments deterministically from paid amount to avoid double-counting
+        //recompute paidInstallments deterministically from paid amount to avoid double-counting
         if (Math.abs(newPaid - bill.getAmount()) < 0.0001) {
             bill.setStatus(BillStatus.PAID);
             bill.setPaid(true);
@@ -90,11 +88,11 @@ public class Payment {
                 int computed = (int) Math.floor(bill.getPaidAmount() / bill.getMonthlyAmount());
                 if (computed < 0) computed = 0;
                 if (computed > bill.getInstallments()) computed = bill.getInstallments();
-                // ensure at least one installment counted for a non-zero paid amount
+                //ensure at least one installment counted for a non-zero paid amount
                 if (computed == 0 && bill.getPaidAmount() > 0) computed = 1;
                 bill.setPaidInstallments(computed);
             } else {
-                // Non-monthly bills: mark 1 installment as paid for any partial payment
+                //non-monthly bills: mark 1 installment as paid for any partial payment
                 bill.setPaidInstallments(Math.min(bill.getInstallments(), Math.max(1, bill.getPaidInstallments())));
             }
         }
@@ -102,16 +100,16 @@ public class Payment {
         this.date = TimeService.getInstance().today();
         bill.setPayDate(date);
 
-        // Persist changes — ensure bill persistence succeeds, otherwise rollback balances
+        //persist changes — ensure bill persistence succeeds, otherwise rollback balances
         cfm.updateCustomer(customer);
         cfm.updateCustomer(company);
         try {
             BillFileStore.updateBill(bill);
         } catch (IOException e) {
-            // rollback balances
+            //rollback balances
             compacc.addBalance(-amount);
             account.addBalance(amount);
-            // persist rollback
+            //persist rollback
             try { cfm.updateCustomer(customer); } catch (Exception ignored) {}
             try { cfm.updateCustomer(company); } catch (Exception ignored) {}
             return false;

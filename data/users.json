@@ -18,8 +18,8 @@
       "email": "co.kontos@gmail.com",
       "isActive": true,
       "role": "INDIVIDUAL",
-      "saltBase64": "ZS1gmWyV2m5gaoF4AFXFzg\u003d\u003d",
-      "hashedPassword": "3thvMzStZX4CaDnWQv0NKhVKUwYqpv/r1lSbHyftWw4\u003d",
+      "saltBase64": "J/uJ/lKWFzb9bq5zo1d/9A\u003d\u003d",
+      "hashedPassword": "5eneT+vFCin5XXdlvEhvmrj8v5pU8yniZRN4u/s0Wq0\u003d",
       "qrSecret": null
     },
     {
@@ -29,8 +29,8 @@
       "email": "contact@acme.com",
       "isActive": true,
       "role": "COMPANY",
-      "saltBase64": "Q44XqDaoAvssDo5dTo+UnA\u003d\u003d",
-      "hashedPassword": "whHBliz40HnBgLImb6Gav8AUxP/djqtfeXdol0+bYzg\u003d",
+      "saltBase64": "d/BjMLdZAtcN8aHz5YDzNQ\u003d\u003d",
+      "hashedPassword": "ubO8gBx/6J4XtjTR8ykWU0/6DKwVAvHZ+wuk7PbiqjA\u003d",
       "qrSecret": null
     },
     {

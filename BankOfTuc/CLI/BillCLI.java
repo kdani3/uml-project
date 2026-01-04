@@ -230,7 +230,7 @@ static void ManageBills(CompanyCustomer comp,Scanner sc) throws IOException{
         switch(billchoice){
             case "1":
                 int inst = Math.abs((int)ChronoUnit.MONTHS.between(now.withDayOfMonth(1), date.withDayOfMonth(1)));
-                System.out.println("Calculated "+inst+ "Based on expiration date.\nWould you like different installments?(Y)es or (N)o");
+                System.out.println("Calculated "+inst +" installments based on expiration date.\nWould you like different installments?(Y)es or (N)o");
 
                 String instChoice = sc.nextLine();
                 if(instChoice.equalsIgnoreCase("y")){
