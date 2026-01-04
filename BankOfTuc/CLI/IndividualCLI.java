@@ -26,8 +26,8 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             System.out.println("2. Payments");
             System.out.println("3. History");
             System.out.println("4. Settings");
-            System.out.println("5. Logout");
-            System.out.println("6. Add bank account");
+            System.out.println("5. Add bank account");
+            System.out.println("6. Logout");
 
 
             IndividualCustomer customer = (IndividualCustomer) cfm.getCustomerByUsername(username);
@@ -106,10 +106,10 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
                     boolean settings = CLIUtils.SettingsMenu(sc, login,user,ufm);
                     if(settings)
                         break;
-                case "5":
+                case "6":
                     login.logout(username);
                     return;
-                case "6":
+                case "5":
                     addBankAccount(sc, customer, cfm);
                     break;
                 default:

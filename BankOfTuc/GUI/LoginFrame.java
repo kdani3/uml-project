@@ -106,18 +106,18 @@ public class LoginFrame extends JFrame {
         lblLoginSub.setForeground(Color.GRAY);
         rightPanel.add(lblLoginSub, "gapbottom 30");
 
-        // Field 1: Username
-        JLabel lblUser = new JLabel("Username");
+        // Field 1: Username or Email
+        JLabel lblUser = new JLabel("Username or Email");
         lblUser.setFont(new Font("Segoe UI", Font.BOLD, 12));
         lblUser.setForeground(TEXT_COLOR);
         rightPanel.add(lblUser);
 
-        JTextField txtUsername = new JTextField();
-        txtUsername.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        txtUsername.setBorder(BorderFactory.createCompoundBorder(
+        JTextField txtInput = new JTextField();
+        txtInput.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        txtInput.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(200, 200, 200)),
             BorderFactory.createEmptyBorder(8, 10, 8, 10)));
-        rightPanel.add(txtUsername, "h 40!, gapbottom 15");
+        rightPanel.add(txtInput, "h 40!, gapbottom 15");
 
         // Field 2: Κωδικός
         JLabel lblPass = new JLabel("Κωδικός");
@@ -142,11 +142,11 @@ public class LoginFrame extends JFrame {
         btnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         btnLogin.addActionListener(e -> {
-            String username = txtUsername.getText();
+            String input = txtInput.getText();
             String password = new String(txtPassword.getPassword());
-            int status = loginManager.login(username, password);
+            int status = loginManager.login(input, password);
             try {
-                handleLogin(status, username);
+                handleLogin(status, input);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

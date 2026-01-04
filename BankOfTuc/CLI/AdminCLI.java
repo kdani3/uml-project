@@ -150,7 +150,9 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
         System.out.println("2. Edit Customer's Details");
         System.out.println("3. Edit Recurring Payments");
         System.out.println("4. Customer's Transfers ");
-        System.out.println("5. Return");
+        System.out.println("5. Remove Customer's QR Code");
+        System.out.println("6. Show expected TOTP codes");
+        System.out.println("7. Return");
 
         System.out.print("> ");
         String select = sc.nextLine();
@@ -177,6 +179,27 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
                 viewCustomerTransfers(cust, cfm);
                 break;
             case "5":
+                // Remove customer's QR
+                User uToUpdate = ufm.getUserByUsername(cust.getUsername());
+                if (uToUpdate == null) {
+                    System.out.println("Error: linked user not found in users.json");
+                    break;
+                }
+                if (!uToUpdate.hasQR()) {
+                    System.out.println("User has no QR registered.");
+                    break;
+                }
+                System.out.println("Are you sure you want to remove QR for user '" + uToUpdate.getUsername() + "'? (Y/N)");
+                System.out.print("> ");
+                if (!sc.nextLine().trim().equalsIgnoreCase("y")) {
+                    System.out.println("Operation cancelled.");
+                    break;
+                }
+                uToUpdate.setQrCode(null);
+                ufm.updateUser(uToUpdate);
+                System.out.println("QR removed for user: " + uToUpdate.getUsername());
+                break;
+            case "6":
                 break;
             default:
                 System.out.println("Invalid selection");

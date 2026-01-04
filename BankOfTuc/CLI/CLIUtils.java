@@ -121,6 +121,8 @@ public static boolean verifyUserIdentity(User user, Scanner sc){
         String qrSecret = qrResult[1];
 
         ConsoleImagePrinter.showQrImage(qrUriString, "Qr");
+        // Print secret as fallback if scanning fails
+        System.out.println("Secret (manual entry): " + qrSecret);
         
         while(true){
             System.out.println("Enter Qr Code");
@@ -137,7 +139,7 @@ public static boolean verifyUserIdentity(User user, Scanner sc){
                 return true;
             }
             else{
-                System.out.println("Wrong Qr Code \n Retry");
+                System.out.println("Wrong Qr Code. Make sure the time on your device is correct and try again.\nRetry");
             }
         }
     }

@@ -57,6 +57,7 @@ public class AdminCustomersPanel extends JPanel {
         btnPanel.add(createBtn("Ανανέωση", e -> loadUsersData()));
         btnPanel.add(createBtn("Επεξεργασία Στοιχείων", e -> editSelectedUser()));
         btnPanel.add(createBtn("Reset Password", e -> resetPassword()));
+        btnPanel.add(createBtn("Remove QR", e -> removeQrSelectedUser()));
         btnPanel.add(createBtn("Διαγραφή Πελάτη", e -> deleteSelectedUser()));
 
         add(btnPanel, "right");
@@ -150,7 +151,21 @@ public class AdminCustomersPanel extends JPanel {
             } catch (IOException ex) { ex.printStackTrace(); }
         }
     }
-
+    private void removeQrSelectedUser() {
+        int row = table.getSelectedRow();
+        if (row == -1) { JOptionPane.showMessageDialog(this, "Παρακαλώ επιλέξτε πελάτη."); return; }
+        String username = (String) model.getValueAt(row, 1);
+        User u = ufm.getUserByUsername(username);
+        if (u == null) { JOptionPane.showMessageDialog(this, "Σφάλμα: δεν βρέθηκε ο χρήστης."); return; }
+        if (!u.hasQR()) { JOptionPane.showMessageDialog(this, "Ο χρήστης δεν έχει QR."); return; }
+        int confirm = JOptionPane.showConfirmDialog(this, "Remove QR for '" + username + "'?", "Confirm", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            u.setQrCode(null);
+            ufm.updateUser(u);
+            loadUsersData();
+            JOptionPane.showMessageDialog(this, "QR removed for user: " + username);
+        }
+    }
     // --- Helpers για Styling ---
     private JButton createBtn(String text, java.awt.event.ActionListener al) {
         JButton btn = new JButton(text);

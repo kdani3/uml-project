@@ -39,27 +39,29 @@ public class LoginManager {
      * 2 -> needs QR
      * 3 -> already logged in
      * 0 -> wrong username/password
+     * 6 -> locked due to too many failed attempts
      */
-    public int login(String username, String password) {
+    public int login(String input, String password) {
         long now = System.currentTimeMillis();
-        Long until = lockUntil.get(username);
+        String identifier = input.toLowerCase();
+        Long until = lockUntil.get(identifier);
         if (until != null && now < until) {
             return 6; // locked due to too many failed attempts
         }
 
-        User user = ufm.getUserByUsername(username);
+        User user = input.contains("@") ? ufm.getUserByEmail(input) : ufm.getUserByUsername(input);
 
         if (user != null && PasswordUtils.verifyPassword(password.toCharArray(), user.getSalt(), user.getHashedPassword())) {
 
-            if(!user.getActive()) return 4;
-            
+            if (!user.getActive()) return 4;
+
             if (isLoggedIn(user.getUsername())) return 3;
 
             if (!user.hasQR()) {
                 loginUser(user.getUsername());
                 // successful login: clear any failed attempts / locks
-                failedAttempts.remove(username);
-                lockUntil.remove(username);
+                failedAttempts.remove(identifier);
+                lockUntil.remove(identifier);
                 saveLockData();
                 return 1;
             } else {
@@ -68,15 +70,15 @@ public class LoginManager {
         }
 
         // wrong credentials: increment attempts and possibly lock
-        int attempts = failedAttempts.getOrDefault(username, 0) + 1;
+        int attempts = failedAttempts.getOrDefault(identifier, 0) + 1;
         if (attempts >= MAX_ATTEMPTS) {
             long lockTime = System.currentTimeMillis() + TIMEOUT;
-            lockUntil.put(username, lockTime);
-            failedAttempts.remove(username);
+            lockUntil.put(identifier, lockTime);
+            failedAttempts.remove(identifier);
             saveLockData();
             return 6; // newly locked
         } else {
-            failedAttempts.put(username, attempts);
+            failedAttempts.put(identifier, attempts);
             saveLockData();
             return 0;
         }
@@ -91,13 +93,16 @@ public class LoginManager {
         return rem > 0 ? (rem + 999) / 1000 : 0L;
     }
 
-    public boolean qrCodeLogin(String username, String qrcode) {
-        User user = ufm.getUserByUsername(username);
+    public boolean qrCodeLogin(String usernameOrEmail, String qrcode) {
+        User user = ufm.getUserByUsername(usernameOrEmail);
+        if (user == null && usernameOrEmail != null && usernameOrEmail.contains("@")) {
+            user = ufm.getUserByEmail(usernameOrEmail);
+        }
         if (user != null && QrUtils.verifyQrCode(user.getQrCode(), qrcode)) {
             loginUser(user.getUsername());
             // clear attempts/locks on successful qr login
-            failedAttempts.remove(username);
-            lockUntil.remove(username);
+            failedAttempts.remove(usernameOrEmail);
+            lockUntil.remove(usernameOrEmail);
             saveLockData();
             return true;
         }

@@ -134,4 +134,16 @@ public class UserFileManagement {
     }
 
 
+    public  User getUserByEmail(String email) {
+        if (email == null) return null;
+
+        for (User u : store.users) {
+            if (email.equals(u.getEmail())) {
+                return u;
+            }
+        }
+        return null; 
+    }
+    
+
 }

@@ -26,8 +26,8 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
             System.out.println("2. Manage Payments");
             System.out.println("3. History");
             System.out.println("4. Settings");
-            System.out.println("5. Logout");
-            System.out.println("6. Add bank account");
+            System.out.println("5. Add bank account");
+            System.out.println("6. Logout");
 
             CompanyCustomer customer = (CompanyCustomer) cfm.getCustomerByUsername(username);
             cfm.updateCustomer(customer);
@@ -109,11 +109,11 @@ public static void loggedInMenu(Scanner sc, LoginManager login, User user,UserFi
 
               
 
-                case "5":
+                case "6":
                     login.logout(username);
                     return;
 
-                case "6":
+                case "5":
                     BankAccountCLI.addCompanyAccount(sc, customer, cfm);
                     break;
 

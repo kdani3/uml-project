@@ -14,25 +14,46 @@ import dev.samstevens.totp.time.SystemTimeProvider;
 import dev.samstevens.totp.time.TimeProvider;
 import static dev.samstevens.totp.util.Utils.getDataUriForImage;
 
-//the whole QrUtils Class is based on the Totp library by SamStevens
+
 
 public class QrUtils {
-    //the whole process for new Qrcreation
+    
     public static String[] createQr(String username) throws QrGenerationException{
             String secret = generateQrSecret();
             QrData data =  generateQrCode( secret, username);
             byte[] bytes = generateQrImage(data);
 
-            String dataUri = getDataUriForImage(bytes, "image/png");            //get the qr image uri from image bytes
+            String dataUri = getDataUriForImage(bytes, "image/png");            
         return new String[]{dataUri,secret};
     }
-    //generate only the Secret
+/*******************************************************************************
+* Function: generateQrSecret
+*
+* Description:
+*   Function generateQrSecret description.
+*
+* Parameters:
+*   none
+*
+* Returns:
+*   void
+*******************************************************************************/
+
+    
     public static String generateQrSecret(){
+        
+
         SecretGenerator secretGenerator = new DefaultSecretGenerator();
+        
         return secretGenerator.generate();
-    }
-    //generate qr data
+    
+        
+}
+
+    
     public static QrData generateQrCode(String secret,String username){
+        
+
         QrData data =  new QrData.Builder()
             .label(username)
             .secret(secret)
@@ -41,9 +62,13 @@ public class QrUtils {
             .digits(6)
             .period(30)
             .build();
+        
         return data;
-    }
-    //qr image bytes
+    
+        
+}
+
+    
     public static byte[] generateQrImage(QrData data) throws QrGenerationException{
         QrGenerator generator = new ZxingPngQrGenerator();
         byte[] imageData = generator.generate(data); 
@@ -51,14 +76,18 @@ public class QrUtils {
     }
 
     public static boolean verifyQrCode(String secret, String code){
+        // Trim and remove whitespace from the code input
+        String trimmedCode = code.trim().replaceAll("\\s+", "");
+        
         TimeProvider timeProvider = new SystemTimeProvider();
-        CodeGenerator codeGenerator = new DefaultCodeGenerator(HashingAlgorithm.SHA1, 6); //6 digits
+        CodeGenerator codeGenerator = new DefaultCodeGenerator(HashingAlgorithm.SHA1, 6); 
         DefaultCodeVerifier verifier = new DefaultCodeVerifier(codeGenerator, timeProvider);
 
-        verifier.setTimePeriod(30);//we set the qr t = 30
-        //secret = the shared secret for the user
-        //code = the code submitted by the user
-        boolean successful = verifier.isValidCode(secret, code);
+        verifier.setTimePeriod(30);
+        
+        // Check current time and ±1 windows (±30 seconds) for clock skew tolerance
+        boolean successful = verifier.isValidCode(secret, trimmedCode);
+        
         return successful;
     }
 }

@@ -93,34 +93,30 @@ public class Main {
 
             if (choice.equals("1")) {
 
-                System.out.print("Enter username: ");
-                String username = sc.nextLine();
+                System.out.print("Enter username or email: ");
+                String input = sc.nextLine();
 
                 System.out.print("Enter password: ");
                 String password = sc.nextLine();
 
-                int result = login.login(username, password);
+                int result = login.login(input, password);
 
                 switch (result) {
-                    case 1 -> loggedInMenu(sc, login, username, ufm,cfm);
+                    case 1 -> loggedInMenu(sc, login, input, ufm, cfm);
 
                     case 2 -> {
                         System.out.print("Enter TOTP code: ");
                         String code = sc.nextLine();
-                        if (login.qrCodeLogin(username, code)) {loggedInMenu(sc, login, username, ufm,cfm);}
+                        if (login.qrCodeLogin(input, code)) {
+                            loggedInMenu(sc, login, input, ufm, cfm);
+                        }
                     }
 
-                    case 3 -> {
-                        System.out.println("User already logged in");
-                    }
+                    case 3 -> System.out.println("User already logged in");
 
-                    case 5 -> {
-                        System.out.println("Account is deactivated.\nPlease contact our support.");
-                    }
+                    case 5 -> System.out.println("Account is deactivated.\nPlease contact our support.");
 
-                    case 6 -> {
-                        System.out.println("Account locked due to too many failed attempts. Try again later seconds.");
-                    }
+                    case 6 -> System.out.println("Account locked due to too many failed attempts. Try again later.");
 
                     default -> System.out.println("Wrong username or password");
                 }
@@ -260,10 +256,20 @@ public class Main {
         return;
     }
     public static void loggedInMenu(Scanner sc, LoginManager login, String username,UserFileManagement ufm,CustomerFileManager cfm) throws QrGenerationException, URISyntaxException{
+        // try to find by username first, fall back to email if needed
         User user = ufm.getUserByUsername(username);
+        if (user == null && username != null && username.contains("@")) {
+            user = ufm.getUserByEmail(username);
+        }
+
+        if (user == null) {
+            System.out.println("Error: User not found. Please try again.");
+            return;
+        }
+
         Role role = user.getRole();
 
-        if(role.equals(Role.INDIVIDUAL)){
+        if (role.equals(Role.INDIVIDUAL)) {
             IndividualCLI.loggedInMenu( sc,  login,  user, ufm, cfm);
         }
         else if(role.equals(Role.COMPANY)){

@@ -14,21 +14,50 @@ public class ConsoleImagePrinter {
     //display image from a URI string (data:, file:, http:) in a JFrame
     public static void showQrImage(String uriString, String title) {
         try {
-            BufferedImage image = loadImage(uriString);
+            final BufferedImage image = loadImage(uriString);
 
-            // Create JFrame
-            JFrame frame = new JFrame(title);
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            // show image on the Swing EDT and scale if too big for the screen
+            SwingUtilities.invokeLater(() -> {
+                try {
+                    int screenW = Toolkit.getDefaultToolkit().getScreenSize().width;
+                    int screenH = Toolkit.getDefaultToolkit().getScreenSize().height;
+                    int maxW = (int) (screenW * 0.8);
+                    int maxH = (int) (screenH * 0.8);
 
-            // Add JLabel with the image
-            JLabel label = new JLabel(new ImageIcon(image));
-            frame.getContentPane().add(label, BorderLayout.CENTER);
+                    BufferedImage displayImg = image;
+                    if (image.getWidth() > maxW || image.getHeight() > maxH) {
+                        double sx = (double) maxW / image.getWidth();
+                        double sy = (double) maxH / image.getHeight();
+                        double s = Math.min(sx, sy);
+                        int w = Math.max(1, (int) (image.getWidth() * s));
+                        int h = Math.max(1, (int) (image.getHeight() * s));
+                        Image tmp = image.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+                        BufferedImage resized = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+                        Graphics2D g2 = resized.createGraphics();
+                        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                        g2.drawImage(tmp, 0, 0, null);
+                        g2.dispose();
+                        displayImg = resized;
+                    }
 
-            frame.pack();
-            frame.setLocationRelativeTo(null); // center on screen
-            frame.setVisible(true);
+                    JFrame frame = new JFrame(title);
+                    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+                    JLabel label = new JLabel(new ImageIcon(displayImg));
+                    label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                    frame.getContentPane().add(label, BorderLayout.CENTER);
+
+                    frame.pack();
+                    frame.setLocationRelativeTo(null); // center on screen
+                    frame.setVisible(true);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
 
         } catch (Exception e) {
+            // fallback: print data URI so user can open it elsewhere
+            System.err.println("Could not display QR image, please open this URI manually: " + uriString);
             e.printStackTrace();
         }
     }
