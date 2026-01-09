@@ -81,18 +81,17 @@ public class RegisterFrame extends JFrame {
             String type = (String) comboType.getSelectedItem();
             String fullname = txtFullname.getText().trim();
             String username = txtUsername.getText().trim();
-            String emailInput = txtEmail.getText().trim(); 
+            String emailInput = txtEmail.getText().trim();
             String vat = txtVat.getText().trim();
             String p1 = new String(txtPass.getPassword());
             String p2 = new String(txtPassConfirm.getPassword());
 
-    
+            // 1. Validations
             if (fullname.isEmpty() || username.isEmpty() || vat.isEmpty() || p1.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Παρακαλώ συμπληρώστε τα υποχρεωτικά πεδία.", "Σφάλμα", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             
-  
             String emailToSave = emailInput.isEmpty() ? null : emailInput;
 
             if (!p1.equals(p2)) {
@@ -114,10 +113,18 @@ public class RegisterFrame extends JFrame {
                     newUser = new CompanyCustomer(username, p1, fullname, vat, emailToSave, true);
                 }
 
-                // 3. Saving
+                // 3. Saving to users.json (UserFileManagement)
                 ufm.addUser(newUser);
+                
+                // 4. Saving to customers.json (CustomerFileManager) - ΤΟ ΚΡΙΣΙΜΟ ΣΗΜΕΙΟ
                 if (newUser instanceof BankOfTuc.Customer) {
-                    cfm.addCustomer((BankOfTuc.Customer) newUser);
+                    BankOfTuc.Customer customer = (BankOfTuc.Customer) newUser;
+                    
+                    // Προσθήκη στο Customer Manager
+                    cfm.addCustomer(customer);
+                    
+                    // Αναγκαστική επανάληψη φόρτωσης (Reload) για σιγουριά, αν και η addCustomer κάνει save
+                    // cfm.reloadCustomers(); 
                 }
 
                 JOptionPane.showMessageDialog(this, "Ο λογαριασμός δημιουργήθηκε επιτυχώς!\nΜπορείτε να συνδεθείτε.", "Επιτυχία", JOptionPane.INFORMATION_MESSAGE);
