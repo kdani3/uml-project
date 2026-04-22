@@ -7,8 +7,6 @@
 [![Java](https://img.shields.io/badge/Java-17+-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![Last Commit](https://img.shields.io/github/last-commit/kdani3/uml-project?style=for-the-badge&logo=git&logoColor=white&color=4A90D9)](https://github.com/kdani3/uml-project/commits/main)
 [![Repo Size](https://img.shields.io/github/repo-size/kdani3/uml-project?style=for-the-badge&logo=github&logoColor=white&color=6A1B9A)](https://github.com/kdani3/uml-project)
-[![Stars](https://img.shields.io/github/stars/kdani3/uml-project?style=for-the-badge&logo=starship&color=FFD700)](https://github.com/kdani3/uml-project/stargazers)
-[![Forks](https://img.shields.io/github/forks/kdani3/uml-project?style=for-the-badge&logo=git&color=28A745)](https://github.com/kdani3/uml-project/network/members)
 
 ---
 
